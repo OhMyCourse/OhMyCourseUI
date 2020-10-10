@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { TextBlockComponent } from './shared/components/text-block/text-block.component';
+import { Block } from './shared/models/Block';
+import { TextBlock } from './shared/models/TextBlock';
 
 @Component({
   selector: 'app-constructor',
@@ -6,12 +9,14 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./constructor.component.scss']
 })
 export class ConstructorComponent implements OnInit {
+  blocks: Block[] = [];
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
-  onAddTextBlock() {
-    console.log('test');
+  onAddTextBlock(): void {
+    this.blocks.push(new TextBlock());
   }
 }
