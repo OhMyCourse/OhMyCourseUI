@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Block } from '../shared/models/Block';
 
 @Component({
   selector: 'course-page',
@@ -6,9 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./course-page.component.scss']
 })
 export class CoursePageComponent implements OnInit {
+  blocks: Block[];
+
+
   constructor() { }
 
   ngOnInit(): void {
   }
-
 }
