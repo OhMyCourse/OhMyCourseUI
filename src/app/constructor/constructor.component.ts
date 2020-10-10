@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./constructor.component.scss']
 })
 export class ConstructorComponent implements OnInit {
-
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  addTextBlock() {
+    
+  }
 }
