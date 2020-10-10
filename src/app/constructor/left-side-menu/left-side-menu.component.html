@@ -1,0 +1,10 @@
+<section class="d-flex justify-content-center flex-column position-fixed ml-2">
+    <h2 class="">Options</h2>
+    <div class="item border p-3 pl-2 pr-2 d-flex justify-content-between" *ngFor="let item of items">
+        <mat-icon>{{item.icon}}</mat-icon>
+        <p class="font-weight-bold">{{item.name}}</p>
+        <button mat-mini-fab color="primary" (click)="item.onClick()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+</section>
