@@ -11,7 +11,7 @@ export class ConstructorComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addTextBlock() {
-    
+  onAddTextBlock() {
+    console.log('test');
   }
 }

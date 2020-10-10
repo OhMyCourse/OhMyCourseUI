@@ -6,17 +6,16 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
     styleUrls: ['./left-side-menu.component.scss']
 })
 export class LeftSideMenuComponent implements OnInit {
-    @Output() onTextBlockAdd: EventEmitter<any>;
+    @Output() addTextBlock = new EventEmitter();
 
     items = [
-        { name: 'Text block', icon: null },
-        { name: 'Video block', icon: null },
-        { name: 'Audio block', icon: null }
+        { name: 'Text block', icon: 'text_format', onClick: () => this.addTextBlock.emit() },
+        { name: 'Video block', icon: 'video_library', onClick: () => console.log('video block') },
+        { name: 'Audio block', icon: 'audiotrack', onClick: () => console.log('audio block') }
     ];
 
     constructor() { }
 
     ngOnInit(): void {
     }
-
 }

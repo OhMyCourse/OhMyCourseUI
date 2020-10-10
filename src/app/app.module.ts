@@ -16,7 +16,7 @@ import { CoursePageComponent } from './constructor/course-page/course-page.compo
     ConstructorComponent,
     MainComponent,
     LeftSideMenuComponent,
-    CoursePageComponent 
+    CoursePageComponent,
   ],
   imports: [
     BrowserModule,
