@@ -1,3 +1,9 @@
+import { Guid } from '../../../guid';
+
 export class Block {
-    constructor() {}
+    public id: string;
+
+    constructor(public name: string) {
+        this.id = Guid.newGuid();
+    }
 }

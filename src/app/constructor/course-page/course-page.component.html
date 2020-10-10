@@ -1,0 +1,8 @@
+<h2>This is course page</h2>
+
+<div class="blocks" *ngFor="let block of blocks">
+    <div class="block" [ngSwitch]="block.name">
+        <text-block *ngSwitchCase="'text-block'" (delete)="onDelete($event)" id="block.id"></text-block>
+        <!-- ... blocks -->
+    </div>
+</div>

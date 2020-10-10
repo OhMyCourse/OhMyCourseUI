@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { Block } from '../shared/models/Block';
 
 @Component({
@@ -7,11 +7,15 @@ import { Block } from '../shared/models/Block';
   styleUrls: ['./course-page.component.scss']
 })
 export class CoursePageComponent implements OnInit {
-  blocks: Block[];
-
+  @Input() blocks: Block[];
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  onDelete(id: string): void {
+    const index = this.blocks.findIndex(b => b.id === id);
+    this.blocks.splice(index, 1);
   }
 }

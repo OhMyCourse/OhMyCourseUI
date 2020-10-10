@@ -20,4 +20,3 @@ const mat = [
     ]
   })
   export class MaterialModule { }
-  

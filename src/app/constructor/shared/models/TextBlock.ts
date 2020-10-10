@@ -1,5 +1,7 @@
-import { Block } from "./Block";
+import { Block } from './Block';
 
 export class TextBlock extends Block {
-    
+    constructor() {
+        super('text-block');
+    }
 }
