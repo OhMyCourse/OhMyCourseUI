@@ -13,6 +13,7 @@ import { CoursePageComponent } from './constructor/course-page/course-page.compo
 import { TextBlockComponent } from './constructor/shared/components/text-block/text-block.component';
 import { BlocksMenuComponent } from './constructor/blocks-menu/blocks-menu.component';
 import { AppNavMenuComponent } from './app-nav-menu/app-nav-menu.component';
+import { ImageBlockComponent } from './constructor/shared/components/image-block/image-block.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { AppNavMenuComponent } from './app-nav-menu/app-nav-menu.component';
     TextBlockComponent,
     BlocksMenuComponent,
     AppNavMenuComponent,
+    ImageBlockComponent,
   ],
   imports: [
     BrowserModule,

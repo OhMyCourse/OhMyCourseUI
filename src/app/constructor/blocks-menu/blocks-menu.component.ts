@@ -1,4 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Block } from '../shared/models/Block';
+import { TextBlock } from '../shared/models/TextBlock';
+import { ImageBlock } from '../shared/models/ImageBlock';
 
 @Component({
   selector: 'blocks-menu',
@@ -6,15 +9,16 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
   styleUrls: ['./blocks-menu.component.scss']
 })
 export class BlocksMenuComponent implements OnInit {
-  @Output() addTextBlock = new EventEmitter();
+  @Output() addBlock = new EventEmitter<Block>();
 
   items = [
-      { name: 'Text', icon: 'text_format', onClick: () => this.addTextBlock.emit() },
-      { name: 'Video', icon: 'video_library', onClick: () => console.log('video block') },
-      { name: 'Audio', icon: 'audiotrack', onClick: () => console.log('audio block') },
-      { name: 'Image', icon: 'image', onClick: () => console.log('image block')},
-      { name: 'Tip', icon: 'priority_high', onClick: () => console.log('tip block')}
+      { name: 'Text', icon: 'text_format', onClick: () => this.addBlock.emit(new TextBlock()) },
+      { name: 'Video', icon: 'video_library', onClick: () => this.addBlock.emit(null) },
+      { name: 'Audio', icon: 'audiotrack', onClick: () => this.addBlock.emit(null) },
+      { name: 'Image', icon: 'image', onClick: () => this.addBlock.emit(new ImageBlock())},
+      { name: 'Tip', icon: 'priority_high', onClick: () => this.addBlock.emit(null)}
   ];
+
   constructor() { }
 
   ngOnInit(): void {
