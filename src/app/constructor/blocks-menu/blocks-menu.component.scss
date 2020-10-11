@@ -1,0 +1,14 @@
+section {
+    width: 200px;
+
+    div {
+        &:hover {
+            cursor: pointer;
+            background-color: grey;
+        }
+
+        p {
+            color: #FFD300;
+        }
+    }
+}

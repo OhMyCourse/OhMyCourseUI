@@ -1,27 +1,8 @@
-<form [formGroup]="form" class="p-3 border rounded">
-  <div class="d-flex flex-column ">
-    <mat-form-field class="field header">
-      <mat-label>Header</mat-label>
-      <input matInput formControlName="header" placeholder="Your header...">
-      <mat-error *ngIf="getControl('header').errors?.required">
-        Email is <strong>required</strong>
-      </mat-error>
-      <mat-error *ngIf="getControl('header').errors?.maxlength">
-        Header must be less than 64 characters
-      </mat-error>
-    </mat-form-field>
+<div class="container">
+  <quill-editor [modules]="modules" [styles]="editorStyle" [formControl]="textBlock">
 
-    <mat-form-field class="field text">
-      <mat-label>Text</mat-label>
-      <textarea matInput placeholder="Curious story about..." formControlName="text"></textarea>
-      <mat-error *ngIf="getControl('text').errors?.required">
-        Text is <strong>required</strong>
-      </mat-error>
-      <mat-error *ngIf="getControl('text').errors?.maxlength">
-        Text must be less than 2048 characters
-      </mat-error>
-    </mat-form-field>
-  </div>
+  </quill-editor>
+
   <div class="d-flex flex-row justify-content-between m-2">
     <button mat-raised-button color="warning" (click)="cancel()">
       Cancel
@@ -31,5 +12,4 @@
       Add
     </button>
   </div>
-</form>
-  
+</div>
