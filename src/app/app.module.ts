@@ -12,6 +12,7 @@ import { MainComponent } from './main/main.component';
 import { CoursePageComponent } from './constructor/course-page/course-page.component';
 import { TextBlockComponent } from './constructor/shared/components/text-block/text-block.component';
 import { BlocksMenuComponent } from './constructor/blocks-menu/blocks-menu.component';
+import { AppNavMenuComponent } from './app-nav-menu/app-nav-menu.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { BlocksMenuComponent } from './constructor/blocks-menu/blocks-menu.compo
     CoursePageComponent,
     TextBlockComponent,
     BlocksMenuComponent,
+    AppNavMenuComponent,
   ],
   imports: [
     BrowserModule,

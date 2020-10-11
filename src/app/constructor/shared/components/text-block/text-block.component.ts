@@ -30,7 +30,7 @@ export class TextBlockComponent extends BaseFormComponent implements OnInit {
 
   textBlock = new FormControl('');
 
-  constructor(formBuilder: FormBuilder) {
+  constructor() {
     super();
   }
 

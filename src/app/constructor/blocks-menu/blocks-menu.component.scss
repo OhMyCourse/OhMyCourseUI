@@ -4,11 +4,23 @@ section {
     div {
         &:hover {
             cursor: pointer;
-            background-color: grey;
+            background-color: #C4C4C4;
+
+            p {
+                color: #ffffff;
+            }
+
+            mat-icon {
+                color: #ffffff;
+            }
         }
 
         p {
             color: #FFD300;
+        }
+
+        mat-icon {
+            color: #70757d;
         }
     }
 }
