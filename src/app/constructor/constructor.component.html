@@ -2,17 +2,6 @@
 
 <h3 class="m-2">Course constructor</h3>
 
-<hr>
+<blocks-menu (addTextBlock)="onAddTextBlock()"></blocks-menu>
 
-<div class="row">
-    <div class="col-3">
-        <left-side-menu (addTextBlock)="onAddTextBlock()"> 
-
-        </left-side-menu>
-    </div>
-
-    <div class="col-8">
-        <course-page [blocks]="blocks"></course-page>
-    </div>
-
-</div>
+<course-page [blocks]="blocks"></course-page>

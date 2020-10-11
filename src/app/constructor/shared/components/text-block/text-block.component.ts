@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { BaseFormComponent } from '../../models/BaseFormComponent';
 
 @Component({
@@ -11,12 +11,26 @@ export class TextBlockComponent extends BaseFormComponent implements OnInit {
   @Input() id: string;
   @Output() delete = new EventEmitter<string>();
 
-  form = this.formBuilder.group({
-    header: ['', [Validators.required, Validators.maxLength(64)]],
-    text: ['', [Validators.required, Validators.maxLength(2048)]]
-  });
+  modules = {
+    toolbar: [
+      [{ font: [] }],
+      [{ size:  ['small', false, 'large', 'huge'] }],
+      ['bold', 'italic', 'underline'],
+      [{ align: null}, {align: 'center'}, {align: 'right'}, {align: 'justify'}],
+    ]
+  };
 
-  constructor(public formBuilder: FormBuilder) {
+  editorStyle = {
+    height: '100px',
+    background: '#FFFFFF',
+    border: '1px solid #F4F4F4',
+    boxSizing: 'border-box',
+    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
+  };
+
+  textBlock = new FormControl('');
+
+  constructor() {
     super();
   }
 
@@ -24,7 +38,7 @@ export class TextBlockComponent extends BaseFormComponent implements OnInit {
   }
 
   add(): void {
-
+    console.log(this.textBlock.value);
   }
 
   cancel(): void {

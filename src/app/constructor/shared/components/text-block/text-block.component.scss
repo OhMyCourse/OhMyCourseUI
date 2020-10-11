@@ -3,3 +3,13 @@ form {
         width: 200px;
     }
 }
+
+.flex-items {
+    background-color: #F4F4F4;
+
+    .flex-item {
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}
