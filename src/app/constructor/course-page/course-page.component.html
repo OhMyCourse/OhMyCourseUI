@@ -1,6 +1,7 @@
 <div class="blocks" *ngFor="let block of blocks">
     <div class="block mt-3 mb-3" [ngSwitch]="block.name">
-        <text-block *ngSwitchCase="'text-block'" (delete)="onDelete($event)" id="block.id"></text-block>
-        <!-- ... blocks -->
+        <text-block *ngSwitchCase="'text'" (delete)="onDelete($event)" id="block.id"></text-block>
+        <image-block *ngSwitchCase="'image'" (delete)="onDelete($event)" id="block.id"></image-block>
+        <!-- blocks... -->
     </div>
 </div>

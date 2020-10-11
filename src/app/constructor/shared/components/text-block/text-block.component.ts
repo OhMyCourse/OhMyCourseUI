@@ -21,7 +21,7 @@ export class TextBlockComponent extends BaseFormComponent implements OnInit {
   };
 
   editorStyle = {
-    height: '100px',
+    height: 'auto',
     background: '#FFFFFF',
     border: '1px solid #F4F4F4',
     boxSizing: 'border-box',
