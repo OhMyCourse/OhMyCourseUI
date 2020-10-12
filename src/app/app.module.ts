@@ -14,6 +14,7 @@ import { TextBlockComponent } from './constructor/shared/components/text-block/t
 import { BlocksMenuComponent } from './constructor/blocks-menu/blocks-menu.component';
 import { AppNavMenuComponent } from './app-nav-menu/app-nav-menu.component';
 import { ImageBlockComponent } from './constructor/shared/components/image-block/image-block.component';
+import { TipBlockComponent } from './constructor/shared/components/tip-block/tip-block.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ImageBlockComponent } from './constructor/shared/components/image-block
     BlocksMenuComponent,
     AppNavMenuComponent,
     ImageBlockComponent,
+    TipBlockComponent,
   ],
   imports: [
     BrowserModule,

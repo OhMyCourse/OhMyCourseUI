@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TextBlockComponent } from './shared/components/text-block/text-block.component';
 import { Block } from './shared/models/Block';
-import { TextBlock } from './shared/models/TextBlock';
 
 @Component({
   selector: 'app-constructor',
