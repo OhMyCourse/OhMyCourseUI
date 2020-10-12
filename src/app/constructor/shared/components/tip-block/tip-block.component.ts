@@ -10,11 +10,8 @@ import Quill from 'quill';
 export class TipBlockComponent implements OnInit {
 
   editorStyle = {
-    height: 'auto',
+    height: '100px',
     background: '#FEE983',
-    border: '1px solid #F4F4F4',
-    boxSizing: 'border-box',
-    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)'
   };
 
   modules = {
