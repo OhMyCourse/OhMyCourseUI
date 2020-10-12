@@ -1,15 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Component, Input, OnInit} from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { BaseFormComponent } from '../../models/BaseFormComponent';
 
 @Component({
-  selector: 'text-block',
+  selector: 'app-text-block',
   templateUrl: './text-block.component.html',
   styleUrls: ['./text-block.component.scss']
 })
 export class TextBlockComponent extends BaseFormComponent implements OnInit {
   @Input() id: string;
-  @Output() delete = new EventEmitter<string>();
 
   modules = {
     toolbar: [
@@ -35,13 +34,5 @@ export class TextBlockComponent extends BaseFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  add(): void {
-    console.log(this.textBlock.value);
-  }
-
-  cancel(): void {
-    this.delete.emit(this.id);
   }
 }

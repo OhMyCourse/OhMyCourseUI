@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 @Component({
-  selector: 'image-block',
+  selector: 'app-image-block',
   templateUrl: './image-block.component.html',
   styleUrls: ['./image-block.component.scss']
 })
 export class ImageBlockComponent implements OnInit {
   @Input() id: string;
-  @Output() delete = new EventEmitter<string>();
 
   modules = {
     toolbar: [
@@ -28,13 +27,5 @@ export class ImageBlockComponent implements OnInit {
   }
 
   ngOnInit(): void {
-  }
-
-  add(): void {
-
-  }
-
-  cancel(): void {
-    this.delete.emit(this.id);
   }
 }
