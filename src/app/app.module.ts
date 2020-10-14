@@ -16,6 +16,8 @@ import { AppNavMenuComponent } from './app-nav-menu/app-nav-menu.component';
 import { ImageBlockComponent } from './constructor/shared/components/image-block/image-block.component';
 import { TipBlockComponent } from './constructor/shared/components/tip-block/tip-block.component';
 import { VideoBlockComponent } from './constructor/shared/components/video-block/video-block.component';
+import { AudioBlockComponent } from './constructor/shared/components/audio-block/audio-block.component';
+import { SafeHtmlPipe } from './constructor/shared/pipes/safe-html.pipe';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { VideoBlockComponent } from './constructor/shared/components/video-block
     ImageBlockComponent,
     TipBlockComponent,
     VideoBlockComponent,
+    AudioBlockComponent,
+    SafeHtmlPipe
   ],
   imports: [
     BrowserModule,
@@ -38,7 +42,7 @@ import { VideoBlockComponent } from './constructor/shared/components/video-block
     ReactiveFormsModule,
     QuillModule.forRoot(),
   ],
-  providers: [],
+  providers: [SafeHtmlPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
