@@ -1,0 +1,16 @@
+<div class="video-block">
+    <div class="header w-100">
+        <img src="../../../../../assets/pictures/videoBlockPlay.png" alt="" class="play-button">
+        <input type="file" id="file" #file class="upload" (change)="onFileAdded($event.target.files)" accept="video/*">
+    </div>
+
+    <div class="body d-flex justify-content-center align-items-center">
+        <img *ngIf="!videoToUpload" src="../../../../../assets/pictures/VideoImage.png" alt="" class="m-4"
+            (click)="loadVideo()">
+        <video #video [src]="url" controls width="600px" height="auto" 
+        *ngIf="videoToUpload && url" 
+        class="mb-3 mt-3">
+
+        </video>
+    </div>
+</div>
