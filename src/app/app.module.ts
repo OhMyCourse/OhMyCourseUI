@@ -22,8 +22,9 @@ import { TestBlockComponent } from './constructor/shared/components/test-block/t
 import { TestMultipleComponent } from './constructor/shared/components/test-block/test-multiple/test-multiple.component';
 import { TestOneComponent } from './constructor/shared/components/test-block/test-one/test-one.component';
 import { TestShortComponent } from './constructor/shared/components/test-block/test-short/test-short.component';
-import { AnswerMultipleFormComponent } from './constructor/shared/components/test-block/test-multiple/answer-multiple-form/answer-multiple-form.component';
+import { ChoiceFormComponent } from './constructor/shared/components/test-block/choice-form/choice-form.component';
 import { QuestionFormComponent } from './constructor/shared/components/test-block/question-form/question-form.component';
+import { TestFormComponent } from './constructor/shared/components/test-block/test-form/test-form.component';
 
 @NgModule({
   declarations: [
@@ -43,8 +44,9 @@ import { QuestionFormComponent } from './constructor/shared/components/test-bloc
     TestMultipleComponent,
     TestOneComponent,
     TestShortComponent,
-    AnswerMultipleFormComponent,
-    QuestionFormComponent
+    ChoiceFormComponent,
+    QuestionFormComponent,
+    TestFormComponent
   ],
   imports: [
     BrowserModule,

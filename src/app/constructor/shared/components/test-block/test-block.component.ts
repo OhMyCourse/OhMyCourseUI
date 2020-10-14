@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TestAnswerType } from '../../models/TestAnswerType';
 
 @Component({
   selector: 'app-test-block',
@@ -7,19 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TestBlockComponent implements OnInit {
 
-  answer: TestBlockAnswer = TestBlockAnswer.Multiple;
+  answer: TestAnswerType = TestAnswerType.Multiple;
 
   constructor() { }
 
-  
-
   ngOnInit(): void {
   }
-  
-}
-
-export enum TestBlockAnswer {
-  Multiple,
-  One,
-  Short
 }
