@@ -5,11 +5,11 @@
     </div>
 
     <div class="body d-flex justify-content-center align-items-center">
-        <img *ngIf="!videoToUpload" src="../../../../../assets/pictures/VideoImage.png" alt="" class="m-4"
+        <img *ngIf="!videoToUpload" src="../../../../../assets/pictures/VideoImage.png" alt=""
             (click)="loadVideo()">
-        <video #video [src]="url" controls width="600px" height="auto" 
-        *ngIf="videoToUpload && url" 
-        class="mb-3 mt-3">
+        <mat-spinner *ngIf="videoToUpload && !url" color="accent"></mat-spinner>
+        <video #video [src]="url | safeHtml" controls width="600px" height="auto" 
+        *ngIf="videoToUpload && url" >
 
         </video>
     </div>
