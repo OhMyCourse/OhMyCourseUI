@@ -5,6 +5,7 @@ import { ImageBlock } from '../shared/models/ImageBlock';
 import { TipBlock } from '../shared/models/TipBlock';
 import { VideoBlock } from '../shared/models/VideoBlock';
 import { AudioBlock } from '../shared/models/AudioBlock';
+import { TestBlock } from '../shared/models/TestBlock';
 
 @Component({
   selector: 'app-blocks-menu',
@@ -19,7 +20,8 @@ export class BlocksMenuComponent implements OnInit {
       { name: 'Video', icon: 'video_library', onClick: () => this.addBlock.emit(new VideoBlock()) },
       { name: 'Audio', icon: 'audiotrack', onClick: () => this.addBlock.emit(new AudioBlock()) },
       { name: 'Image', icon: 'image', onClick: () => this.addBlock.emit(new ImageBlock()) },
-      { name: 'Tip', icon: 'priority_high', onClick: () => this.addBlock.emit(new TipBlock()) }
+      { name: 'Tip', icon: 'priority_high', onClick: () => this.addBlock.emit(new TipBlock()) },
+      { name: 'Test', icon: 'fact_check', onClick: () => this.addBlock.emit(new TestBlock()) }
   ];
 
   constructor() { }

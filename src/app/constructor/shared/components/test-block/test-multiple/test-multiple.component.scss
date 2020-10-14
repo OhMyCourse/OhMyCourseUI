@@ -1,0 +1,25 @@
+form {
+    margin-bottom: 39px;
+}
+
+p {
+    padding: 3px 16px 3px 16px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 20px;
+    line-height: 20px;
+    color: #6f6f6f;
+}
+
+.checkboxes {
+    margin-top: 5px;
+    border: 2px solid rgba(128, 128, 128, 0.9);
+
+    .option-btn {
+        margin-left: 20px;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}

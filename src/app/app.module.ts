@@ -18,6 +18,12 @@ import { TipBlockComponent } from './constructor/shared/components/tip-block/tip
 import { VideoBlockComponent } from './constructor/shared/components/video-block/video-block.component';
 import { AudioBlockComponent } from './constructor/shared/components/audio-block/audio-block.component';
 import { SafeHtmlPipe } from './constructor/shared/pipes/safe-html.pipe';
+import { TestBlockComponent } from './constructor/shared/components/test-block/test-block.component';
+import { TestMultipleComponent } from './constructor/shared/components/test-block/test-multiple/test-multiple.component';
+import { TestOneComponent } from './constructor/shared/components/test-block/test-one/test-one.component';
+import { TestShortComponent } from './constructor/shared/components/test-block/test-short/test-short.component';
+import { AnswerMultipleFormComponent } from './constructor/shared/components/test-block/test-multiple/answer-multiple-form/answer-multiple-form.component';
+import { QuestionFormComponent } from './constructor/shared/components/test-block/question-form/question-form.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +38,13 @@ import { SafeHtmlPipe } from './constructor/shared/pipes/safe-html.pipe';
     TipBlockComponent,
     VideoBlockComponent,
     AudioBlockComponent,
-    SafeHtmlPipe
+    SafeHtmlPipe,
+    TestBlockComponent,
+    TestMultipleComponent,
+    TestOneComponent,
+    TestShortComponent,
+    AnswerMultipleFormComponent,
+    QuestionFormComponent
   ],
   imports: [
     BrowserModule,
