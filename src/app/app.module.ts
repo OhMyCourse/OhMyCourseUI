@@ -15,6 +15,7 @@ import { BlocksMenuComponent } from './constructor/blocks-menu/blocks-menu.compo
 import { AppNavMenuComponent } from './app-nav-menu/app-nav-menu.component';
 import { ImageBlockComponent } from './constructor/shared/components/image-block/image-block.component';
 import { TipBlockComponent } from './constructor/shared/components/tip-block/tip-block.component';
+import { VideoBlockComponent } from './constructor/shared/components/video-block/video-block.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { TipBlockComponent } from './constructor/shared/components/tip-block/tip
     AppNavMenuComponent,
     ImageBlockComponent,
     TipBlockComponent,
+    VideoBlockComponent,
   ],
   imports: [
     BrowserModule,
@@ -34,7 +36,7 @@ import { TipBlockComponent } from './constructor/shared/components/tip-block/tip
     BrowserAnimationsModule,
     MaterialModule,
     ReactiveFormsModule,
-    QuillModule.forRoot()
+    QuillModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]
