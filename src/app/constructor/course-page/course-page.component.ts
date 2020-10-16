@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Block } from '../shared/models/Block';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-course-page',
@@ -7,10 +6,10 @@ import { Block } from '../shared/models/Block';
   styleUrls: ['./course-page.component.scss']
 })
 export class CoursePageComponent implements OnInit {
-  @Input() blocks: Block[];
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
 }
