@@ -17,12 +17,14 @@
 
 <div class="d-flex justify-content-center align-items-center flex-column">
     <div class="lesson" *ngFor="let lesson of lessons">
-
+        <app-lesson-form [lesson]="lesson" 
+        [deleteLesson]="onDeleteLesson(lesson)" 
+        [editLesson]="onEditLesson(lesson)"></app-lesson-form>
     </div>
 
     <p *ngIf="lessons.length === 0" class="text-muted">There are no lessons in the course yet.</p>
 
-    <button mat-raised-button color="accent" (click)="addLesson()">
+    <button mat-raised-button color="accent" (click)="onAddLesson()">
         + Add lesson
     </button>
 </div>

@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Block } from '../shared/models/Block';
+import { Lesson } from '../constructor/shared/models/Lesson';
 
 @Component({
   selector: 'app-lesson-page',
@@ -7,7 +7,7 @@ import { Block } from '../shared/models/Block';
   styleUrls: ['./lesson-page.component.scss']
 })
 export class LessonPageComponent implements OnInit {
-  @Input() blocks: Block[];
+  @Input() lesson: Lesson;
 
   constructor() { }
 

@@ -1,6 +1,8 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { CourseCategory, EnumObj } from '../shared/models/CourseCategory';
+import { CourseCategory, EnumObj } from '../constructor/shared/models/CourseCategory';
+import { Lesson } from '../constructor/shared/models/Lesson';
 
 @Component({
   selector: 'app-course-page',
@@ -13,7 +15,7 @@ export class CoursePageComponent implements OnInit {
   categories: EnumObj[] = EnumObj.ParseEnum(CourseCategory);
   categorySelect: FormControl = new FormControl('', [Validators.required]);
   category: EnumObj;
-  lessons: any[] = [];
+  lessons: Lesson[] = [];
 
   constructor() {
   }
@@ -21,7 +23,15 @@ export class CoursePageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  addLesson() {
+  onAddLesson(): void {
+    this.lessons.push(new Lesson());
+  }
 
+  onEditLesson(lesson: Lesson): void {
+
+  }
+
+  onDeleteLesson(lesson: Lesson): void {
+    // this.lessons.splice(this.lessons.find(lesson), )
   }
 }
