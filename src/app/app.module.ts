@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConstructorComponent } from './constructor/constructor.component';
 import { MainComponent } from './main/main.component';
-import { CoursePageComponent } from './constructor/course-page/course-page.component';
+import { LessonPageComponent } from './lesson-page/lesson-page.component';
 import { TextBlockComponent } from './constructor/shared/components/text-block/text-block.component';
 import { BlocksMenuComponent } from './constructor/blocks-menu/blocks-menu.component';
 import { AppNavMenuComponent } from './app-nav-menu/app-nav-menu.component';
@@ -25,13 +25,15 @@ import { TestShortComponent } from './constructor/shared/components/test-block/t
 import { ChoiceFormComponent } from './constructor/shared/components/test-block/choice-form/choice-form.component';
 import { QuestionFormComponent } from './constructor/shared/components/test-block/question-form/question-form.component';
 import { TestFormComponent } from './constructor/shared/components/test-block/test-form/test-form.component';
+import { CoursePageComponent } from './course-page/course-page.component';
+import { LessonFormComponent } from './lesson-form/lesson-form.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     ConstructorComponent,
     MainComponent,
-    CoursePageComponent,
+    LessonPageComponent,
     TextBlockComponent,
     BlocksMenuComponent,
     AppNavMenuComponent,
@@ -46,7 +48,9 @@ import { TestFormComponent } from './constructor/shared/components/test-block/te
     TestShortComponent,
     ChoiceFormComponent,
     QuestionFormComponent,
-    TestFormComponent
+    TestFormComponent,
+    CoursePageComponent,
+    LessonFormComponent
   ],
   imports: [
     BrowserModule,

@@ -1,7 +1,9 @@
-<h2 class="text-center mt-2">Welcome to Oh my course!</h2>
-
-<h3 class="m-2">Course constructor</h3>
-
 <app-blocks-menu (addBlock)="onAddBlock($event)"></app-blocks-menu>
 
-<app-course-page [blocks]="blocks"></app-course-page>
+<app-lesson-page [lesson]="lesson"></app-lesson-page>
+
+<div class="d-flex justify-content-center save-btn" [ngClass]="{ 'align-items-center h-50': lesson.blocks.length === 0 }">
+    <button mat-raised-button color="accent" (click)="onSaveLesson()">
+        Save
+    </button>
+</div>

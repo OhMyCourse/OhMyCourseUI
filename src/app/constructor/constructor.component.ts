@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Block } from './shared/models/Block';
+import { Lesson } from './shared/models/Lesson';
 
 @Component({
   selector: 'app-constructor',
@@ -7,7 +8,8 @@ import { Block } from './shared/models/Block';
   styleUrls: ['./constructor.component.scss']
 })
 export class ConstructorComponent implements OnInit {
-  blocks: Block[] = [];
+  @Input() lesson: Lesson;
+  @Output() saveLesson = new EventEmitter();
 
   constructor() { }
 
@@ -15,6 +17,10 @@ export class ConstructorComponent implements OnInit {
   }
 
   onAddBlock(block: Block): void {
-    this.blocks.push(block);
+    this.lesson.blocks.push(block);
+  }
+
+  onSaveLesson(): void {
+    this.saveLesson.emit();
   }
 }
