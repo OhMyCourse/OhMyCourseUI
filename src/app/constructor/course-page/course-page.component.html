@@ -1,1 +1,28 @@
-<p>course-page works!</p>
+<div class="d-flex">
+    <div class="header">Course how to use &lt;&lt;Oh my course!&gt;&gt; </div>
+
+    <div class="select">
+        <mat-form-field appearance="fill">
+            <mat-label>Pick a category</mat-label>
+            <mat-select [formControl]="categorySelect" required color="accent">
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let category of categories" [value]="category">
+                    {{category.value}}
+                </mat-option>
+            </mat-select>
+            <mat-error *ngIf="categorySelect.hasError('required')">Please choose a category</mat-error>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center align-items-center flex-column">
+    <div class="lesson" *ngFor="let lesson of lessons">
+
+    </div>
+
+    <p *ngIf="lessons.length === 0" class="text-muted">There are no lessons in the course yet.</p>
+
+    <button mat-raised-button color="accent" (click)="addLesson()">
+        + Add lesson
+    </button>
+</div>
