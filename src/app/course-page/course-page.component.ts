@@ -15,12 +15,11 @@ export class CoursePageComponent implements OnInit {
   categories: EnumObj[] = EnumObj.ParseEnum(CourseCategory);
   categorySelect: FormControl = new FormControl('', [Validators.required]);
   category: EnumObj;
-  lessons: Lesson[] = [new Lesson('test', 'test')]; // empty
-  constructorMode = true; // false
+  lessons: Lesson[] = [];
+  constructorMode = false;
   lessonEdit: Lesson;
 
   constructor() {
-    this.lessonEdit = this.lessons[0]; // remove
   }
 
   ngOnInit(): void {

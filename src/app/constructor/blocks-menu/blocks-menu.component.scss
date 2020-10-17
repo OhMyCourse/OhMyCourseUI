@@ -1,6 +1,4 @@
 section {
-    width: 200px;
-
     div {
         &:hover {
             cursor: pointer;
@@ -17,7 +15,7 @@ section {
 
         p {
             font-size: 22px;
-            line-height: 16px;
+            line-height: 22px;
             color: #FFD300;
         }
 
