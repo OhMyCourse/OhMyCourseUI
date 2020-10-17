@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-8">
             <mat-form-field class="w-100">
-                <mat-label>Lesson 1 - ...</mat-label>
+                <mat-label>Lesson's name</mat-label>
                 <input matInput type="text" formControlName="nameControl">
                 <button mat-button *ngIf="getControl('nameControl').value" matSuffix mat-icon-button aria-label="Clear"
                     (click)="setValue('nameControl', '')">
@@ -11,10 +11,10 @@
             </mat-form-field>
         </div>
         <div class="col-4">
-            <button mat-raised-button color="primary" class="mr-2">
+            <button mat-raised-button color="primary" class="mr-2" (click)="onEditLesson()">
                 Edit
             </button>
-            <button mat-raised-button color="warn">
+            <button mat-raised-button color="warn" (click)="onDeleteLesson()">
                 Delete
             </button>
         </div>

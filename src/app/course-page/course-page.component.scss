@@ -1,4 +1,4 @@
-div.d-flex {
+.course-page {
     margin-top: 50px;
 
     .header {
@@ -18,7 +18,15 @@ div.d-flex {
     padding: 10px 35px 10px 35px;
     font-size: 24px;
     border-radius: 50px;
-    margin-top: 50px;
+}
+
+.mat-raised-button.mat-warn {
+    color: #ffffff;
+    padding: 6px 35px 6px 35px;
+    font-size: 24px;
+    border-radius: 50px;
+    background: rgba(128, 128, 128, 0.9);
+    border: 4px solid #6f6f6f;
 }
 
 p {

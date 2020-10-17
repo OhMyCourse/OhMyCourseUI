@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Block } from '../shared/models/Block';
 import { TextBlock } from '../shared/models/TextBlock';
 import { ImageBlock } from '../shared/models/ImageBlock';

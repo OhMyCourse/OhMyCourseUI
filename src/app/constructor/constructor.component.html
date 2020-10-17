@@ -1,3 +1,9 @@
 <app-blocks-menu (addBlock)="onAddBlock($event)"></app-blocks-menu>
 
 <app-lesson-page [lesson]="lesson"></app-lesson-page>
+
+<div class="d-flex justify-content-center save-btn" [ngClass]="{ 'align-items-center h-50': lesson.blocks.length === 0 }">
+    <button mat-raised-button color="accent" (click)="onSaveLesson()">
+        Save
+    </button>
+</div>
