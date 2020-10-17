@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { BaseFormComponent } from '../constructor/shared/models/BaseFormComponent';
 import { Lesson } from '../constructor/shared/models/Lesson';
@@ -14,7 +14,8 @@ export class LessonFormComponent extends BaseFormComponent implements OnInit {
   @Output() editLesson = new EventEmitter<Lesson>();
 
   form = this.fb.group({
-    nameControl: ['', [Validators.required]]
+    nameControl: ['', [Validators.required]],
+    descriptionControl: ['', [Validators.required]]
   });
 
   constructor(private fb: FormBuilder) {
