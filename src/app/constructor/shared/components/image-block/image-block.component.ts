@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { Utils } from '../../models/Utlis';
 
 @Component({
   selector: 'app-image-block',
@@ -7,11 +9,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 })
 export class ImageBlockComponent implements OnInit {
   @Input() id: string;
+  @Input() images: Blob[]
 
   modules = {
     toolbar: [
       ['image'],
-      [{ align: null}, {align: 'center'}, {align: 'right'}],
+      [{ align: null }, { align: 'center' }, { align: 'right' }],
     ]
   };
 
@@ -28,4 +31,16 @@ export class ImageBlockComponent implements OnInit {
 
   ngOnInit(): void {
   }
+
+  onContentChanged = (event: any) => {
+    const html = event.html as string;
+    const srcs = html.match('"[A-Za-z0-9/+:;,=]+"');
+    srcs.forEach(element => {
+      let typeAndBase64String = element.slice(1, element.length - 1).split(',');
+      let imageType = typeAndBase64String[0].split(':')[1].split(';')[0]; //data:image/jpeg;base64 => image/jpeg
+      let base64 = typeAndBase64String[1];
+      this.images.push(Utils.b64toBlob(base64, imageType));
+    });
+  }
 }
+

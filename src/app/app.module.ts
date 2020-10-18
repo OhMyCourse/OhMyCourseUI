@@ -9,7 +9,6 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConstructorComponent } from './constructor/constructor.component';
 import { MainComponent } from './main/main.component';
-import { LessonPageComponent } from './lesson-page/lesson-page.component';
 import { TextBlockComponent } from './constructor/shared/components/text-block/text-block.component';
 import { BlocksMenuComponent } from './constructor/blocks-menu/blocks-menu.component';
 import { AppNavMenuComponent } from './app-nav-menu/app-nav-menu.component';
@@ -27,7 +26,7 @@ import { QuestionFormComponent } from './constructor/shared/components/test-bloc
 import { TestFormComponent } from './constructor/shared/components/test-block/test-form/test-form.component';
 import { CoursePageComponent } from './course-page/course-page.component';
 import { LessonFormComponent } from './lesson-form/lesson-form.component';
-import { ApiModule } from 'api';
+import { ApiModule, BASE_PATH } from 'api';
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
@@ -35,7 +34,6 @@ import { HttpClientModule } from '@angular/common/http';
     AppComponent,
     ConstructorComponent,
     MainComponent,
-    LessonPageComponent,
     TextBlockComponent,
     BlocksMenuComponent,
     AppNavMenuComponent,
@@ -64,7 +62,7 @@ import { HttpClientModule } from '@angular/common/http';
     ApiModule.forRoot(null),
     HttpClientModule
   ],
-  providers: [SafeHtmlPipe],
+  providers: [SafeHtmlPipe, { provide: BASE_PATH, useValue: 'http://localhost:8000' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

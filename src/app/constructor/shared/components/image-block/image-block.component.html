@@ -1,4 +1,8 @@
 
-<quill-editor [modules]="modules" [styles]="editorStyle" placeholder="Your image will be here...">
+<quill-editor
+[modules]="modules" 
+[styles]="editorStyle" 
+placeholder="Your image will be here..."
+(onContentChanged)="onContentChanged($event)">
 
 </quill-editor>

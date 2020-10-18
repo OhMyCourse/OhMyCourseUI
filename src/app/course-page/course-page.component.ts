@@ -45,14 +45,12 @@ export class CoursePageComponent implements OnInit {
   }
 
   onSaveCourse(): void {
-    this.mediaService.mediaControllerCreateForm(null).subscribe(val => {
-      console.log(val);
-    }) 
-
+    // hardcode values must be deleted 
+    
     let request: CreateCourseRequestDto = {
       name: 'How to use <<Oh my course!>>',
       description: 'test',
-      mediaId: 0
+      mediaId: 1
     };
 
     this.courseService.courseControllerCreate(request).subscribe(val => {
