@@ -3,6 +3,7 @@ import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewEncapsulation 
 import { FormControl, Validators } from '@angular/forms';
 import { CourseCategory, EnumObj } from '../constructor/shared/models/CourseCategory';
 import { Lesson } from '../constructor/shared/models/Lesson';
+import { CourseService, CreateCourseRequestDto, MediaService } from 'api';
 
 @Component({
   selector: 'app-course-page',
@@ -19,7 +20,7 @@ export class CoursePageComponent implements OnInit {
   constructorMode = false;
   lessonEdit: Lesson;
 
-  constructor() {
+  constructor(private courseService: CourseService, private mediaService: MediaService) {
   }
 
   ngOnInit(): void {
@@ -41,5 +42,21 @@ export class CoursePageComponent implements OnInit {
 
   onSaveLesson(): void {
     this.constructorMode = false;
+  }
+
+  onSaveCourse(): void {
+    this.mediaService.mediaControllerCreateForm(null).subscribe(val => {
+      console.log(val);
+    }) 
+
+    let request: CreateCourseRequestDto = {
+      name: 'How to use <<Oh my course!>>',
+      description: 'test',
+      mediaId: 0
+    };
+
+    this.courseService.courseControllerCreate(request).subscribe(val => {
+      console.log(val);
+    })
   }
 }

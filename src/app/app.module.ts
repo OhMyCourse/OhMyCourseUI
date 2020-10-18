@@ -27,6 +27,8 @@ import { QuestionFormComponent } from './constructor/shared/components/test-bloc
 import { TestFormComponent } from './constructor/shared/components/test-block/test-form/test-form.component';
 import { CoursePageComponent } from './course-page/course-page.component';
 import { LessonFormComponent } from './lesson-form/lesson-form.component';
+import { ApiModule } from 'api';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -59,6 +61,8 @@ import { LessonFormComponent } from './lesson-form/lesson-form.component';
     MaterialModule,
     ReactiveFormsModule,
     QuillModule.forRoot(),
+    ApiModule.forRoot(null),
+    HttpClientModule
   ],
   providers: [SafeHtmlPipe],
   bootstrap: [AppComponent]
