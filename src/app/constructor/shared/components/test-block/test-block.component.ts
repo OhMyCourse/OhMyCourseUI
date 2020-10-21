@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BlockComponent } from '../../models/BlockComponent';
 import { TestAnswerType } from '../../models/TestAnswerType';
 
 @Component({
@@ -6,12 +7,15 @@ import { TestAnswerType } from '../../models/TestAnswerType';
   templateUrl: './test-block.component.html',
   styleUrls: ['./test-block.component.scss']
 })
-export class TestBlockComponent implements OnInit {
+export class TestBlockComponent extends BlockComponent implements OnInit {
 
   answer: TestAnswerType = TestAnswerType.Multiple;
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
+    this.blockControl.setValue({});
   }
 }

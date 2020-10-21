@@ -1,15 +1,13 @@
 import { Component, Input, OnInit} from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { BaseFormComponent } from '../../models/BaseFormComponent';
+import { BlockComponent } from '../../models/BlockComponent';
 
 @Component({
   selector: 'app-text-block',
   templateUrl: './text-block.component.html',
   styleUrls: ['./text-block.component.scss']
 })
-export class TextBlockComponent extends BaseFormComponent implements OnInit {
-  @Input() id: string;
-
+export class TextBlockComponent extends BlockComponent implements OnInit {
   modules = {
     toolbar: [
       [{ font: [] }],
@@ -26,13 +24,12 @@ export class TextBlockComponent extends BaseFormComponent implements OnInit {
     boxSizing: 'border-box',
     boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.25)',
   };
-
-  textBlock = new FormControl('');
-
+  
   constructor() {
     super();
   }
 
   ngOnInit(): void {
+    this.blockControl.setValue('');
   }
 }

@@ -1,22 +1,26 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { BlockComponent } from '../../models/BlockComponent';
 
 @Component({
   selector: 'app-audio-block',
   templateUrl: './audio-block.component.html',
   styleUrls: ['./audio-block.component.scss']
 })
-export class AudioBlockComponent implements OnInit {
+export class AudioBlockComponent extends BlockComponent implements OnInit {
   @ViewChild('file') file;
   @ViewChild('audio') audio: HTMLAudioElement;
 
   audioToUpload: File = null;
   url = null;
 
-  constructor() { }
+  constructor() {
+    super();
+  }
 
   ngOnInit(): void {
+    this.blockControl.setValue({});
   }
 
   onAudioUpload(): void {

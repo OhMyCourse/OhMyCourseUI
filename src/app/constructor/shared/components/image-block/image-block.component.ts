@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { BlockComponent } from '../../models/BlockComponent';
 import { Utils } from '../../models/Utlis';
 
 @Component({
@@ -7,10 +7,7 @@ import { Utils } from '../../models/Utlis';
   templateUrl: './image-block.component.html',
   styleUrls: ['./image-block.component.scss']
 })
-export class ImageBlockComponent implements OnInit {
-  @Input() id: string;
-  @Input() images: Blob[]
-
+export class ImageBlockComponent extends BlockComponent implements OnInit {
   modules = {
     toolbar: [
       ['image'],
@@ -27,9 +24,11 @@ export class ImageBlockComponent implements OnInit {
   };
 
   constructor() {
+    super();
   }
 
   ngOnInit(): void {
+    this.blockControl.setValue([]);
   }
 
   onContentChanged = (event: any) => {
@@ -39,7 +38,7 @@ export class ImageBlockComponent implements OnInit {
       let typeAndBase64String = element.slice(1, element.length - 1).split(',');
       let imageType = typeAndBase64String[0].split(':')[1].split(';')[0]; //data:image/jpeg;base64 => image/jpeg
       let base64 = typeAndBase64String[1];
-      this.images.push(Utils.b64toBlob(base64, imageType));
+      this.blockControl.value.push(Utils.b64toBlob(base64, imageType));
     });
   }
 }
