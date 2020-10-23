@@ -27,6 +27,8 @@ import { CoursePageComponent } from './course-page/course-page.component';
 import { LessonFormComponent } from './lesson-form/lesson-form.component';
 import { ApiModule, BASE_PATH } from 'api';
 import { HttpClientModule } from '@angular/common/http';
+import { MainComponent } from './main/main.component';
+import { ImageService } from './services/image.service';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,8 @@ import { HttpClientModule } from '@angular/common/http';
     QuestionFormComponent,
     TestFormComponent,
     CoursePageComponent,
-    LessonFormComponent
+    LessonFormComponent,
+    MainComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +63,7 @@ import { HttpClientModule } from '@angular/common/http';
     ApiModule.forRoot(null),
     HttpClientModule
   ],
-  providers: [SafeHtmlPipe, { provide: BASE_PATH, useValue: 'http://localhost:8000' }],
+  providers: [SafeHtmlPipe, { provide: BASE_PATH, useValue: 'http://localhost:8000' }, ImageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

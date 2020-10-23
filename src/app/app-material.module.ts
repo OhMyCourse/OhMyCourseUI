@@ -7,6 +7,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTableModule} from '@angular/material/table';
 
 const mat = [
   MatButtonModule,
@@ -16,7 +17,8 @@ const mat = [
   MatProgressSpinnerModule,
   MatCheckboxModule,
   MatRadioModule,
-  MatSelectModule
+  MatSelectModule,
+  MatTableModule
 ];
 
 @NgModule({
