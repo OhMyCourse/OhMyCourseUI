@@ -1,8 +1,12 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { CourseCategory, EnumObj } from '../constructor/shared/models/CourseCategory';
-import { Lesson } from '../constructor/shared/models/Lesson';
-import { CourseService, CreateCourseRequestDto, MediaService } from 'api';
+import { CourseCategory, EnumObj } from '../shared/models/CourseCategory';
+import { Lesson } from '../shared/models/Lesson';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Guid } from '../guid';
+import { Course } from '../shared/models/Course';
+import { CourseService } from '../services/course.service';
+import { MediaService } from '../services/media.service';
 
 @Component({
   selector: 'app-course-page',
@@ -18,11 +22,35 @@ export class CoursePageComponent implements OnInit {
   lessons: Lesson[] = [];
   constructorMode = false;
   lessonEdit: Lesson;
+  course: Course = new Course();
 
-  constructor(private courseService: CourseService, private mediaService: MediaService) {
+  constructor(
+    private courseService: CourseService, 
+    activeRoute: ActivatedRoute,
+    private router: Router,
+    private mediaService: MediaService) {
+    this.course.id = Number.parseInt(activeRoute.snapshot.params["id"]);
   }
 
   ngOnInit(): void {
+    if(this.course.id) {
+      // this.lessonService.lessonControllerGetById(1).subscribe(data => {
+      //   let lesson = new Lesson(data.id, data.materials.)
+      // })
+      // get lessons by courseId
+    } else {
+      let request = {
+        name: Guid.newGuid(),
+        description: `test_${Guid.newGuid()}`,
+        mediaId: 0
+      };
+      this.mediaService.createMockImage().subscribe(data => {
+        request.mediaId = data.id;
+        this.courseService.createCourse(request).subscribe(data => {
+          this.course.id = data.id
+        })
+      })
+    }
   }
 
   onAddLesson(): void {
@@ -44,16 +72,6 @@ export class CoursePageComponent implements OnInit {
   }
 
   onSaveCourse(): void {
-    // hardcode values must be deleted 
-    
-    let request: CreateCourseRequestDto = {
-      name: 'How to use <<Oh my course!>>',
-      description: 'test',
-      mediaId: 1
-    };
-
-    this.courseService.courseControllerCreate(request).subscribe(val => {
-      console.log(val);
-    })
+    this.router.navigateByUrl('');
   }
 }

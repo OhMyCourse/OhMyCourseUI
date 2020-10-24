@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { CourseService, MediaService } from 'api';
-import { ImageService } from '../services/image.service';
+import { Router } from '@angular/router';
+import { CourseService } from '../services/course.service';
+import { MediaService } from '../services/media.service';
 
 @Component({
   selector: 'app-main',
@@ -12,12 +13,15 @@ export class MainComponent implements OnInit {
 
   courses: CourseWithImage[] = [];
 
-  constructor(private courseService: CourseService, private mediaService: MediaService, private imageServce: ImageService) { }
+  constructor(
+    private courseService: CourseService, 
+    private router: Router, 
+    private mediaService: MediaService) { }
 
   ngOnInit(): void {
-    this.courseService.courseControllerGetById(1).subscribe(data => {
-      this.imageServce.getImageSrc(data.media.id).subscribe(src => {
-        let course = new CourseWithImage(data.name, data.description);
+    this.courseService.getCourseById(1).subscribe(data => {
+      this.mediaService.getMediaById(data.media.id).subscribe(src => {
+        let course = new CourseWithImage(data.id, data.name, data.description);
         course.loadImage(src);
         this.courses.push(course);
       });
@@ -25,13 +29,20 @@ export class MainComponent implements OnInit {
   }
 
   editCourse(id: number) {
-
+    this.router.navigateByUrl(`course/edit/${id}`);
   }
 
+  deleteCourse(id: number) {
+    this.courseService.deleteCourse(id);
+  }
 }
 
 export class CourseWithImage {
-  constructor(public name: string, public description: string, public imageSrc?: string) {
+  constructor(
+    public id: number, 
+    public name: string, 
+    public description: string, 
+    public imageSrc?: string) {
 
   }
 

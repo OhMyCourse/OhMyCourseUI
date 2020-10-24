@@ -4,17 +4,17 @@
     <div class="blocks" *ngFor="let block of lesson.blocks">
         <div class="block mt-3 mb-3" [ngSwitch]="block.name">
             <div class="container">
-                <app-text-block *ngSwitchCase="'text'" id="block.id" [blockControl]="getControlByBlockName(block)">
+                <app-text-block *ngSwitchCase="'text'" [block]="block" [blockControl]="getControlByBlockName(block)">
                 </app-text-block>
-                <app-image-block *ngSwitchCase="'image'" id="block.id" [blockControl]="getControlByBlockName(block)">
+                <app-image-block *ngSwitchCase="'image'" [block]="block" [blockControl]="getControlByBlockName(block)">
                 </app-image-block>
-                <app-tip-block *ngSwitchCase="'tip'" id="block.id" [blockControl]="getControlByBlockName(block)">
+                <app-tip-block *ngSwitchCase="'tip'" [block]="block" [blockControl]="getControlByBlockName(block)">
                 </app-tip-block>
-                <app-video-block *ngSwitchCase="'video'" id="block.id" [blockControl]="getControlByBlockName(block)">
+                <app-video-block *ngSwitchCase="'video'" [block]="block" [blockControl]="getControlByBlockName(block)">
                 </app-video-block>
-                <app-audio-block *ngSwitchCase="'audio'" id="block.id" [blockControl]="getControlByBlockName(block)">
+                <app-audio-block *ngSwitchCase="'audio'" [block]="block" [blockControl]="getControlByBlockName(block)">
                 </app-audio-block>
-                <app-test-block *ngSwitchCase="'test'" id="block.id" [blockControl]="getControlByBlockName(block)">
+                <app-test-block *ngSwitchCase="'test'" [block]="block" [blockControl]="getControlByBlockName(block)">
                 </app-test-block>
             </div>
         </div>

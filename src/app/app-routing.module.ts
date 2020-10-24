@@ -6,6 +6,7 @@ import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
   { path: 'constructor', component: ConstructorComponent, pathMatch: 'full'},
+  { path: 'course/edit/:id', component: CoursePageComponent },
   { path: 'course/create', component: CoursePageComponent },
   { path: '', component: MainComponent }
 ];

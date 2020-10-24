@@ -1,11 +1,11 @@
 import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { Block } from '../shared/models/Block';
-import { TextBlock } from '../shared/models/TextBlock';
-import { ImageBlock } from '../shared/models/ImageBlock';
-import { TipBlock } from '../shared/models/TipBlock';
-import { VideoBlock } from '../shared/models/VideoBlock';
-import { AudioBlock } from '../shared/models/AudioBlock';
-import { TestBlock } from '../shared/models/TestBlock';
+import { Block } from '../../shared/models/Block';
+import { TextBlock } from '../../shared/models/TextBlock';
+import { ImageBlock } from '../../shared/models/ImageBlock';
+import { TipBlock } from '../../shared/models/TipBlock';
+import { VideoBlock } from '../../shared/models/VideoBlock';
+import { AudioBlock } from '../../shared/models/AudioBlock';
+import { TestBlock } from '../../shared/models/TestBlock';
 
 @Component({
   selector: 'app-blocks-menu',

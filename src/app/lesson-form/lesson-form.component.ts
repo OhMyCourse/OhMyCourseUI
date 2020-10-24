@@ -1,8 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
-import { BaseFormComponent } from '../constructor/shared/models/BaseFormComponent';
-import { Lesson } from '../constructor/shared/models/Lesson';
+import { BaseFormComponent } from '../shared/models/BaseFormComponent';
+import { Lesson } from '../shared/models/Lesson';
 
 @Component({
   selector: 'app-lesson-form',
@@ -28,6 +27,7 @@ export class LessonFormComponent extends BaseFormComponent implements OnInit {
   }
 
   onEditLesson(): void {
+    this.lesson.name = this.getValue('nameControl');
     this.editLesson.emit(this.lesson);
   }
 

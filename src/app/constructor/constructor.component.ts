@@ -1,19 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
-import { CreateLessonMaterialRequestDto, CreateLessonRequestDto, CreateTestRequestDto, LessonService, MediaService } from 'api';
-import { from } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-import { Guid } from '../guid';
-import { BaseFormComponent } from './shared/models/BaseFormComponent';
-import { Block } from './shared/models/Block';
-import { Lesson } from './shared/models/Lesson';
+import { CreateLessonMaterialRequest, LessonService, LessonMaterialType, CreateTestRequest, CreateLessonRequest } from '../services/lesson.service';
+import { MediaService } from '../services/media.service';
+import { BaseFormComponent } from '../shared/models/BaseFormComponent';
+import { Block } from '../shared/models/Block';
+import { Lesson } from '../shared/models/Lesson';
 
 @Component({
   selector: 'app-constructor',
   templateUrl: './constructor.component.html',
   styleUrls: ['./constructor.component.scss']
 })
-export class ConstructorComponent extends BaseFormComponent implements OnInit  {
+export class ConstructorComponent extends BaseFormComponent implements OnInit {
   @Input() lesson: Lesson;
   @Input() courseId: number;
   @Output() saveLesson = new EventEmitter();
@@ -21,11 +19,22 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit  {
   order: number = 1;
   form = this.fb.group({});
 
-  constructor(private mediaService: MediaService, private lessonService: LessonService, private fb: FormBuilder) {
+  private lessonMaterials: CreateLessonMaterialRequest[] = [];
+
+  constructor(
+    private mediaService: MediaService,
+    private lessonService: LessonService,
+    private fb: FormBuilder) {
     super();
   }
 
   ngOnInit(): void {
+    if (this.lesson.blocks.length !== 0) {
+      this.order = this.lesson.blocks.length;
+      this.lesson.blocks.forEach((block, index) => {
+        this.form.addControl(`${block.name}_${index + 1}`, new FormControl());
+      });
+    }
   }
 
   onAddBlock(block: Block): void {
@@ -35,46 +44,66 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit  {
     this.lesson.blocks.push(block);
   }
 
-  private lessonMaterials: CreateLessonMaterialRequestDto[] = [];
-
   onSaveLesson(): void {
 
-    Object.keys(this.form.controls).forEach(key => {
-      let value = this.form.controls[key].value;
+    let blobs: BlobRequest[] = [];
 
-      switch(key.split('_')[0]) {
+    Object.keys(this.form.controls).forEach((key, index) => {
+      let value = this.form.controls[key].value;
+      this.lesson.blocks[index].value = value;
+
+      switch (key.split('_')[0]) {
         case 'text':
-          this.lessonMaterials.push(this.saveText(value, false));
+          this.lessonMaterials.push(this.getLessonMaterialTextRequest(value, false));
           break;
         case 'tip':
-          this.lessonMaterials.push(this.saveText(value, true));
-          break;
-        case 'audio':
-          this.saveBlob(value, 'audio');
-          break;
-        case 'video':
-          this.saveBlob(value, 'video');
+          this.lessonMaterials.push(this.getLessonMaterialTextRequest(value, true));
           break;
         case 'test':
-          this.lessonMaterials.push(this.saveTest(value));
+          this.lessonMaterials.push(this.getLessonMaterialTestRequest(value));
+          break;
+        case 'audio':
+          blobs.push({ type: LessonMaterialType.Audio, value: value, order: index });
+          break;
+        case 'video':
+          blobs.push({ type: LessonMaterialType.Video, value: value, order: index });
           break;
         case 'image':
-          this.saveBlob(value, 'video');
+          blobs.push({ type: LessonMaterialType.Image, value: value, order: index });
           break;
       }
     });
 
-    let request: CreateLessonRequestDto = {
+    let request: CreateLessonRequest = {
       title: this.lesson.name,
       lessonMaterials: this.lessonMaterials,
       courseId: this.courseId
     };
 
-    console.log(request);
+    if (blobs.length !== 0) {
+      this.mediaService.createMedia(blobs[0].value).subscribe(data => {
+        console.log(data);
+      });
 
-    this.lessonService.lessonControllerCreate(request).subscribe(data => {
-      console.log(data);
-    })
+      this.mediaService.createMediaMany(blobs).subscribe(data => {
+        console.log(data);
+        data.forEach(b => {
+          this.lessonMaterials = this.lessonMaterials.splice(
+            b.order,
+            0,
+            this.getLessonMaterialBlobRequest(b.mediaId, b.type)
+          );
+        });
+
+        this.lessonService.createLesson(request).subscribe(data => {
+          console.log(data);
+        });
+      });
+    } else {
+      this.lessonService.createLesson(request).subscribe(data => {
+        console.log(data);
+      })
+    }
 
     this.saveLesson.emit();
   }
@@ -88,29 +117,36 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit  {
     return control;
   }
 
-  private saveTest(value: CreateTestRequestDto): CreateLessonMaterialRequestDto {
+  private getLessonMaterialTestRequest(request: CreateTestRequest): CreateLessonMaterialRequest {
     return {
-      type: 'test',
-      test: value,
+      type: LessonMaterialType.Test,
+      test: request,
     }
   }
 
-  private saveBlob(value: Blob, type: 'audio' | 'video'): void {
-    this.mediaService.mediaControllerCreateForm(value).subscribe(data => {
-      this.lessonMaterials.push({
-        type: type,
-        mediaId: data.id,
-      });
-    });
+  private getLessonMaterialBlobRequest(
+    mediaId: number,
+    type: LessonMaterialType.Video | LessonMaterialType.Image | LessonMaterialType.Audio
+  ): CreateLessonMaterialRequest {
+    return {
+      type: type,
+      mediaId: mediaId
+    };
   }
 
-  private saveText(value: string, isTip: boolean): CreateLessonMaterialRequestDto {
+  private getLessonMaterialTextRequest(value: string, isTip: boolean): CreateLessonMaterialRequest {
     return {
-      type: 'text',
+      type: LessonMaterialType.Text,
       textContent: {
         text: value,
-        isTip: false
+        isTip: isTip
       }
-    } 
+    }
   }
+}
+
+export interface BlobRequest {
+  type: LessonMaterialType.Video | LessonMaterialType.Image | LessonMaterialType.Audio;
+  value: Blob;
+  order: number;
 }
