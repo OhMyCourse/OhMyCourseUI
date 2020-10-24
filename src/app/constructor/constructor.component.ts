@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { CreateLessonMaterialRequest, LessonService, LessonMaterialType, CreateTestRequest, CreateLessonRequest } from '../services/lesson.service';
-import { MediaService } from '../services/media.service';
+import { BlobRequest, MediaService } from '../services/media.service';
 import { BaseFormComponent } from '../shared/models/BaseFormComponent';
 import { Block } from '../shared/models/Block';
 import { Lesson } from '../shared/models/Lesson';
@@ -16,7 +16,6 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
   @Input() courseId: number;
   @Output() saveLesson = new EventEmitter();
 
-  order: number = 1;
   form = this.fb.group({});
 
   private lessonMaterials: CreateLessonMaterialRequest[] = [];
@@ -30,17 +29,14 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.lesson.blocks.length !== 0) {
-      this.order = this.lesson.blocks.length;
-      this.lesson.blocks.forEach((block, index) => {
-        this.form.addControl(`${block.name}_${index + 1}`, new FormControl());
+      this.lesson.blocks.forEach((block) => {
+        this.form.addControl(this.getBlockControlName(block), new FormControl());
       });
     }
   }
 
   onAddBlock(block: Block): void {
-    block.order = this.order;
     this.form.addControl(this.getBlockControlName(block), new FormControl(undefined));
-    this.order++;
     this.lesson.blocks.push(block);
   }
 
@@ -109,7 +105,7 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
   }
 
   getBlockControlName(block: Block) {
-    return `${block.name}_${block.order}`;
+    return `${block.name}_${block.id}`;
   }
 
   getControlByBlockName(block: Block): FormControl {
@@ -143,10 +139,4 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
       }
     }
   }
-}
-
-export interface BlobRequest {
-  type: LessonMaterialType.Video | LessonMaterialType.Image | LessonMaterialType.Audio;
-  value: Blob;
-  order: number;
 }

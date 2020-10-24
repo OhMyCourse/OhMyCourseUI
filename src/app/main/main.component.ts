@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CourseService } from '../services/course.service';
 import { MediaService } from '../services/media.service';
+import { CourseWithImage } from '../shared/models/CourseWithImage';
 
 @Component({
   selector: 'app-main',
@@ -34,23 +35,5 @@ export class MainComponent implements OnInit {
 
   deleteCourse(id: number) {
     this.courseService.deleteCourse(id);
-  }
-}
-
-export class CourseWithImage {
-  constructor(
-    public id: number, 
-    public name: string, 
-    public description: string, 
-    public imageSrc?: string) {
-
-  }
-
-  loadImage(image: Blob) {
-    let reader = new FileReader();
-    reader.onload = (event) => {
-      this.imageSrc = (event.target as FileReader).result as string;
-    };
-    reader.readAsDataURL(image);
   }
 }

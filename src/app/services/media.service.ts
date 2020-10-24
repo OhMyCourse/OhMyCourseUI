@@ -1,9 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { error } from '@angular/compiler/src/util';
 import { Inject, Injectable } from '@angular/core';
-import { from, Observable, zip } from 'rxjs';
-import { catchError, map, switchMap, tap } from 'rxjs/operators';
-import { BlobRequest } from '../constructor/constructor.component';
+import { empty, Observable, zip } from 'rxjs';
+import { catchError, map, switchMap} from 'rxjs/operators';
 import { LessonMaterialType } from './lesson.service';
 
 @Injectable({
@@ -44,7 +42,12 @@ export class MediaService {
       })
     ));
 
-    return zip(requests);
+    return zip(requests).pipe(
+      catchError(err => {
+        console.log(err);
+        return empty();
+      })
+    );
   }
 }
 
@@ -59,4 +62,10 @@ export interface MediaOrderResponse {
   mediaId: number;
   order: number;
   type: LessonMaterialType.Video | LessonMaterialType.Image | LessonMaterialType.Audio;
+}
+
+export interface BlobRequest {
+  type: LessonMaterialType.Video | LessonMaterialType.Image | LessonMaterialType.Audio;
+  value: Blob;
+  order: number;
 }
