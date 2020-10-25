@@ -1,7 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { Test, TestOption, TestType } from 'src/app/shared/models/Test';
-import { BaseFormComponent } from '../../../models/BaseFormComponent';
+import { MatRadioChange } from '@angular/material/radio';
+import { Test, TestOption } from 'src/app/shared/models/Test';
 import { TestAnswerType } from '../../../models/TestAnswerType';
 
 @Component({
@@ -29,6 +28,13 @@ export class TestFormComponent implements OnInit {
   }
 
   addOption(): void {
-    this.test.testOptions.push(new TestOption(false, ''));
+    this.test.testOptions.push(
+      new TestOption(false, '', this.test.testOptions.length)
+    );
+  }
+
+  onRadioChange(index: number) {
+    this.test.testOptions.forEach((option) => (option.isRight = false));
+    this.test.testOptions[index].isRight = true;
   }
 }

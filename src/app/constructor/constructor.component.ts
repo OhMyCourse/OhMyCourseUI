@@ -90,8 +90,6 @@ export class ConstructorComponent implements OnInit {
       }
     });
 
-    console.log(request);
-
     if (files.length !== 0) {
       this.mediaService.createMediaMany(files).subscribe((data) => {
         data.forEach((b) => {

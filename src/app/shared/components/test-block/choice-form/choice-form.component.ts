@@ -1,5 +1,6 @@
-import { Input, ViewEncapsulation } from '@angular/core';
+import { EventEmitter, Input, Output, ViewEncapsulation } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+import { MatRadioChange } from '@angular/material/radio';
 import { TestOption } from 'src/app/shared/models/Test';
 import { TestAnswerType } from '../../../models/TestAnswerType';
 
@@ -12,6 +13,7 @@ import { TestAnswerType } from '../../../models/TestAnswerType';
 export class ChoiceFormComponent implements OnInit {
   @Input() type: TestAnswerType;
   @Input() option: TestOption;
+  @Output() onRadioChange = new EventEmitter<number>();
 
   constructor() {}
 
@@ -19,5 +21,9 @@ export class ChoiceFormComponent implements OnInit {
     if (this.type === TestAnswerType.Short) {
       this.option.isRight = true;
     }
+  }
+
+  changeRadio() {
+    this.onRadioChange.emit(this.option.value);
   }
 }

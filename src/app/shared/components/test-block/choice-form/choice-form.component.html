@@ -4,7 +4,7 @@
         'col-1': type === 2
     }">
         <mat-checkbox *ngIf="type === 0" [(ngModel)]="option.isRight"> </mat-checkbox>
-        <mat-radio-button *ngIf="type === 1" [(ngModel)]="option.isRight"></mat-radio-button>
+        <mat-radio-button *ngIf="type === 1" (change)="changeRadio()"></mat-radio-button>
     </div>
     <div class="p-0" [ngClass]="{ 
         'col-10': type === 2,

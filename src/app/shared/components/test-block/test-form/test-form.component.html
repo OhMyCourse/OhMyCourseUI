@@ -15,7 +15,8 @@
 <div class="options">
     <p>Answer options</p>
     <ng-container *ngFor="let option of test.testOptions; let i = index;">
-        <app-choice-form [(option)]="test.testOptions[i]" [type]="type"></app-choice-form>
+        <app-choice-form [(option)]="test.testOptions[i]" [type]="type" (onRadioChange)="onRadioChange($event)">
+        </app-choice-form>
     </ng-container>
     <div class="d-flex option-btn" (click)="addOption()" *ngIf="type !== 2">
         <img src="../../../../../../assets/pictures/addIcon.png" alt="" width="30" height="30">

@@ -9,7 +9,11 @@ export class Test {
 }
 
 export class TestOption {
-  constructor(public isRight?: boolean, public title?: string) {}
+  constructor(
+    public isRight?: boolean,
+    public title?: string,
+    public value?: number
+  ) {}
 }
 
 export enum TestType {
