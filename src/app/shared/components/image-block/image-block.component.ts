@@ -12,6 +12,7 @@ export class ImageBlockComponent extends BlockComponent implements OnInit {
     toolbar: [
       ['image'],
       [{ align: null }, { align: 'center' }, { align: 'right' }],
+      [{'header': 1}]
     ]
   };
 
@@ -28,7 +29,11 @@ export class ImageBlockComponent extends BlockComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.blockControl.setValue([]);
+    if (this.block.value) {
+      this.blockControl.setValue(this.block.value);
+    } else {
+      this.blockControl.setValue([]);
+    }
   }
 
   onContentChanged = (event: any) => {
@@ -40,6 +45,21 @@ export class ImageBlockComponent extends BlockComponent implements OnInit {
       let base64 = typeAndBase64String[1];
       this.blockControl.value.push(Utils.b64toBlob(base64, imageType));
     });
+  }
+
+  getEditorInstance(editorInstance: any) {
+    const toolbar = editorInstance.getModule('toolbar');
+    toolbar.addHandler('header', this.closeHandler);
+    
+    let lastNode = toolbar.container.childNodes[toolbar.container.childNodes.length-1];
+    lastNode.className = 'ql-formats last';
+
+    let closeBtn = toolbar.controls.find(c => c[0] === "header");
+    closeBtn[1].innerHTML = 'X'
+  }
+
+  closeHandler = () => {
+    this.onDelete.emit(this.block.id);
   }
 }
 

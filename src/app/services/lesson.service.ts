@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { MediaResponse } from './media.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,13 +19,40 @@ export class LessonService {
       return this.http.delete(`${this.baseUrl}/lesson/${lessonId}`);
   }
 
-  getLessons(courseId: number): Observable<any> {
-      return this.http.get<any>(`${this.baseUrl}/course/${this.baseUrl}/lessons`);
-  }
-
   getLessonById(lessonId: number): Observable<any> {
       return this.http.get<any>(`${this.baseUrl}/lesson/${lessonId}`);
   }
+
+  getLessonMaterial(lessonMaterialId: number): Observable<LessonMaterialResponse> {
+    return this.http.get<LessonMaterialResponse>(`${this.baseUrl}/lesson/material/${lessonMaterialId}`);
+  }
+}
+
+export interface LessonMaterialResponse {
+    type?: LessonMaterialType;
+    id?: number;
+    media?: MediaResponse;
+    textContent?: TextContentResponse;
+    test?: TestResponse;
+}
+
+export interface TextContentResponse {
+    id: number;
+    text: string;
+    isTip: boolean;
+}
+
+export interface TestResponse {
+    id: number;
+    task: string;
+    score: number;
+    options: TestOptionResponse[];
+}
+
+export interface TestOptionResponse {
+    id: number;
+    title: string;
+    isRight: boolean;
 }
 
 export interface CreateLessonRequest {

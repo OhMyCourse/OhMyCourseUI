@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { LessonMaterialType } from './lesson.service';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class CourseService {
   }
 
   getCourses(): Observable<CourseResponse[]> {
-    return this.http.get<CourseResponse[]>(`${this.baseUrl}/courses`);
+    return this.http.get<CourseResponse[]>(`${this.baseUrl}/course`);
   }
 
   createCourse(course: CreateCourseRequest): Observable<CourseResponse> {
@@ -47,10 +48,22 @@ export interface CourseResponse {
     mimetype: string;
     title: string;
   };
+  lessons: CourseLessonResponse[];
 }
 
 export interface UpdateCourseRequest {
   id: number;
   description: string;
   mediaId: number;
+}
+
+export interface CourseLessonResponse {
+  id: number;
+  title: string;
+  materials: CourseLessonMaterialResponse[];
+}
+
+export interface CourseLessonMaterialResponse {
+  id: number;
+  type: LessonMaterialType;
 }

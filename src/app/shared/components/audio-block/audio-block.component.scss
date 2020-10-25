@@ -1,5 +1,5 @@
 .audio-block {
-    .header {
+    .header-block {
         background: #f4f4f4;
 
         .audio-button {
@@ -10,6 +10,17 @@
 
         .upload {
             display: none;
+        }
+
+        .delete-btn {
+            margin-left: auto;
+            border: 0;
+            margin-right: 20px;
+            background-color: #f4f4f4;
+            
+            &:hover {
+                cursor: pointer;
+            }
         }
     }
 

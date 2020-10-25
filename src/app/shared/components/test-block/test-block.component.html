@@ -10,6 +10,7 @@
         <div class="header-item" (click)="answer = 2">
             Short answer
         </div>
+        <button (click)="onDelete.emit(block.id)" class="delete-btn">X</button>
     </div>
 
     <div class="body container" [ngSwitch]="answer">

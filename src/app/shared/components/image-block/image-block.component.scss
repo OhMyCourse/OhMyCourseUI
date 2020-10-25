@@ -3,9 +3,14 @@
 
     &.ql-snow {
         border: none;
+        display: flex;
     }
 }
 
 ::ng-deep .ql-snow {
     border: none;
+}
+
+::ng-deep .last {
+    margin-left: auto;
 }

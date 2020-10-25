@@ -28,6 +28,7 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.lesson.blocks);
     if (this.lesson.blocks.length !== 0) {
       this.lesson.blocks.forEach((block) => {
         this.form.addControl(this.getBlockControlName(block), new FormControl());
@@ -38,6 +39,10 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
   onAddBlock(block: Block): void {
     this.form.addControl(this.getBlockControlName(block), new FormControl(undefined));
     this.lesson.blocks.push(block);
+  }
+
+  onDeleteBlock(id: string): void {
+    this.lesson.blocks = this.lesson.blocks.filter(b => b.id !== id);
   }
 
   onSaveLesson(): void {
@@ -78,13 +83,11 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
 
     if (blobs.length !== 0) {
       this.mediaService.createMedia(blobs[0].value).subscribe(data => {
-        console.log(data);
       });
 
       this.mediaService.createMediaMany(blobs).subscribe(data => {
-        console.log(data);
         data.forEach(b => {
-          this.lessonMaterials = this.lessonMaterials.splice(
+          this.lessonMaterials.splice(
             b.order,
             0,
             this.getLessonMaterialBlobRequest(b.mediaId, b.type)
@@ -92,12 +95,10 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
         });
 
         this.lessonService.createLesson(request).subscribe(data => {
-          console.log(data);
         });
       });
     } else {
       this.lessonService.createLesson(request).subscribe(data => {
-        console.log(data);
       })
     }
 
