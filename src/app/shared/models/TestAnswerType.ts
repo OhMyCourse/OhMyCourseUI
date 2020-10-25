@@ -1,5 +1,5 @@
 export enum TestAnswerType {
-    Multiple,
-    Single,
-    Short
+  Multiple,
+  Single,
+  Short,
 }

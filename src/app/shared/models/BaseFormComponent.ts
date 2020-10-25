@@ -2,38 +2,37 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 
 @Component({
-    template: ''
+  template: '',
 })
 export class BaseFormComponent {
-    form: FormGroup;
+  form: FormGroup;
 
-    constructor() {
-    }
+  constructor() {}
 
-    getControl(name: string): AbstractControl {
-        return this.form.get(name);
-    }
+  getControl(name: string): AbstractControl {
+    return this.form.get(name);
+  }
 
-    isValid(name: string): boolean {
-        const e = this.getControl(name);
-        return e && e.valid;
-    }
+  isValid(name: string): boolean {
+    const e = this.getControl(name);
+    return e && e.valid;
+  }
 
-    isChanged(name: string): boolean {
-        const e = this.getControl(name);
-        return e && (e.dirty || e.touched);
-    }
+  isChanged(name: string): boolean {
+    const e = this.getControl(name);
+    return e && (e.dirty || e.touched);
+  }
 
-    hasError(name: string): boolean {
-        const e = this.getControl(name);
-        return e && (e.dirty || e.touched) && e.invalid;
-    }
+  hasError(name: string): boolean {
+    const e = this.getControl(name);
+    return e && (e.dirty || e.touched) && e.invalid;
+  }
 
-    getValue(name: string): any {
-        return this.getControl(name).value;
-    }
+  getValue(name: string): any {
+    return this.getControl(name).value;
+  }
 
-    setValue(name: string, value: any): void {
-        this.getControl(name).setValue(value);
-    }
+  setValue(name: string, value: any): void {
+    this.getControl(name).setValue(value);
+  }
 }

@@ -6,7 +6,7 @@ import { BlockComponent } from '../../models/BlockComponent';
 @Component({
   selector: 'app-video-block',
   templateUrl: './video-block.component.html',
-  styleUrls: ['./video-block.component.scss']
+  styleUrls: ['./video-block.component.scss'],
 })
 export class VideoBlockComponent extends BlockComponent implements OnInit {
   @ViewChild('file') file;
@@ -20,9 +20,7 @@ export class VideoBlockComponent extends BlockComponent implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
-    
-  }
+  ngOnInit(): void {}
 
   loadVideo(): void {
     this.file.nativeElement.click();
@@ -32,11 +30,13 @@ export class VideoBlockComponent extends BlockComponent implements OnInit {
     this.videoToUpload = files.item(0);
     this.block.value = this.videoToUpload;
     const reader = new FileReader();
-    of(this.videoToUpload).pipe(delay(500)).subscribe(data => {
-      reader.readAsDataURL(data);
-      reader.onload = (event) => {
-        this.url = (event.target as FileReader).result;
-      };
-    });
+    of(this.videoToUpload)
+      .pipe(delay(500))
+      .subscribe((data) => {
+        reader.readAsDataURL(data);
+        reader.onload = (event) => {
+          this.url = (event.target as FileReader).result;
+        };
+      });
   }
 }

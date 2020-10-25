@@ -6,7 +6,7 @@ import { Lesson } from '../shared/models/Lesson';
 @Component({
   selector: 'app-lesson-form',
   templateUrl: './lesson-form.component.html',
-  styleUrls: ['./lesson-form.component.scss']
+  styleUrls: ['./lesson-form.component.scss'],
 })
 export class LessonFormComponent extends BaseFormComponent implements OnInit {
   @Input() lesson: Lesson;
@@ -15,7 +15,7 @@ export class LessonFormComponent extends BaseFormComponent implements OnInit {
 
   form = this.fb.group({
     nameControl: ['', [Validators.required]],
-    descriptionControl: ['']
+    descriptionControl: [''],
   });
 
   constructor(private fb: FormBuilder) {

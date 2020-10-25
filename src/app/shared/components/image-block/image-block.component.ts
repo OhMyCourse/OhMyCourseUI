@@ -5,15 +5,15 @@ import { Utils } from '../../models/Utlis';
 @Component({
   selector: 'app-image-block',
   templateUrl: './image-block.component.html',
-  styleUrls: ['./image-block.component.scss']
+  styleUrls: ['./image-block.component.scss'],
 })
 export class ImageBlockComponent extends BlockComponent implements OnInit {
   modules = {
     toolbar: [
       ['image'],
       [{ align: null }, { align: 'center' }, { align: 'right' }],
-      [{'header': 1}]
-    ]
+      [{ header: 1 }],
+    ],
   };
 
   editorStyle = {
@@ -28,34 +28,33 @@ export class ImageBlockComponent extends BlockComponent implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   // actually arrays of srcs images but process last
   onContentChanged = (event: any) => {
     const html = event.html as string;
     const srcs = html.match('"[A-Za-z0-9/+:;,=]+"');
-    srcs.forEach(element => {
+    srcs.forEach((element) => {
       let typeAndBase64String = element.slice(1, element.length - 1).split(',');
       let imageType = typeAndBase64String[0].split(':')[1].split(';')[0]; //data:image/jpeg;base64 => image/jpeg
       let base64 = typeAndBase64String[1];
       this.block.value = Utils.b64toBlob(base64, imageType);
     });
-  }
+  };
 
   getEditorInstance(editorInstance: any) {
     const toolbar = editorInstance.getModule('toolbar');
     toolbar.addHandler('header', this.closeHandler);
-    
-    let lastNode = toolbar.container.childNodes[toolbar.container.childNodes.length-1];
+
+    let lastNode =
+      toolbar.container.childNodes[toolbar.container.childNodes.length - 1];
     lastNode.className = 'ql-formats last';
 
-    let closeBtn = toolbar.controls.find(c => c[0] === "header");
-    closeBtn[1].innerHTML = 'X'
+    let closeBtn = toolbar.controls.find((c) => c[0] === 'header');
+    closeBtn[1].innerHTML = 'X';
   }
 
   closeHandler = () => {
     this.onDelete.emit(this.block.id);
-  }
+  };
 }
-

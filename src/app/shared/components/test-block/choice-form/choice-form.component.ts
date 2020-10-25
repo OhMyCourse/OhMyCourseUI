@@ -7,16 +7,13 @@ import { TestAnswerType } from '../../../models/TestAnswerType';
   selector: 'app-choice-form',
   templateUrl: './choice-form.component.html',
   styleUrls: ['./choice-form.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class ChoiceFormComponent implements OnInit {
   @Input() answerControl: FormControl;
   @Input() type: TestAnswerType;
-  
-  constructor() {
-  }
 
-  ngOnInit(): void {
-  }
+  constructor() {}
 
+  ngOnInit(): void {}
 }

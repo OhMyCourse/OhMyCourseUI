@@ -53,7 +53,7 @@ import { FormsModule } from '@angular/forms';
     TestFormComponent,
     CoursePageComponent,
     LessonFormComponent,
-    MainComponent
+    MainComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,14 +63,15 @@ import { FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     QuillModule.forRoot(),
     HttpClientModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     SafeHtmlPipe,
     { provide: 'BASE_URL', useValue: 'http://localhost:8000' },
     CourseService,
     LessonService,
-    MediaService],
-  bootstrap: [AppComponent]
+    MediaService,
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

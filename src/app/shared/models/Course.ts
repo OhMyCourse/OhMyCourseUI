@@ -2,32 +2,26 @@ import { LessonMaterialType } from 'src/app/services/lesson.service';
 import { Lesson } from './Lesson';
 
 export class Course {
-    public lessons: CourseLesson[] = [];
+  public lessons: CourseLesson[] = [];
 
-    constructor(
-        public id?: number, 
-        public name?: string, 
-        public description?: string, 
-        public mediaId?: number) {
-
-    }
+  constructor(
+    public id?: number,
+    public name?: string,
+    public description?: string,
+    public mediaId?: number
+  ) {}
 }
 
 export class CourseLesson {
-    constructor(
-        public id: number,
-        public title: string,
-        public materials: CourseLessonMaterial[]
-    ) {
-        this.materials = [];
-    }
+  constructor(
+    public id: number,
+    public title: string,
+    public materials: CourseLessonMaterial[]
+  ) {
+    this.materials = [];
+  }
 }
 
 export class CourseLessonMaterial {
-    constructor (
-        public id: number,
-        public type: LessonMaterialType
-    ) {
-
-    }
+  constructor(public id: number, public type: LessonMaterialType) {}
 }

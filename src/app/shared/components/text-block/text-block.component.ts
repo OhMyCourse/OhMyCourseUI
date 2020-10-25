@@ -4,7 +4,7 @@ import { BlockComponent } from '../../models/BlockComponent';
 @Component({
   selector: 'app-text-block',
   templateUrl: './text-block.component.html',
-  styleUrls: ['./text-block.component.scss']
+  styleUrls: ['./text-block.component.scss'],
 })
 export class TextBlockComponent extends BlockComponent implements OnInit {
   modules = {
@@ -12,9 +12,14 @@ export class TextBlockComponent extends BlockComponent implements OnInit {
       [{ font: [] }],
       [{ size: ['small', false, 'large', 'huge'] }],
       ['bold', 'italic', 'underline'],
-      [{ align: null }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
-      [{'header': 1}]
-    ]
+      [
+        { align: null },
+        { align: 'center' },
+        { align: 'right' },
+        { align: 'justify' },
+      ],
+      [{ header: 1 }],
+    ],
   };
 
   editorStyle = {
@@ -33,17 +38,17 @@ export class TextBlockComponent extends BlockComponent implements OnInit {
     const toolbar = editorInstance.getModule('toolbar');
     toolbar.addHandler('header', this.closeHandler);
 
-    let lastNode = toolbar.container.childNodes[toolbar.container.childNodes.length-1];
+    let lastNode =
+      toolbar.container.childNodes[toolbar.container.childNodes.length - 1];
     lastNode.className = 'ql-formats last';
 
-    let closeBtn = toolbar.controls.find(c => c[0] === "header");
-    closeBtn[1].innerHTML = 'X'
+    let closeBtn = toolbar.controls.find((c) => c[0] === 'header');
+    closeBtn[1].innerHTML = 'X';
   }
 
   closeHandler = () => {
     this.onDelete.emit(this.block.id);
-  }
+  };
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 }

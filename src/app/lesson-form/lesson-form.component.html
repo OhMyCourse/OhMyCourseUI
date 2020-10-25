@@ -12,11 +12,10 @@
         </div>
         <div class="col-4">
             <button mat-raised-button color="primary" class="mr-2" (click)="onEditLesson()"
-            [disabled]="!getValue('nameControl')">
+                [disabled]="!getValue('nameControl')">
                 Edit
             </button>
-            <button mat-raised-button color="warn" (click)="onDeleteLesson()"
-                [disabled]="!lesson.id">
+            <button mat-raised-button color="warn" (click)="onDeleteLesson()" [disabled]="!lesson.id">
                 Delete
             </button>
         </div>

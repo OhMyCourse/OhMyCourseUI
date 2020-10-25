@@ -4,12 +4,13 @@ import { Observable } from 'rxjs';
 import { LessonMaterialType } from './lesson.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CourseService {
-  constructor(private http: HttpClient,
-    @Inject('BASE_URL') private baseUrl: string) {
-  }
+  constructor(
+    private http: HttpClient,
+    @Inject('BASE_URL') private baseUrl: string
+  ) {}
 
   getCourses(): Observable<CourseResponse[]> {
     return this.http.get<CourseResponse[]>(`${this.baseUrl}/course`);
@@ -20,7 +21,10 @@ export class CourseService {
   }
 
   updateCourse(course: UpdateCourseRequest): Observable<CourseResponse> {
-    return this.http.put<CourseResponse>(`${this.baseUrl}/course/${course.id}`, course);
+    return this.http.put<CourseResponse>(
+      `${this.baseUrl}/course/${course.id}`,
+      course
+    );
   }
 
   deleteCourse(courseId: number): Observable<any> {

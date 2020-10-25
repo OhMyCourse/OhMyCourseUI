@@ -19,9 +19,7 @@
 
 <ng-container *ngIf="!constructorMode">
     <div class="lesson" *ngFor="let lesson of lessons">
-        <app-lesson-form [lesson]="lesson" 
-        (deleteLesson)="onDeleteLesson(lesson)" 
-        (editLesson)="onEditLesson(lesson)">
+        <app-lesson-form [lesson]="lesson" (deleteLesson)="onDeleteLesson(lesson)" (editLesson)="onEditLesson(lesson)">
         </app-lesson-form>
     </div>
 

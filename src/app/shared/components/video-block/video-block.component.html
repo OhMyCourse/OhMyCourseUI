@@ -6,11 +6,9 @@
     </div>
 
     <div class="body d-flex justify-content-center align-items-center">
-        <img *ngIf="!videoToUpload" src="../../../../../assets/pictures/VideoImage.png" alt=""
-            (click)="loadVideo()">
+        <img *ngIf="!videoToUpload" src="../../../../../assets/pictures/VideoImage.png" alt="" (click)="loadVideo()">
         <mat-spinner *ngIf="videoToUpload && !url" color="accent"></mat-spinner>
-        <video #video [src]="url | safeHtml" controls width="600px" height="auto" 
-        *ngIf="videoToUpload && url" >
+        <video #video [src]="url | safeHtml" controls width="600px" height="auto" *ngIf="videoToUpload && url">
 
         </video>
     </div>

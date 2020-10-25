@@ -6,7 +6,7 @@ import { BlockComponent } from '../../models/BlockComponent';
 @Component({
   selector: 'app-audio-block',
   templateUrl: './audio-block.component.html',
-  styleUrls: ['./audio-block.component.scss']
+  styleUrls: ['./audio-block.component.scss'],
 })
 export class AudioBlockComponent extends BlockComponent implements OnInit {
   @ViewChild('file') file;
@@ -19,8 +19,7 @@ export class AudioBlockComponent extends BlockComponent implements OnInit {
     super();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   onAudioUpload(): void {
     this.file.nativeElement.click();
@@ -30,11 +29,13 @@ export class AudioBlockComponent extends BlockComponent implements OnInit {
     this.audioToUpload = files.item(0);
     this.block.value = this.audioToUpload;
     const reader = new FileReader();
-    of(this.audioToUpload).pipe(delay(500)).subscribe(data => {
-      reader.readAsDataURL(data);
-      reader.onload = (event) => {
-        this.url = (event.target as FileReader).result;
-      };
-    });
+    of(this.audioToUpload)
+      .pipe(delay(500))
+      .subscribe((data) => {
+        reader.readAsDataURL(data);
+        reader.onload = (event) => {
+          this.url = (event.target as FileReader).result;
+        };
+      });
   }
 }

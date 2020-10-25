@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Block } from './Block';
 
 @Component({
-  template: ''
+  template: '',
 })
 export class BlockComponent {
   @Input() block: Block;
