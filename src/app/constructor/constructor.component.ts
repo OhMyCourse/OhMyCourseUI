@@ -26,7 +26,9 @@ export class ConstructorComponent implements OnInit {
     private lessonService: LessonService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    console.log('ngOnInit constructor');
+  }
 
   onAddBlock(block: Block): void {
     this.lesson.blocks.push(block);
@@ -43,7 +45,7 @@ export class ConstructorComponent implements OnInit {
       courseId: this.courseId,
     };
 
-    let blobs: MediaRequest[] = [];
+    let files: MediaRequest[] = [];
 
     this.lesson.blocks.forEach((b, index) => {
       let value = b.value;
@@ -65,31 +67,31 @@ export class ConstructorComponent implements OnInit {
           );
           break;
         case 'audio':
-          blobs.push({
+          files.push({
             type: LessonMaterialType.Audio,
             value: value as File,
             order: index,
           });
           break;
         case 'video':
-          blobs.push({
+          files.push({
             type: LessonMaterialType.Video,
             value: value as File,
             order: index,
           });
           break;
         case 'image':
-          blobs.push({
+          files.push({
             type: LessonMaterialType.Image,
-            value: value as Blob,
+            value: value as File,
             order: index,
           });
           break;
       }
     });
 
-    if (blobs.length !== 0) {
-      this.mediaService.createMediaMany(blobs).subscribe((data) => {
+    if (files.length !== 0) {
+      this.mediaService.createMediaMany(files).subscribe((data) => {
         data.forEach((b) => {
           request.lessonMaterials.splice(
             b.order,
@@ -100,15 +102,15 @@ export class ConstructorComponent implements OnInit {
 
         this.lessonService.createLesson(request).subscribe((data) => {
           console.log('save lesson response', data);
+          this.saveLesson.emit();
         });
       });
     } else {
       this.lessonService.createLesson(request).subscribe((data) => {
         console.log('save lesson response', data);
+        this.saveLesson.emit();
       });
     }
-
-    this.saveLesson.emit();
   }
 
   private getLessonMaterialTestRequest(

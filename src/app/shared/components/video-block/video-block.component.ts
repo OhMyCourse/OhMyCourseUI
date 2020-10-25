@@ -10,8 +10,6 @@ import { BlockComponent } from '../../models/BlockComponent';
 })
 export class VideoBlockComponent extends BlockComponent implements OnInit {
   @ViewChild('file') file;
-  @ViewChild('videoSource') videoSource: HTMLSourceElement;
-  @ViewChild('video') video: HTMLVideoElement;
 
   videoToUpload: File = null;
   url = null;
@@ -20,7 +18,11 @@ export class VideoBlockComponent extends BlockComponent implements OnInit {
     super();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.block.value) {
+      this.loadFile(this.block.value as File);
+    }
+  }
 
   loadVideo(): void {
     this.file.nativeElement.click();
@@ -29,8 +31,12 @@ export class VideoBlockComponent extends BlockComponent implements OnInit {
   onFileAdded(files: FileList): void {
     this.videoToUpload = files.item(0);
     this.block.value = this.videoToUpload;
+    this.loadFile(this.videoToUpload);
+  }
+
+  loadFile(file: File) {
     const reader = new FileReader();
-    of(this.videoToUpload)
+    of(file)
       .pipe(delay(500))
       .subscribe((data) => {
         reader.readAsDataURL(data);

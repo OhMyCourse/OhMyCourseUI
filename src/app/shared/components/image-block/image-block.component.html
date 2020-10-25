@@ -1,4 +1,14 @@
-<quill-editor [modules]="modules" [styles]="editorStyle" placeholder="Your image will be here..."
-    (onContentChanged)="onContentChanged($event)" (onEditorCreated)="getEditorInstance($event)">
-
-</quill-editor>
+<div class="image-block">
+    <div class="header-block w-100 d-flex">
+        <img src="../../../../../assets/pictures/ImageBlock.png" alt="" class="image-button">
+        <input type="file" id="file" #file class="upload" (change)="onFileAdded($event.target.files)" accept="image/*">
+        <button (click)="onDelete.emit(block.id)" class="delete-btn">X</button>
+    </div>
+    <div class="body d-flex justify-content-center align-items-center">
+        <p *ngIf="!imageToUpload" (click)="onImageUpload()">
+            + Add image
+        </p>
+        <mat-spinner *ngIf="imageToUpload && !url" color="accent" diameter="80"></mat-spinner>
+        <img [src]="url | safeHtml" *ngIf="imageToUpload && url" class="mt-2 mb-2" />
+    </div>
+</div>

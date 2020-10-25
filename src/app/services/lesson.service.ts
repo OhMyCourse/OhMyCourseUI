@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CourseLessonResponse } from './course.service';
 import { MediaResponse } from './media.service';
 
 @Injectable({
@@ -12,16 +13,21 @@ export class LessonService {
     @Inject('BASE_URL') private baseUrl: string
   ) {}
 
-  createLesson(request: CreateLessonRequest): Observable<any> {
-    return this.http.post(`${this.baseUrl}/lesson`, request);
+  createLesson(request: CreateLessonRequest): Observable<CourseLessonResponse> {
+    return this.http.post<CourseLessonResponse>(
+      `${this.baseUrl}/lesson`,
+      request
+    );
   }
 
   deleteLesson(lessonId: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/lesson/${lessonId}`);
   }
 
-  getLessonById(lessonId: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/lesson/${lessonId}`);
+  getLessonById(lessonId: number): Observable<CourseLessonResponse> {
+    return this.http.get<CourseLessonResponse>(
+      `${this.baseUrl}/lesson/${lessonId}`
+    );
   }
 
   getLessonMaterial(
