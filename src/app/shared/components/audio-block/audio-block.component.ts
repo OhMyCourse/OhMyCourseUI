@@ -20,7 +20,6 @@ export class AudioBlockComponent extends BlockComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.blockControl.setValue({});
   }
 
   onAudioUpload(): void {
@@ -29,12 +28,12 @@ export class AudioBlockComponent extends BlockComponent implements OnInit {
 
   onFileAdded(files: FileList): void {
     this.audioToUpload = files.item(0);
+    this.block.value = this.audioToUpload;
     const reader = new FileReader();
     of(this.audioToUpload).pipe(delay(500)).subscribe(data => {
       reader.readAsDataURL(data);
       reader.onload = (event) => {
         this.url = (event.target as FileReader).result;
-        this.blockControl.setValue(this.url);
       };
     });
   }

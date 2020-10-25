@@ -29,13 +29,9 @@ export class ImageBlockComponent extends BlockComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.block.value) {
-      this.blockControl.setValue(this.block.value);
-    } else {
-      this.blockControl.setValue([]);
-    }
   }
 
+  // actually arrays of srcs images but process last
   onContentChanged = (event: any) => {
     const html = event.html as string;
     const srcs = html.match('"[A-Za-z0-9/+:;,=]+"');
@@ -43,7 +39,7 @@ export class ImageBlockComponent extends BlockComponent implements OnInit {
       let typeAndBase64String = element.slice(1, element.length - 1).split(',');
       let imageType = typeAndBase64String[0].split(':')[1].split(';')[0]; //data:image/jpeg;base64 => image/jpeg
       let base64 = typeAndBase64String[1];
-      this.blockControl.value.push(Utils.b64toBlob(base64, imageType));
+      this.block.value = Utils.b64toBlob(base64, imageType);
     });
   }
 

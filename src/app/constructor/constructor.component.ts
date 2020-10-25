@@ -1,8 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { CreateLessonMaterialRequest, LessonService, LessonMaterialType, CreateTestRequest, CreateLessonRequest } from '../services/lesson.service';
-import { BlobRequest, MediaService } from '../services/media.service';
-import { BaseFormComponent } from '../shared/models/BaseFormComponent';
+import { MediaRequest, MediaService } from '../services/media.service';
 import { Block } from '../shared/models/Block';
 import { Lesson } from '../shared/models/Lesson';
 
@@ -11,33 +10,20 @@ import { Lesson } from '../shared/models/Lesson';
   templateUrl: './constructor.component.html',
   styleUrls: ['./constructor.component.scss']
 })
-export class ConstructorComponent extends BaseFormComponent implements OnInit {
+export class ConstructorComponent implements OnInit {
   @Input() lesson: Lesson;
   @Input() courseId: number;
   @Output() saveLesson = new EventEmitter();
 
-  form = this.fb.group({});
-
-  private lessonMaterials: CreateLessonMaterialRequest[] = [];
-
   constructor(
     private mediaService: MediaService,
-    private lessonService: LessonService,
-    private fb: FormBuilder) {
-    super();
+    private lessonService: LessonService) {
   }
 
   ngOnInit(): void {
-    console.log(this.lesson.blocks);
-    if (this.lesson.blocks.length !== 0) {
-      this.lesson.blocks.forEach((block) => {
-        this.form.addControl(this.getBlockControlName(block), new FormControl());
-      });
-    }
   }
 
   onAddBlock(block: Block): void {
-    this.form.addControl(this.getBlockControlName(block), new FormControl(undefined));
     this.lesson.blocks.push(block);
   }
 
@@ -46,48 +32,45 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
   }
 
   onSaveLesson(): void {
+    let lessonMaterials: CreateLessonMaterialRequest[] = [];
+    let blobs: MediaRequest[] = [];
 
-    let blobs: BlobRequest[] = [];
-
-    Object.keys(this.form.controls).forEach((key, index) => {
-      let value = this.form.controls[key].value;
-      this.lesson.blocks[index].value = value;
-
-      switch (key.split('_')[0]) {
+    this.lesson.blocks.forEach((b, index) => {
+      let value = b.value;
+      console.log(b);
+      switch (b.name) {
         case 'text':
-          this.lessonMaterials.push(this.getLessonMaterialTextRequest(value, false));
+          lessonMaterials.push(this.getLessonMaterialTextRequest(value as string, false));
           break;
         case 'tip':
-          this.lessonMaterials.push(this.getLessonMaterialTextRequest(value, true));
+          lessonMaterials.push(this.getLessonMaterialTextRequest(value as string, true));
           break;
         case 'test':
-          this.lessonMaterials.push(this.getLessonMaterialTestRequest(value));
+          lessonMaterials.push(this.getLessonMaterialTestRequest(value as CreateTestRequest));
           break;
         case 'audio':
-          blobs.push({ type: LessonMaterialType.Audio, value: value, order: index });
+          blobs.push({ type: LessonMaterialType.Audio, value: value as File, order: index });
           break;
         case 'video':
-          blobs.push({ type: LessonMaterialType.Video, value: value, order: index });
+          blobs.push({ type: LessonMaterialType.Video, value: value as File, order: index });
           break;
         case 'image':
-          blobs.push({ type: LessonMaterialType.Image, value: value, order: index });
+          blobs.push({ type: LessonMaterialType.Image, value: value as Blob, order: index });
           break;
       }
-    });
+    })
 
     let request: CreateLessonRequest = {
       title: this.lesson.name,
-      lessonMaterials: this.lessonMaterials,
+      lessonMaterials: lessonMaterials,
       courseId: this.courseId
     };
 
     if (blobs.length !== 0) {
-      this.mediaService.createMedia(blobs[0].value).subscribe(data => {
-      });
-
       this.mediaService.createMediaMany(blobs).subscribe(data => {
+        console.log(data);
         data.forEach(b => {
-          this.lessonMaterials.splice(
+          lessonMaterials.splice(
             b.order,
             0,
             this.getLessonMaterialBlobRequest(b.mediaId, b.type)
@@ -95,6 +78,7 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
         });
 
         this.lessonService.createLesson(request).subscribe(data => {
+          console.log(data);
         });
       });
     } else {
@@ -103,15 +87,6 @@ export class ConstructorComponent extends BaseFormComponent implements OnInit {
     }
 
     this.saveLesson.emit();
-  }
-
-  getBlockControlName(block: Block) {
-    return `${block.name}_${block.id}`;
-  }
-
-  getControlByBlockName(block: Block): FormControl {
-    let control = this.getControl(this.getBlockControlName(block)) as FormControl;
-    return control;
   }
 
   private getLessonMaterialTestRequest(request: CreateTestRequest): CreateLessonMaterialRequest {

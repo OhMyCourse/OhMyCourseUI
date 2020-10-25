@@ -3,7 +3,7 @@
         <img src="../../../../../assets/pictures/tipBlock.png" alt="">
     </div>
     <div class="col-10" style="padding: 0;">
-        <quill-editor [modules]="modules" [styles]="editorStyle" [formControl]="tipBlock" theme="bubble">
+        <quill-editor [modules]="modules" [styles]="editorStyle" [(ngModel)]="block.value" theme="bubble">
 
         </quill-editor>
     </div>

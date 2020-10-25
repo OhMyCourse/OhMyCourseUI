@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { BlockComponent } from '../../models/BlockComponent';
@@ -21,7 +21,7 @@ export class VideoBlockComponent extends BlockComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.blockControl.setValue({});
+    
   }
 
   loadVideo(): void {
@@ -30,15 +30,13 @@ export class VideoBlockComponent extends BlockComponent implements OnInit {
 
   onFileAdded(files: FileList): void {
     this.videoToUpload = files.item(0);
+    this.block.value = this.videoToUpload;
     const reader = new FileReader();
     of(this.videoToUpload).pipe(delay(500)).subscribe(data => {
       reader.readAsDataURL(data);
       reader.onload = (event) => {
         this.url = (event.target as FileReader).result;
-        this.blockControl.setValue(this.url);
       };
     });
   }
-
-  //https://stackoverflow.com/questions/47936183/angular-file-upload
 }

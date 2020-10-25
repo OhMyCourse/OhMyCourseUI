@@ -16,6 +16,5 @@ export class TestBlockComponent extends BlockComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.blockControl.setValue({});
   }
 }

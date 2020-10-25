@@ -1,8 +1,7 @@
 <quill-editor
 [modules]="modules" 
 [styles]="editorStyle" 
-[formControl]="blockControl" 
-ngDefaultControl
+[(ngModel)]="block.value" 
 (onEditorCreated)="getEditorInstance($event)">
 
 </quill-editor>

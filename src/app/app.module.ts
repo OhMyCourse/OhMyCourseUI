@@ -30,6 +30,7 @@ import { MainComponent } from './main/main.component';
 import { LessonService } from './services/lesson.service';
 import { CourseService } from './services/course.service';
 import { MediaService } from './services/media.service';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -61,7 +62,8 @@ import { MediaService } from './services/media.service';
     MaterialModule,
     ReactiveFormsModule,
     QuillModule.forRoot(),
-    HttpClientModule
+    HttpClientModule,
+    FormsModule
   ],
   providers: [
     SafeHtmlPipe,

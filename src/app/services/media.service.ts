@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
-import { empty, Observable, zip } from 'rxjs';
+import { empty, forkJoin, Observable, zip } from 'rxjs';
 import { catchError, map, switchMap} from 'rxjs/operators';
 import { LessonMaterialType } from './lesson.service';
 
@@ -18,9 +18,9 @@ export class MediaService {
     );
   }
 
-  createMedia(blob: Blob): Observable<MediaResponse> {
+  createMedia(file: Blob | File): Observable<MediaResponse> {
     const formData = new FormData();
-    formData.append('file', blob);
+    formData.append('file', file);
 
     return this.http.post<MediaResponse>(`${this.baseUrl}/media`, formData);
   }
@@ -29,9 +29,7 @@ export class MediaService {
     return this.http.get<Blob>(`${this.baseUrl}/media/${mediaId}`, { responseType: 'blob' as 'json' });
   }
 
-  createMediaMany(blobs: BlobRequest[]): Observable<MediaOrderResponse[]> {
-    console.log(blobs);
-
+  createMediaMany(blobs: MediaRequest[]): Observable<MediaOrderResponse[]> {
     let requests = blobs.map(blob => this.createMedia(blob.value).pipe(
       map(response => {
         return {
@@ -42,12 +40,8 @@ export class MediaService {
       })
     ));
 
-    return zip(requests).pipe(
-      catchError(err => {
-        console.log(err);
-        return empty();
-      })
-    );
+
+    return forkJoin(requests);
   }
 }
 
@@ -64,8 +58,8 @@ export interface MediaOrderResponse {
   type: LessonMaterialType.Video | LessonMaterialType.Image | LessonMaterialType.Audio;
 }
 
-export interface BlobRequest {
+export interface MediaRequest {
   type: LessonMaterialType.Video | LessonMaterialType.Image | LessonMaterialType.Audio;
-  value: Blob;
+  value: Blob | File;
   order: number;
 }

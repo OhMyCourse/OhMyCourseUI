@@ -21,19 +21,12 @@ export class TipBlockComponent extends BlockComponent implements OnInit {
       [{ align: null }, { align: 'center' }, { align: 'right' }, { align: 'justify' }],
     ]
   };
-
-  tipBlock = new FormControl('');
-
+  
   constructor() {
     super();
   }
 
   ngOnInit(): void {
-    if (this.block.value) {
-      this.blockControl.setValue(this.block.value);
-    } else {
-      this.blockControl.setValue('');
-    }
   }
 
 }

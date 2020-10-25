@@ -45,10 +45,5 @@ export class TextBlockComponent extends BlockComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.block.value) {
-      this.blockControl.setValue(this.block.value);
-    } else {
-      this.blockControl.setValue('')
-    }
   }
 }
