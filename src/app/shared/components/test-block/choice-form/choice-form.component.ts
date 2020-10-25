@@ -1,6 +1,6 @@
 import { Input, ViewEncapsulation } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { TestOption } from 'src/app/shared/models/Test';
 import { TestAnswerType } from '../../../models/TestAnswerType';
 
 @Component({
@@ -10,10 +10,14 @@ import { TestAnswerType } from '../../../models/TestAnswerType';
   encapsulation: ViewEncapsulation.None,
 })
 export class ChoiceFormComponent implements OnInit {
-  @Input() answerControl: FormControl;
   @Input() type: TestAnswerType;
+  @Input() option: TestOption;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.type === TestAnswerType.Short) {
+      this.option.isRight = true;
+    }
+  }
 }

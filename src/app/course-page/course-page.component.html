@@ -39,6 +39,7 @@
     </div>
 </ng-container>
 
-<app-constructor [courseId]="course.id" [lesson]="lessonEdit" *ngIf="constructorMode" (saveLesson)="onSaveLesson()">
+<app-constructor [courseId]="course.id" [lesson]="lessonEdit" *ngIf="constructorMode"
+    (saveLesson)="onSaveLesson($event)">
 
 </app-constructor>

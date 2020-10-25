@@ -5,9 +5,8 @@
 <div class="question-field">
     <mat-form-field class="w-100">
         <mat-label>Ask a question</mat-label>
-        <input matInput type="text" [formControl]="questionControl">
-        <button mat-button *ngIf="questionControl.value" matSuffix mat-icon-button aria-label="Clear"
-            (click)="questionControl.setValue('')">
+        <input matInput type="text" [(ngModel)]="task">
+        <button mat-button *ngIf="task" matSuffix mat-icon-button aria-label="Clear" (click)="task = ''">
             <mat-icon>close</mat-icon>
         </button>
     </mat-form-field>

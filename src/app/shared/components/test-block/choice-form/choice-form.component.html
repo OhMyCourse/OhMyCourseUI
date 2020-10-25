@@ -3,8 +3,8 @@
         'col-2': type !== 2, 
         'col-1': type === 2
     }">
-        <mat-checkbox *ngIf="type === 0"> </mat-checkbox>
-        <mat-radio-button *ngIf="type === 1"></mat-radio-button>
+        <mat-checkbox *ngIf="type === 0" [(ngModel)]="option.isRight"> </mat-checkbox>
+        <mat-radio-button *ngIf="type === 1" [(ngModel)]="option.isRight"></mat-radio-button>
     </div>
     <div class="p-0" [ngClass]="{ 
         'col-10': type === 2,
@@ -13,7 +13,7 @@
         <mat-form-field class="w-100">
             <mat-label *ngIf="type !== 2">Enter an option</mat-label>
             <mat-label *ngIf="type === 2">Enter an answer</mat-label>
-            <input matInput type="text" [formControl]="answerControl">
+            <input matInput type="text" [(ngModel)]="option.title">
         </mat-form-field>
     </div>
 </div>

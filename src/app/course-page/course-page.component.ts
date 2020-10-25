@@ -12,7 +12,7 @@ import {
   LessonMaterialType,
   LessonService,
 } from '../services/lesson.service';
-import { from } from 'rxjs';
+import { forkJoin, from } from 'rxjs';
 import { Block } from '../shared/models/Block';
 import { TipBlock } from '../shared/models/TipBlock';
 import { TextBlock } from '../shared/models/TextBlock';
@@ -20,7 +20,7 @@ import { AudioBlock } from '../shared/models/AudioBlock';
 import { ImageBlock } from '../shared/models/ImageBlock';
 import { VideoBlock } from '../shared/models/VideoBlock';
 import { TestBlock } from '../shared/models/TestBlock';
-import { Test } from '../shared/models/Test';
+import { Test, TestOption, TestType } from '../shared/models/Test';
 
 @Component({
   selector: 'app-course-page',
@@ -49,28 +49,7 @@ export class CoursePageComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.course.id) {
-      this.courseService.getCourseById(this.course.id).subscribe((course) => {
-        this.course.name = course.name;
-        this.course.description = course.description;
-
-        course.lessons.forEach((_lesson) => {
-          let lesson = new Lesson(_lesson.id, null, _lesson.title);
-
-          this.lessons.push(lesson);
-
-          if (_lesson.materials) {
-            // wait for yarik to lesson.materials
-            from(_lesson.materials).subscribe((material) => {
-              this.lessonService
-                .getLessonMaterial(material.id)
-                .subscribe((material) => {
-                  console.log(material);
-                  lesson.blocks.push(this.getBlockByMaterialResponse(material));
-                });
-            });
-          }
-        });
-      });
+      this.reloadData();
     } else {
       let request = {
         name: Guid.newGuid(),
@@ -96,15 +75,30 @@ export class CoursePageComponent implements OnInit {
     this.lessonEdit = lesson;
   }
 
-  onDeleteLesson(lesson: Lesson): void {
+  onDeleteLesson(lesson: Lesson, callback?: () => void): void {
     this.lessonService.deleteLesson(lesson.id).subscribe(() => {
       let lessonIndex = this.lessons.findIndex((l) => l.guid === lesson.guid);
+
       this.lessons.splice(lessonIndex, 1);
+
+      if (callback) {
+        callback();
+      }
     });
   }
 
-  onSaveLesson(): void {
-    this.constructorMode = false;
+  onSaveLesson(deleteLessonId?: number): void {
+    if (deleteLessonId) {
+      let lesson = this.lessons.find((l) => l.id === deleteLessonId);
+
+      this.onDeleteLesson(lesson, () => {
+        this.constructorMode = false;
+        this.reloadData();
+      });
+    } else {
+      this.constructorMode = false;
+      this.reloadData();
+    }
   }
 
   onSaveCourse(): void {
@@ -125,38 +119,69 @@ export class CoursePageComponent implements OnInit {
         break;
       case LessonMaterialType.Test:
         block = new TestBlock();
-        block.value = new Test(matResponse.test.task, matResponse.test.score);
+        block.value = new Test(
+          matResponse.test.task,
+          matResponse.test.score,
+          this.getTestTypeByOptions(matResponse.test.options)
+        );
         block.value.testOptions = matResponse.test.options;
         break;
       case LessonMaterialType.Audio:
         block = new AudioBlock();
 
-        this.mediaService
-          .getMediaById(matResponse.media.id)
-          .subscribe((data) => {
-            block.value = data;
-          });
+        this.getMediaById(matResponse.media.id, block);
         break;
       case LessonMaterialType.Image:
         block = new ImageBlock();
 
-        this.mediaService
-          .getMediaById(matResponse.media.id)
-          .subscribe((data) => {
-            block.value = data;
-          });
+        this.getMediaById(matResponse.media.id, block);
         break;
       case LessonMaterialType.Video:
         block = new VideoBlock();
 
-        this.mediaService
-          .getMediaById(matResponse.media.id)
-          .subscribe((data) => {
-            block.value = data;
-          });
+        this.getMediaById(matResponse.media.id, block);
         break;
     }
 
     return block;
+  }
+
+  private getMediaById(mediaId: number, block: Block) {
+    this.mediaService.getMediaById(mediaId).subscribe((data) => {
+      block.value = data;
+    });
+  }
+
+  private getTestTypeByOptions(testOptions: TestOption[]) {
+    if (testOptions.length === 1 && testOptions[0].isRight) {
+      return TestType.Short;
+    } else if (testOptions.filter((t) => t.isRight).length === 1) {
+      return TestType.Radio;
+    } else {
+      return TestType.Checkbox;
+    }
+  }
+
+  private reloadData() {
+    this.courseService.getCourseById(this.course.id).subscribe((course) => {
+      this.course.name = course.name;
+      this.course.description = course.description;
+
+      course.lessons.forEach((_lesson) => {
+        let lesson = new Lesson(_lesson.id, null, _lesson.title);
+
+        this.lessons.push(lesson);
+
+        if (_lesson.materials) {
+          from(_lesson.materials).subscribe((material) => {
+            this.lessonService
+              .getLessonMaterial(material.id)
+              .subscribe((material) => {
+                lesson.blocks.push(this.getBlockByMaterialResponse(material));
+              });
+          });
+        }
+      });
+    });
   }
 }

@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { AbstractControl, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-question-form',
@@ -7,7 +6,7 @@ import { AbstractControl, FormControl } from '@angular/forms';
   styleUrls: ['./question-form.component.scss'],
 })
 export class QuestionFormComponent implements OnInit {
-  @Input() questionControl: FormControl;
+  @Input() task: string;
 
   constructor() {}
 

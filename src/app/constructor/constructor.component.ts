@@ -6,10 +6,12 @@ import {
   LessonMaterialType,
   CreateTestRequest,
   CreateLessonRequest,
+  CreateTestOptionRequest,
 } from '../services/lesson.service';
 import { MediaRequest, MediaService } from '../services/media.service';
 import { Block } from '../shared/models/Block';
 import { Lesson } from '../shared/models/Lesson';
+import { Test } from '../shared/models/Test';
 
 @Component({
   selector: 'app-constructor',
@@ -19,16 +21,14 @@ import { Lesson } from '../shared/models/Lesson';
 export class ConstructorComponent implements OnInit {
   @Input() lesson: Lesson;
   @Input() courseId: number;
-  @Output() saveLesson = new EventEmitter();
+  @Output() saveLesson = new EventEmitter<number | undefined>();
 
   constructor(
     private mediaService: MediaService,
     private lessonService: LessonService
   ) {}
 
-  ngOnInit(): void {
-    console.log('ngOnInit constructor');
-  }
+  ngOnInit(): void {}
 
   onAddBlock(block: Block): void {
     this.lesson.blocks.push(block);
@@ -63,7 +63,7 @@ export class ConstructorComponent implements OnInit {
           break;
         case 'test':
           request.lessonMaterials.push(
-            this.getLessonMaterialTestRequest(value as CreateTestRequest)
+            this.getLessonMaterialTestRequest(value as Test)
           );
           break;
         case 'audio':
@@ -90,6 +90,8 @@ export class ConstructorComponent implements OnInit {
       }
     });
 
+    console.log(request);
+
     if (files.length !== 0) {
       this.mediaService.createMediaMany(files).subscribe((data) => {
         data.forEach((b) => {
@@ -100,25 +102,39 @@ export class ConstructorComponent implements OnInit {
           );
         });
 
-        this.lessonService.createLesson(request).subscribe((data) => {
-          console.log('save lesson response', data);
-          this.saveLesson.emit();
-        });
+        this.createLesson(request);
       });
     } else {
-      this.lessonService.createLesson(request).subscribe((data) => {
-        console.log('save lesson response', data);
-        this.saveLesson.emit();
-      });
+      this.createLesson(request);
     }
   }
 
+  private createLesson(request: CreateLessonRequest) {
+    this.lessonService.createLesson(request).subscribe((data) => {
+      if (this.lesson.id) {
+        this.saveLesson.emit(this.lesson.id);
+      } else {
+        this.saveLesson.emit();
+      }
+    });
+  }
+
   private getLessonMaterialTestRequest(
-    request: CreateTestRequest
+    test: Test
   ): CreateLessonMaterialRequest {
     return {
       type: LessonMaterialType.Test,
-      test: request,
+      test: {
+        task: test.task,
+        score: test.score,
+        testOptions: test.testOptions.map(
+          (t) =>
+            <CreateTestOptionRequest>{
+              isRight: t.isRight,
+              title: t.title,
+            }
+        ),
+      },
     };
   }
 

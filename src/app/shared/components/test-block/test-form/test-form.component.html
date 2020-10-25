@@ -1,14 +1,24 @@
-<form [formGroup]="form">
-    <app-question-form [questionControl]="getControl('question')"></app-question-form>
+<div class="header d-flex justify-content-between">
+    <p>Question</p>
+    <p>Points _/_</p>
+</div>
+<div class="question-field">
+    <mat-form-field class="w-100">
+        <mat-label>Ask a question</mat-label>
+        <input matInput type="text" [(ngModel)]="test.task">
+        <button mat-button *ngIf="test.task" matSuffix mat-icon-button aria-label="Clear" (click)="task = ''">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+</div>
 
-    <div class="options">
-        <p>Answer options</p>
-        <ng-container *ngFor="let ac of answerControls">
-            <app-choice-form [answerControl]="ac" [type]="type"></app-choice-form>
-        </ng-container>
-        <div class="d-flex option-btn" (click)="addOption()" *ngIf="type !== 2">
-            <img src="../../../../../../assets/pictures/addIcon.png" alt="" width="30" height="30">
-            <p>Add an Option...</p>
-        </div>
+<div class="options">
+    <p>Answer options</p>
+    <ng-container *ngFor="let option of test.testOptions; let i = index;">
+        <app-choice-form [(option)]="test.testOptions[i]" [type]="type"></app-choice-form>
+    </ng-container>
+    <div class="d-flex option-btn" (click)="addOption()" *ngIf="type !== 2">
+        <img src="../../../../../../assets/pictures/addIcon.png" alt="" width="30" height="30">
+        <p>Add an Option...</p>
     </div>
-</form>
+</div>

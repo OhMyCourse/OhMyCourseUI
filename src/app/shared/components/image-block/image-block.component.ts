@@ -21,6 +21,7 @@ export class ImageBlockComponent extends BlockComponent implements OnInit {
   ngOnInit(): void {
     if (this.block.value) {
       this.loadFile(this.block.value as File);
+      this.imageToUpload = this.block.value as File;
     }
   }
 

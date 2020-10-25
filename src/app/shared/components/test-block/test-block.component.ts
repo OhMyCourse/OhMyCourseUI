@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BlockComponent } from '../../models/BlockComponent';
+import { Test } from '../../models/Test';
 import { TestAnswerType } from '../../models/TestAnswerType';
 
 @Component({
@@ -14,5 +15,11 @@ export class TestBlockComponent extends BlockComponent implements OnInit {
     super();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.block.value) {
+      this.answer = +(this.block.value as Test).type;
+    } else {
+      this.block.value = new Test('', 10);
+    }
+  }
 }

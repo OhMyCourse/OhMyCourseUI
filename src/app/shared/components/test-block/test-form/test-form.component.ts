@@ -1,10 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import {
-  AbstractControl,
-  FormBuilder,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { Test, TestOption, TestType } from 'src/app/shared/models/Test';
 import { BaseFormComponent } from '../../../models/BaseFormComponent';
 import { TestAnswerType } from '../../../models/TestAnswerType';
 
@@ -13,25 +9,26 @@ import { TestAnswerType } from '../../../models/TestAnswerType';
   templateUrl: './test-form.component.html',
   styleUrls: ['./test-form.component.scss'],
 })
-export class TestFormComponent extends BaseFormComponent implements OnInit {
+export class TestFormComponent implements OnInit {
   @Input() type: TestAnswerType;
+  @Input() test: Test;
 
-  form = this.fb.group({
-    question: [undefined, [Validators.required]],
-    answer_1: ['', [Validators.required]],
-  });
+  constructor() {}
 
-  answerControls: AbstractControl[] = [this.getControl('answer_1')];
+  ngOnInit(): void {
+    if (this.test.testOptions.length === 0) {
+      this.addOption();
 
-  constructor(public fb: FormBuilder) {
-    super();
+      if (this.type !== TestAnswerType.Short) {
+        this.addOption();
+      }
+    } else if (this.type === TestAnswerType.Short) {
+      this.test.testOptions = [];
+      this.addOption();
+    }
   }
 
-  ngOnInit(): void {}
-
   addOption(): void {
-    const name = 'answer_' + this.answerControls.length;
-    this.form.addControl(name, new FormControl('', [Validators.required]));
-    this.answerControls.push(this.getControl(name));
+    this.test.testOptions.push(new TestOption(false, ''));
   }
 }

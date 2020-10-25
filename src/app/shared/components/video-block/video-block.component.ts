@@ -21,6 +21,7 @@ export class VideoBlockComponent extends BlockComponent implements OnInit {
   ngOnInit(): void {
     if (this.block.value) {
       this.loadFile(this.block.value as File);
+      this.videoToUpload = this.block.value as File;
     }
   }
 
