@@ -28,7 +28,7 @@
 
         <div class="row mt-3">
             <div class="mr-2">
-                <button mat-raised-button color="accent" (click)="onAddLesson()">
+                <button mat-raised-button color="accent" (click)="onAddLesson()" *ngIf="course.id">
                     + Add lesson
                 </button>
             </div>
@@ -39,6 +39,7 @@
     </div>
 </ng-container>
 
-<app-constructor [lesson]="lessonEdit" *ngIf="constructorMode" (saveLesson)="onSaveLesson()">
+<app-constructor [courseId]="course.id" [lesson]="lessonEdit" *ngIf="constructorMode"
+    (saveLesson)="onSaveLesson($event)">
 
 </app-constructor>

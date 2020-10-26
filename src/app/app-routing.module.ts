@@ -5,13 +5,14 @@ import { CoursePageComponent } from './course-page/course-page.component';
 import { MainComponent } from './main/main.component';
 
 const routes: Routes = [
-  { path: '', component: MainComponent, pathMatch: 'full' },
-  { path: 'constructor', component: ConstructorComponent, pathMatch: 'full'},
-  { path: 'course/create', component: CoursePageComponent }
+  { path: 'constructor', component: ConstructorComponent, pathMatch: 'full' },
+  { path: 'course/edit/:id', component: CoursePageComponent },
+  { path: 'course/create', component: CoursePageComponent },
+  { path: '', component: MainComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -1,13 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
-import { BaseFormComponent } from '../constructor/shared/models/BaseFormComponent';
-import { Lesson } from '../constructor/shared/models/Lesson';
+import { BaseFormComponent } from '../shared/models/BaseFormComponent';
+import { Lesson } from '../shared/models/Lesson';
 
 @Component({
   selector: 'app-lesson-form',
   templateUrl: './lesson-form.component.html',
-  styleUrls: ['./lesson-form.component.scss']
+  styleUrls: ['./lesson-form.component.scss'],
 })
 export class LessonFormComponent extends BaseFormComponent implements OnInit {
   @Input() lesson: Lesson;
@@ -16,7 +15,7 @@ export class LessonFormComponent extends BaseFormComponent implements OnInit {
 
   form = this.fb.group({
     nameControl: ['', [Validators.required]],
-    descriptionControl: ['']
+    descriptionControl: [''],
   });
 
   constructor(private fb: FormBuilder) {
@@ -28,6 +27,7 @@ export class LessonFormComponent extends BaseFormComponent implements OnInit {
   }
 
   onEditLesson(): void {
+    this.lesson.name = this.getValue('nameControl');
     this.editLesson.emit(this.lesson);
   }
 
