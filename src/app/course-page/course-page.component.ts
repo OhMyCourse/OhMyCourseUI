@@ -92,8 +92,9 @@ export class CoursePageComponent implements OnInit {
       let lesson = this.lessons.find((l) => l.id === deleteLessonId);
 
       this.onDeleteLesson(lesson, () => {
-        this.constructorMode = false;
+        this.lessons = [];
         this.reloadData();
+        this.constructorMode = false;
       });
     } else {
       this.constructorMode = false;

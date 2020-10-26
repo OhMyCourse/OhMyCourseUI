@@ -21,7 +21,10 @@ export class TestFormComponent implements OnInit {
       if (this.type !== TestAnswerType.Short) {
         this.addOption();
       }
-    } else if (this.type === TestAnswerType.Short) {
+    } else if (
+      this.test.testOptions.length === 2 &&
+      this.type === TestAnswerType.Short
+    ) {
       this.test.testOptions = [];
       this.addOption();
     }

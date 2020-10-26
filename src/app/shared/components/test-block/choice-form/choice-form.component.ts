@@ -15,11 +15,16 @@ export class ChoiceFormComponent implements OnInit {
   @Input() option: TestOption;
   @Output() onRadioChange = new EventEmitter<number>();
 
+  radioChecked = false;
+
   constructor() {}
 
   ngOnInit(): void {
     if (this.type === TestAnswerType.Short) {
       this.option.isRight = true;
+    }
+    if (this.type === TestAnswerType.Single && this.option.isRight) {
+      this.radioChecked = true;
     }
   }
 
