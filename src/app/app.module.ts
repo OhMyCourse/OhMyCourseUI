@@ -31,6 +31,8 @@ import { LessonService } from './services/lesson.service';
 import { CourseService } from './services/course.service';
 import { MediaService } from './services/media.service';
 import { FormsModule } from '@angular/forms';
+import { CourseListComponent } from './course-list/course-list.component';
+import { CourseItemComponent } from './course-list/course-item/course-item.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +56,8 @@ import { FormsModule } from '@angular/forms';
     CoursePageComponent,
     LessonFormComponent,
     MainComponent,
+    CourseListComponent,
+    CourseItemComponent,
   ],
   imports: [
     BrowserModule,

@@ -77,10 +77,7 @@ export class CoursePageComponent implements OnInit {
 
   onDeleteLesson(lesson: Lesson, callback?: () => void): void {
     this.lessonService.deleteLesson(lesson.id).subscribe(() => {
-      let lessonIndex = this.lessons.findIndex((l) => l.guid === lesson.guid);
-
-      this.lessons.splice(lessonIndex, 1);
-
+      this.lessons = this.lessons.filter((l) => l.guid !== lesson.guid);
       if (callback) {
         callback();
       }
@@ -90,13 +87,13 @@ export class CoursePageComponent implements OnInit {
   onSaveLesson(deleteLessonId?: number): void {
     if (deleteLessonId) {
       let lesson = this.lessons.find((l) => l.id === deleteLessonId);
-
+      this.lessons = [];
       this.onDeleteLesson(lesson, () => {
-        this.lessons = [];
         this.reloadData();
         this.constructorMode = false;
       });
     } else {
+      this.lessons = [];
       this.constructorMode = false;
       this.reloadData();
     }
