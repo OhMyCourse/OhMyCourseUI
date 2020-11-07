@@ -33,6 +33,7 @@ import { MediaService } from './services/media.service';
 import { FormsModule } from '@angular/forms';
 import { CourseListComponent } from './course-list/course-list.component';
 import { CourseItemComponent } from './course-list/course-item/course-item.component';
+import { CourseEnrollmentComponent } from './course-enrollment/course-enrollment.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +59,7 @@ import { CourseItemComponent } from './course-list/course-item/course-item.compo
     MainComponent,
     CourseListComponent,
     CourseItemComponent,
+    CourseEnrollmentComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,31 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { BehaviorSubject, from } from 'rxjs';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { from } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { CourseService } from '../services/course.service';
 import { MediaService } from '../services/media.service';
 import { CourseWithImage } from '../shared/models/CourseWithImage';
 
 @Component({
-  selector: 'app-main',
-  templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
+  selector: 'app-course-enrollment',
+  templateUrl: './course-enrollment.component.html',
+  styleUrls: ['./course-enrollment.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
-export class MainComponent implements OnInit {
-  displayedColumns: string[] = ['image', 'name', 'description', 'action'];
-  courses: CourseWithImage[] = [];
+export class CourseEnrollmentComponent implements OnInit {
+  course: CourseWithImage;
 
   constructor(
     private courseService: CourseService,
-    private router: Router,
-    private mediaService: MediaService
+    private mediaService: MediaService,
+    private activedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
+    this.loadCourse(Number.parseInt(this.activedRoute.snapshot.params['id']));
+  }
+
+  private loadCourse(id: number) {
     this.courseService
-      .getCourses()
+      .getCourseById(id)
       .pipe(
-        switchMap((data) => from(data)),
         map(
           (data) =>
             new CourseWithImage(
@@ -37,7 +40,7 @@ export class MainComponent implements OnInit {
             )
         ),
         tap((data) => {
-          this.courses.push(data);
+          this.course = data;
         })
       )
       .subscribe((course) => {
@@ -45,15 +48,5 @@ export class MainComponent implements OnInit {
           course.loadImage(src);
         });
       });
-  }
-
-  editCourse(id: number) {
-    this.router.navigateByUrl(`course/edit/${id}`);
-  }
-
-  deleteCourse(id: number) {
-    this.courseService.deleteCourse(id).subscribe((data) => {
-      this.courses = this.courses.filter((course) => course.id !== id);
-    });
   }
 }
