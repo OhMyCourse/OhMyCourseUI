@@ -4,6 +4,7 @@ export class CourseWithImage {
     public name: string,
     public description: string,
     public mediaId: number,
+    public lessonCount: number,
     public imageSrc?: string
   ) {}
 

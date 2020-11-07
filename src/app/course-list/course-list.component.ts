@@ -37,7 +37,8 @@ export class CourseListComponent implements OnInit {
               data.id,
               data.name,
               data.description,
-              data.media.id
+              data.media.id,
+              data.lessons ? data.lessons.length : 0
             )
         ),
         tap((data) => {

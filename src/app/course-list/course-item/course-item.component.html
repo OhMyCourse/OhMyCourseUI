@@ -1,10 +1,17 @@
-<div class="course-item">
+<div class="course-item" matTooltip="View full info about the course" matTooltipPosition="above">
   <div class="row">
     <div class="col-3">
       <img [src]="course.imageSrc" class="image">
     </div>
     <div class="col-9">
       <p class="description">{{course.description}}</p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-4">
+      <p class="description" *ngIf="course.lessonCount">
+        {{ course.lessonCount }}
+      </p>
     </div>
   </div>
 </div>
