@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { CourseCategory, EnumObj } from '../shared/models/CourseCategory';
 import { Lesson } from '../shared/models/Lesson';
@@ -35,7 +35,8 @@ export class CoursePageComponent implements OnInit {
   lessons: Lesson[] = [];
   constructorMode = false;
   lessonEdit: Lesson;
-  course: Course = new Course();
+
+  @Input() course: Course;
 
   constructor(
     private courseService: CourseService,
@@ -44,7 +45,10 @@ export class CoursePageComponent implements OnInit {
     private mediaService: MediaService,
     private lessonService: LessonService
   ) {
-    this.course.id = Number.parseInt(activeRoute.snapshot.params['id']);
+    let id = Number.parseInt(activeRoute.snapshot.params['id']);
+    if (id) {
+      this.course.id = id;
+    }
   }
 
   ngOnInit(): void {
@@ -52,10 +56,11 @@ export class CoursePageComponent implements OnInit {
       this.reloadData();
     } else {
       let request = {
-        name: Guid.newGuid(),
+        name: this.course.name,
         description: `test_${Guid.newGuid()}`,
         mediaId: 0,
       };
+      console.log(request);
       this.mediaService.createMockImage().subscribe((data) => {
         request.mediaId = data.id;
         this.courseService.createCourse(request).subscribe((data) => {
@@ -162,6 +167,10 @@ export class CoursePageComponent implements OnInit {
 
   private reloadData() {
     this.courseService.getCourseById(this.course.id).subscribe((course) => {
+      if (!course) {
+        this.course = new Course();
+      }
+
       this.course.name = course.name;
       this.course.description = course.description;
 

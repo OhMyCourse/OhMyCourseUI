@@ -34,6 +34,8 @@ import { FormsModule } from '@angular/forms';
 import { CourseListComponent } from './course-list/course-list.component';
 import { CourseItemComponent } from './course-list/course-item/course-item.component';
 import { CourseEnrollmentComponent } from './course-enrollment/course-enrollment.component';
+import { AppFooterComponent } from './app-footer/app-footer.component';
+import { CourseCreateComponent } from './course-create/course-create.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +62,8 @@ import { CourseEnrollmentComponent } from './course-enrollment/course-enrollment
     CourseListComponent,
     CourseItemComponent,
     CourseEnrollmentComponent,
+    AppFooterComponent,
+    CourseCreateComponent,
   ],
   imports: [
     BrowserModule,
