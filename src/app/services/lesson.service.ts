@@ -70,6 +70,7 @@ export interface CreateLessonRequest {
   courseId: number;
   title: string;
   lessonMaterials: CreateLessonMaterialRequest[];
+  description: string;
 }
 
 export interface CreateLessonMaterialRequest {
@@ -77,6 +78,7 @@ export interface CreateLessonMaterialRequest {
   mediaId?: number;
   textContent?: CreateTextContentRequest;
   test?: CreateTestRequest;
+  order: number;
 }
 
 export interface CreateTextContentRequest {
