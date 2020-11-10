@@ -1,18 +1,24 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation,
+} from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { CourseCategory, EnumObj } from '../shared/models/CourseCategory';
 import { Lesson } from '../shared/models/Lesson';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Guid } from '../guid';
 import { Course } from '../shared/models/Course';
-import { CourseService } from '../services/course.service';
+import { CourseService, CreateCourseRequest } from '../services/course.service';
 import { MediaService } from '../services/media.service';
 import {
   LessonMaterialResponse,
   LessonMaterialType,
   LessonService,
 } from '../services/lesson.service';
-import { forkJoin, from } from 'rxjs';
+import { forkJoin, from, of } from 'rxjs';
 import { Block } from '../shared/models/Block';
 import { TipBlock } from '../shared/models/TipBlock';
 import { TextBlock } from '../shared/models/TextBlock';
@@ -21,6 +27,7 @@ import { ImageBlock } from '../shared/models/ImageBlock';
 import { VideoBlock } from '../shared/models/VideoBlock';
 import { TestBlock } from '../shared/models/TestBlock';
 import { Test, TestOption, TestType } from '../shared/models/Test';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-course-page',
@@ -35,18 +42,23 @@ export class CoursePageComponent implements OnInit {
   lessons: Lesson[] = [];
   constructorMode = false;
   lessonEdit: Lesson;
+  imageLoaded = false;
+  url: any;
+  image: File | Blob;
 
   @Input() course: Course;
+
+  @ViewChild('file') file;
 
   constructor(
     private courseService: CourseService,
     activeRoute: ActivatedRoute,
-    private router: Router,
     private mediaService: MediaService,
     private lessonService: LessonService
   ) {
     let id = Number.parseInt(activeRoute.snapshot.params['id']);
     if (id) {
+      this.course = new Course();
       this.course.id = id;
     }
   }
@@ -54,19 +66,6 @@ export class CoursePageComponent implements OnInit {
   ngOnInit(): void {
     if (this.course.id) {
       this.reloadData();
-    } else {
-      let request = {
-        name: this.course.name,
-        description: `test_${Guid.newGuid()}`,
-        mediaId: 0,
-      };
-      console.log(request);
-      this.mediaService.createMockImage().subscribe((data) => {
-        request.mediaId = data.id;
-        this.courseService.createCourse(request).subscribe((data) => {
-          this.course.id = data.id;
-        });
-      });
     }
   }
 
@@ -105,7 +104,41 @@ export class CoursePageComponent implements OnInit {
   }
 
   onSaveCourse(): void {
-    this.router.navigateByUrl('');
+    if (!this.image) {
+      return;
+    }
+    if (!this.course.id) {
+      this.mediaService.createMedia(this.image).subscribe((data) => {
+        let request: CreateCourseRequest = {
+          name: this.course.name,
+          description: this.course.description,
+          mediaId: data.id,
+        };
+        this.courseService.createCourse(request).subscribe((data) => {
+          this.course.id = data.id;
+        });
+      });
+    }
+  }
+
+  onImageUpload(): void {
+    this.file.nativeElement.click();
+  }
+
+  onFileAdded(files: FileList): void {
+    this.loadFile(files.item(0));
+  }
+
+  loadFile(file: File | Blob) {
+    this.image = file;
+    const reader = new FileReader();
+    of(file).subscribe((data) => {
+      reader.readAsDataURL(data);
+      reader.onload = (event) => {
+        this.imageLoaded = true;
+        this.url = (event.target as FileReader).result;
+      };
+    });
   }
 
   getBlockByMaterialResponse(matResponse: LessonMaterialResponse): Block {
@@ -170,6 +203,10 @@ export class CoursePageComponent implements OnInit {
       if (!course) {
         this.course = new Course();
       }
+
+      this.mediaService.getMediaById(course.media.id).subscribe((data) => {
+        this.loadFile(data);
+      });
 
       this.course.name = course.name;
       this.course.description = course.description;

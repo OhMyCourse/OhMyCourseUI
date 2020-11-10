@@ -24,10 +24,12 @@ export class LessonFormComponent extends BaseFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.setValue('nameControl', this.lesson.name);
+    this.setValue('descriptionControl', this.lesson.desciption);
   }
 
   onEditLesson(): void {
     this.lesson.name = this.getValue('nameControl');
+    this.lesson.desciption = this.getValue('descriptionControl');
     this.editLesson.emit(this.lesson);
   }
 

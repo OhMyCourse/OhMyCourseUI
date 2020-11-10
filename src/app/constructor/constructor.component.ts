@@ -43,6 +43,7 @@ export class ConstructorComponent implements OnInit {
       title: this.lesson.name,
       lessonMaterials: [],
       courseId: this.courseId,
+      description: this.lesson.desciption,
     };
 
     let files: MediaRequest[] = [];
@@ -53,17 +54,17 @@ export class ConstructorComponent implements OnInit {
       switch (b.name) {
         case 'text':
           request.lessonMaterials.push(
-            this.getLessonMaterialTextRequest(value as string, false)
+            this.getLessonMaterialTextRequest(value as string, false, index)
           );
           break;
         case 'tip':
           request.lessonMaterials.push(
-            this.getLessonMaterialTextRequest(value as string, true)
+            this.getLessonMaterialTextRequest(value as string, true, index)
           );
           break;
         case 'test':
           request.lessonMaterials.push(
-            this.getLessonMaterialTestRequest(value as Test)
+            this.getLessonMaterialTestRequest(value as Test, index)
           );
           break;
         case 'audio':
@@ -96,7 +97,7 @@ export class ConstructorComponent implements OnInit {
           request.lessonMaterials.splice(
             b.order,
             0,
-            this.getLessonMaterialBlobRequest(b.mediaId, b.type)
+            this.getLessonMaterialBlobRequest(b.mediaId, b.order, b.type)
           );
         });
 
@@ -118,10 +119,12 @@ export class ConstructorComponent implements OnInit {
   }
 
   private getLessonMaterialTestRequest(
-    test: Test
+    test: Test,
+    order: number
   ): CreateLessonMaterialRequest {
     return {
       type: LessonMaterialType.Test,
+      order: order,
       test: {
         task: test.task,
         score: test.score,
@@ -138,6 +141,7 @@ export class ConstructorComponent implements OnInit {
 
   private getLessonMaterialBlobRequest(
     mediaId: number,
+    order: number,
     type:
       | LessonMaterialType.Video
       | LessonMaterialType.Image
@@ -146,15 +150,18 @@ export class ConstructorComponent implements OnInit {
     return {
       type: type,
       mediaId: mediaId,
+      order: order,
     };
   }
 
   private getLessonMaterialTextRequest(
     value: string,
-    isTip: boolean
+    isTip: boolean,
+    order: number
   ): CreateLessonMaterialRequest {
     return {
       type: LessonMaterialType.Text,
+      order: order,
       textContent: {
         text: value,
         isTip: isTip,
