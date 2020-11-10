@@ -64,10 +64,12 @@ export interface UpdateCourseRequest {
 export interface CourseLessonResponse {
   id: number;
   title: string;
+  description: string;
   materials: CourseLessonMaterialResponse[];
 }
 
 export interface CourseLessonMaterialResponse {
   id: number;
   type: LessonMaterialType;
+  order: number;
 }

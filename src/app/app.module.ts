@@ -36,6 +36,9 @@ import { CourseItemComponent } from './course-list/course-item/course-item.compo
 import { CourseEnrollmentComponent } from './course-enrollment/course-enrollment.component';
 import { AppFooterComponent } from './app-footer/app-footer.component';
 import { CourseCreateComponent } from './course-create/course-create.component';
+import { CourseLessonViewerComponent } from './course-lesson-viewer/course-lesson-viewer.component';
+import { CourseLessonViewerItemComponent } from './course-lesson-viewer/course-lesson-viewer-item/course-lesson-viewer-item.component';
+import { VideoViewerComponent } from './course-lesson-viewer/video-viewer/video-viewer.component';
 
 @NgModule({
   declarations: [
@@ -64,6 +67,9 @@ import { CourseCreateComponent } from './course-create/course-create.component';
     CourseEnrollmentComponent,
     AppFooterComponent,
     CourseCreateComponent,
+    CourseLessonViewerComponent,
+    CourseLessonViewerItemComponent,
+    VideoViewerComponent,
   ],
   imports: [
     BrowserModule,
