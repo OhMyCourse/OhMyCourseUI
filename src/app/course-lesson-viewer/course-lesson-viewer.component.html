@@ -1,0 +1,12 @@
+<div class="sidenav">
+    <div *ngFor="let lesson of course.lessons" (click)="loadLessonDetails(lesson.id)" class="lesson">
+        {{lesson.title}}
+    </div>
+    <div class="lesson" (click)="onBackToEnrollment.emit()">
+        Go back to enrollment page
+    </div>
+</div>
+
+<div class="lesson-viewer" *ngIf="lessonToView">
+    <app-course-lesson-viewer-item [lesson]="lessonToView"></app-course-lesson-viewer-item>
+</div>

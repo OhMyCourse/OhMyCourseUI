@@ -1,0 +1,13 @@
+<div class="main">
+    <div class="block" *ngFor="let b of lesson.blocks">
+        <ng-container [ngSwitch]="b.name">
+            <div *ngSwitchCase="'video'">
+                <app-video-viewer [videoBlock]="b" *ngIf="b.value"></app-video-viewer>
+            </div>
+            <div *ngSwitchCase="'text'">
+                <div [innerHTML]="b.value" style="word-wrap: break-word">
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

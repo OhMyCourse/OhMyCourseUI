@@ -1,7 +1,6 @@
-import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { from } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { map, tap } from 'rxjs/operators';
 import { CourseService } from '../services/course.service';
 import { MediaService } from '../services/media.service';
 import { CourseWithImage } from '../shared/models/CourseWithImage';
@@ -14,6 +13,7 @@ import { CourseWithImage } from '../shared/models/CourseWithImage';
 })
 export class CourseEnrollmentComponent implements OnInit {
   course: CourseWithImage;
+  lessonsView = false;
 
   constructor(
     private courseService: CourseService,
