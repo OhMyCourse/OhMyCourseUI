@@ -39,6 +39,8 @@ import { CourseCreateComponent } from './course-create/course-create.component';
 import { CourseLessonViewerComponent } from './course-lesson-viewer/course-lesson-viewer.component';
 import { CourseLessonViewerItemComponent } from './course-lesson-viewer/course-lesson-viewer-item/course-lesson-viewer-item.component';
 import { VideoViewerComponent } from './course-lesson-viewer/video-viewer/video-viewer.component';
+import { RegistrationComponent } from './registration/registration.component';
+import { UserService } from './services/user.service';
 
 @NgModule({
   declarations: [
@@ -70,6 +72,7 @@ import { VideoViewerComponent } from './course-lesson-viewer/video-viewer/video-
     CourseLessonViewerComponent,
     CourseLessonViewerItemComponent,
     VideoViewerComponent,
+    RegistrationComponent,
   ],
   imports: [
     BrowserModule,
@@ -87,6 +90,7 @@ import { VideoViewerComponent } from './course-lesson-viewer/video-viewer/video-
     CourseService,
     LessonService,
     MediaService,
+    UserService,
   ],
   bootstrap: [AppComponent],
 })
