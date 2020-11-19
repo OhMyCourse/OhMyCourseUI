@@ -5,6 +5,7 @@ import { CourseCreateComponent } from './course-create/course-create.component';
 import { CourseEnrollmentComponent } from './course-enrollment/course-enrollment.component';
 import { CourseListComponent } from './course-list/course-list.component';
 import { CoursePageComponent } from './course-page/course-page.component';
+import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { RegistrationComponent } from './registration/registration.component';
 
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'course/all', component: CourseListComponent },
   { path: 'course/enrollment/:id', component: CourseEnrollmentComponent },
   { path: 'user/register', component: RegistrationComponent },
+  { path: 'user/login', component: LoginComponent },
   { path: '', component: MainComponent },
 ];
 
