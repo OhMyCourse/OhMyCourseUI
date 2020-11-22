@@ -44,6 +44,8 @@ import { UserService } from './services/user.service';
 import { LoginComponent } from './login/login.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileMenuComponent } from './user-profile/user-profile-menu/user-profile-menu.component';
+import { UserProfileViewComponent } from './user-profile/user-profile-view/user-profile-view.component';
+import { UserProfileCoursesComponent } from './user-profile/user-profile-courses/user-profile-courses.component';
 
 @NgModule({
   declarations: [
@@ -79,6 +81,8 @@ import { UserProfileMenuComponent } from './user-profile/user-profile-menu/user-
     LoginComponent,
     UserProfileComponent,
     UserProfileMenuComponent,
+    UserProfileViewComponent,
+    UserProfileCoursesComponent,
   ],
   imports: [
     BrowserModule,

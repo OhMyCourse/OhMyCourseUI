@@ -8,6 +8,7 @@ import { CoursePageComponent } from './course-page/course-page.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { UserProfileCoursesComponent } from './user-profile/user-profile-courses/user-profile-courses.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'user/register', component: RegistrationComponent },
   { path: 'user/login', component: LoginComponent },
   { path: 'user/profile', component: UserProfileComponent },
+  { path: 'user/courses', component: UserProfileCoursesComponent },
   { path: '', component: MainComponent },
 ];
 
