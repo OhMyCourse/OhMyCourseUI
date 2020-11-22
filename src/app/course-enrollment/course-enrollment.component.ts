@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { CourseService } from '../services/course.service';
 import { MediaService } from '../services/media.service';
@@ -18,11 +18,17 @@ export class CourseEnrollmentComponent implements OnInit {
   constructor(
     private courseService: CourseService,
     private mediaService: MediaService,
-    private activedRoute: ActivatedRoute
+    private activedRoute: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.loadCourse(Number.parseInt(this.activedRoute.snapshot.params['id']));
+  }
+
+  onCourseEnrollment() {
+    // user enrolls the course
+    this.router.navigateByUrl('/course/view/' + this.course.id);
   }
 
   private loadCourse(id: number) {

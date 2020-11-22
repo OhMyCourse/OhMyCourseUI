@@ -59,6 +59,8 @@ export class AppNavMenuComponent implements OnInit {
       this.items[4].isActive = true;
     } else if (name.includes('user/courses')) {
       this.items[3].isActive = true;
+    } else if (name.includes('course/view')) {
+      this.items[3].isActive = true;
     } else {
       this.items[0].isActive = true;
     }

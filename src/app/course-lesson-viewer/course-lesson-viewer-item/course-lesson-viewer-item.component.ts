@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Lesson } from 'src/app/shared/models/Lesson';
 
 @Component({
@@ -8,8 +9,15 @@ import { Lesson } from 'src/app/shared/models/Lesson';
 })
 export class CourseLessonViewerItemComponent implements OnInit {
   @Input() lesson: Lesson;
+  @Input() courseName: string;
+  @Input() courseId: string;
+  @Output() onGoBackByAnchor: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit(): void {}
+
+  onFinishLesson() {
+    this.onGoBackByAnchor.emit();
+  }
 }

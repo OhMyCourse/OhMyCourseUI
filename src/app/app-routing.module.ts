@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { ConstructorComponent } from './constructor/constructor.component';
 import { CourseCreateComponent } from './course-create/course-create.component';
 import { CourseEnrollmentComponent } from './course-enrollment/course-enrollment.component';
+import { CourseLessonViewerComponent } from './course-lesson-viewer/course-lesson-viewer.component';
 import { CourseListComponent } from './course-list/course-list.component';
 import { CoursePageComponent } from './course-page/course-page.component';
 import { LoginComponent } from './login/login.component';
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'user/login', component: LoginComponent },
   { path: 'user/profile', component: UserProfileComponent },
   { path: 'user/courses', component: UserProfileCoursesComponent },
+  { path: 'course/view/:id', component: CourseLessonViewerComponent },
   { path: '', component: MainComponent },
 ];
 

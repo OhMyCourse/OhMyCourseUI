@@ -65,6 +65,7 @@ export interface CourseLessonResponse {
   id: number;
   title: string;
   description: string;
+  finished: boolean;
   materials: CourseLessonMaterialResponse[];
 }
 
