@@ -41,6 +41,7 @@ import { CourseLessonViewerItemComponent } from './course-lesson-viewer/course-l
 import { VideoViewerComponent } from './course-lesson-viewer/video-viewer/video-viewer.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { UserService } from './services/user.service';
+import { LoginComponent } from './login/login.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { UserService } from './services/user.service';
     CourseLessonViewerItemComponent,
     VideoViewerComponent,
     RegistrationComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
