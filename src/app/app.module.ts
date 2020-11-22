@@ -42,6 +42,8 @@ import { VideoViewerComponent } from './course-lesson-viewer/video-viewer/video-
 import { RegistrationComponent } from './registration/registration.component';
 import { UserService } from './services/user.service';
 import { LoginComponent } from './login/login.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { UserProfileMenuComponent } from './user-profile/user-profile-menu/user-profile-menu.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +77,8 @@ import { LoginComponent } from './login/login.component';
     VideoViewerComponent,
     RegistrationComponent,
     LoginComponent,
+    UserProfileComponent,
+    UserProfileMenuComponent,
   ],
   imports: [
     BrowserModule,

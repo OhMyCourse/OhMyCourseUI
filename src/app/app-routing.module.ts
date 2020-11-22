@@ -8,6 +8,7 @@ import { CoursePageComponent } from './course-page/course-page.component';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { RegistrationComponent } from './registration/registration.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   { path: 'constructor', component: ConstructorComponent, pathMatch: 'full' },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'course/enrollment/:id', component: CourseEnrollmentComponent },
   { path: 'user/register', component: RegistrationComponent },
   { path: 'user/login', component: LoginComponent },
+  { path: 'user/profile', component: UserProfileComponent },
   { path: '', component: MainComponent },
 ];
 

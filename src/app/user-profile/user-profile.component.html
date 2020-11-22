@@ -1,0 +1,87 @@
+<div class="container profile">
+    <div class="row">
+        <div class="profile-image-and-buttons col-3">
+            <div class="profile-image" [ngClass]="{
+                'profile-image-inner-center': editMode
+            }">
+                <img [src]="profile.imageSrc" width="200" height="200" *ngIf="!editMode">
+                <ng-container *ngIf="editMode">
+                    <img src="../../assets/pictures/image 10.png" *ngIf="editMode && !avatar.value" width="140"
+                        height="140" (click)="onImageUpload()">
+                    <input type="file" id="file" #file [hidden]="true" (change)="onFileAdded($event.target.files)"
+                        accept="image/*">
+                    <mat-spinner *ngIf="imageToUpload && !avatar.value" color="accent" diameter="80"></mat-spinner>
+                    <img [src]="avatar.value | safeHtml" *ngIf="imageToUpload && avatar.value" class="mt-2 mb-2"
+                        width="140" height="140" />
+                </ng-container>
+            </div>
+            <div class="buttons-menu ml-4 mt-4">
+                <app-user-profile-menu [items]="menuItems" *ngIf="!editMode">
+                </app-user-profile-menu>
+            </div>
+        </div>
+        <div class="profile-description" [ngClass]="{
+            'col-6': !editMode,
+            'col-9': editMode
+        }">
+            <form [formGroup]="form">
+                <div class="d-flex">
+                    <div class="name">
+                        {{profile.name}}
+                    </div>
+                    <div class="profile-edit-btn">
+                        <mat-icon (click)="onEditIconClick()" *ngIf="!editMode">edit</mat-icon>
+                        <mat-icon (click)="onEditIconClick()" *ngIf="editMode">save</mat-icon>
+                    </div>
+                </div>
+                <div class="d-flex flex-column add-info mt-4">
+                    <div class="email">
+                        Email:
+                        <ng-container *ngIf="!editMode">{{profile.email}}</ng-container>
+                        <ng-container *ngIf="editMode">
+                            <mat-form-field appearance="legacy" style="width: 80%;">
+                                <input matInput formControlName="emailControl">
+                            </mat-form-field>
+                        </ng-container>
+                    </div>
+                    <div class="birth">
+                        Date of birth:
+                        <ng-container *ngIf="!editMode">{{profile.dateOfBirth | date: 'dd/MM/yyyy'}}</ng-container>
+                        <ng-container *ngIf="editMode">
+                            <mat-form-field appearance="legacy">
+                                <input matInput [matDatepicker]="picker" formControlName="dateBirthControl">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </ng-container>
+                    </div>
+                    <div class="biography">
+                        Biography:
+                        <ng-container *ngIf="!editMode">
+                            <ng-container *ngIf="profile.biography">{{profile.biography}}</ng-container>
+                            <ng-container *ngIf="!profile.biography">no info</ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="editMode">
+                            <mat-form-field appearance="legacy" style="width: 80%;">
+                                <textarea matInput formControlName="biographyControl"></textarea>
+                            </mat-form-field>
+                        </ng-container>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="quantity-of-courses" *ngIf="!editMode">
+            <div class="header">
+                Quantity of courses:
+            </div>
+            <div class="body">
+                <div class="item">
+                    Joined: {{profile.courseJoined}}
+                </div>
+                <div class="item mt-2">
+                    Created: {{profile.courseCreated}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
