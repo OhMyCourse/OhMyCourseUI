@@ -6,7 +6,8 @@ export class UserProfile extends WithImage {
     public email: string,
     public dateOfBirth: Date,
     public courseCreated: number,
-    public courseJoined: number,
+    public courseStarted: number,
+    public courseCompleted: number,
     public biography?: string,
     public mediaId?: number
   ) {

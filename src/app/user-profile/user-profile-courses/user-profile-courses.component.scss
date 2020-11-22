@@ -70,3 +70,48 @@
         }
     }
 }
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
+    padding: 2px;
+    padding-bottom: 2px;
+}
+
+.course-item {
+    box-shadow: -1px 0px 4px rgba(0, 0, 0, 0.25), 2px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    padding: 10px;
+    display: flex;
+    margin: 20px 0 20px 40px;
+
+    .course-image {
+        border: 6px solid #feea89;
+        box-sizing: border-box;
+        border-radius: 15px;
+        margin-right: 20px;
+    }
+
+    .course-name {
+        color: #737373;
+        font-size: 20px;
+    }
+
+    .course-author {
+        color: #b3b3b3;
+        font-size: 20px;
+    }
+
+    .course-progress {
+        color: #b3b3b3;
+        font-size: 20px;
+    }
+}
+
+.course-items-header {
+    color: #808080;
+    font-size: 24px;
+}
+
+::ng-deep .mat-raised-button {
+    border-radius: 50px !important;
+    color: #ffffff !important;
+}

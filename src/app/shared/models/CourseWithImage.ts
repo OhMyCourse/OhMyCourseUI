@@ -6,7 +6,9 @@ export class CourseWithImage extends WithImage {
     public name: string,
     public description: string,
     public mediaId: number,
-    public lessonCount: number
+    public lessonCount: number,
+    public createdBy?: string,
+    public lessonFinished?: number
   ) {
     super();
   }
