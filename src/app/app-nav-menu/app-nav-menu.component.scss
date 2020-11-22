@@ -1,7 +1,7 @@
 $bgDefault: #feea89;
-$bgHighlight: #fce365;
+$bgHighlight: #feea89;
 $colDefault: #ecf0f1;
-$colHighlight: #ffbbbc;
+$colHighlight: #ffffff;
 .navbar {
     background-color: $bgDefault !important;
     border-color: $bgHighlight !important;
@@ -79,6 +79,30 @@ $colHighlight: #ffbbbc;
                 color: $colHighlight !important;
                 background-color: $bgHighlight !important;
             }
+        }
+    }
+}
+
+.menu-item {
+    font-size: 24px;
+    text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.25);
+}
+
+.menu-item-in-active {
+    border-top: 3px solid #ffffff;
+}
+
+.menu-item-active {
+    border-top: 7px solid #ffd300;
+}
+
+.icon {
+    font-size: 36px;
+    mat-icon {
+        color: #ffffff;
+
+        &:hover {
+            cursor: pointer;
         }
     }
 }

@@ -7,17 +7,35 @@
         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
+    <div class="collapse navbar-collapse ml-2" id="navbarNav">
         <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/">Main</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" routerLink="/constructor">Create</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="course/all">Join</a>
+            <li class="nav-item" *ngFor="let item of items" [ngClass]="{
+                'active': item.isActive,
+                'menu-item-active': item.isActive,
+                'menu-item-in-active': !item.isActive
+            }">
+                <a class="nav-link menu-item" routerLink="{{item.path}}" (click)="setItemActive(item)">
+                    {{item.name}}
+                </a>
             </li>
         </ul>
+
+        <div class="ml-auto mr-3">
+            <div class="icon" *ngIf="isLogin">
+                <mat-icon [inline]="true">exit_to_app</mat-icon>
+            </div>
+            <div *ngIf="!isLogin">
+                <ul class="navbar-nav">
+                    <li class="nav-item" *ngFor="let item of loginitems" [ngClass]="{
+                    'active': item.isActive,
+                    'menu-item-active': item.isActive,
+                    'menu-item-in-active': !item.isActive
+                }">
+                        <a class="nav-link menu-item" routerLink="{{item.path}}" (click)="setItemActive(item)">
+                            {{item.name}}
+                        </a>
+                </ul>
+            </div>
+        </div>
     </div>
 </nav>
