@@ -13,7 +13,6 @@ export class VideoViewerComponent implements OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    console.log(this.videoBlock.value);
     const reader = new FileReader();
     of(this.videoBlock.value)
       .pipe(delay(500))

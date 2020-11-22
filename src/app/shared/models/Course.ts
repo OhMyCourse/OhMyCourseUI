@@ -16,7 +16,9 @@ export class CourseLesson {
   constructor(
     public id: number,
     public title: string,
-    public materials: CourseLessonMaterial[]
+    public materials: CourseLessonMaterial[],
+    public description: string,
+    public finished: boolean
   ) {
     this.materials = [];
   }

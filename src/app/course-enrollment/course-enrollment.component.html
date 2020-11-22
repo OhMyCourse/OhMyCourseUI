@@ -2,7 +2,7 @@
     <mat-spinner color="accent"></mat-spinner>
 </div>
 
-<div class="course-info" *ngIf="course && !lessonsView">
+<div class="course-info" *ngIf="course">
     <div class="row">
         <div class="col-3">
             <img [src]="course.imageSrc" class="image">
@@ -10,7 +10,7 @@
         <div class="col-6 d-flex flex-column justify-content-end">
             <p class="name"> {{ course.name }}</p>
             <div class="enroll-btn">
-                <button mat-raised-button class="accent">Enroll the course</button>
+                <button mat-raised-button class="accent" (click)="onCourseEnrollment()">Enroll the course</button>
             </div>
         </div>
         <div class="col-3">
@@ -21,11 +21,6 @@
                 <div class="text">
                     - {{ course.lessonCount }} lessons
                 </div>
-                <div class="view-courses">
-                    <button mat-flat-button color="accent" (click)="lessonsView = true" *ngIf="course.lessonCount > 0">
-                        Click to overview all lessons
-                    </button>
-                </div>
             </div>
         </div>
     </div>
@@ -35,8 +30,4 @@
             {{ course.description }}
         </p>
     </div>
-</div>
-
-<div *ngIf="lessonsView">
-    <app-course-lesson-viewer [course]="course" (onBackToEnrollment)="lessonsView = false"></app-course-lesson-viewer>
 </div>

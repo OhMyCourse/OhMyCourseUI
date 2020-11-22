@@ -46,6 +46,7 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { UserProfileMenuComponent } from './user-profile/user-profile-menu/user-profile-menu.component';
 import { UserProfileViewComponent } from './user-profile/user-profile-view/user-profile-view.component';
 import { UserProfileCoursesComponent } from './user-profile/user-profile-courses/user-profile-courses.component';
+import { ImageViewerComponent } from './course-lesson-viewer/image-viewer/image-viewer.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { UserProfileCoursesComponent } from './user-profile/user-profile-courses
     UserProfileMenuComponent,
     UserProfileViewComponent,
     UserProfileCoursesComponent,
+    ImageViewerComponent,
   ],
   imports: [
     BrowserModule,

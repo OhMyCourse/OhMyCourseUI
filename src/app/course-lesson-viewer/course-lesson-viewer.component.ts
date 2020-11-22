@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { from } from 'rxjs';
 import { CourseService } from '../services/course.service';
 import {
@@ -24,20 +25,39 @@ import { VideoBlock } from '../shared/models/VideoBlock';
   styleUrls: ['./course-lesson-viewer.component.scss'],
 })
 export class CourseLessonViewerComponent implements OnInit {
-  @Input() course: Course;
-  @Output() onBackToEnrollment = new EventEmitter();
   lessonToView: Lesson;
+  course: Course;
+  public imageSrc?: string;
 
   constructor(
     private lessonService: LessonService,
     private mediaService: MediaService,
-    private coursService: CourseService
+    private coursService: CourseService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.coursService.getCourseById(this.course.id).subscribe((course) => {
-      this.course = course;
-    });
+    this.coursService
+      .getCourseById(Number.parseInt(this.activatedRoute.snapshot.params['id']))
+      .subscribe((course) => {
+        this.course = course;
+        this.course.mediaId = course.media.id;
+        this.mediaService
+          .getMediaById(this.course.mediaId)
+          .subscribe((result) => this.loadImage(result));
+      });
+  }
+
+  private loadImage(image: Blob) {
+    let reader = new FileReader();
+    reader.onload = (event) => {
+      this.imageSrc = (event.target as FileReader).result as string;
+    };
+    reader.readAsDataURL(image);
+  }
+
+  onLessonView(lesson: Lesson) {
+    this.loadLessonDetails(lesson.id);
   }
 
   loadLessonDetails(lessonId: number) {
@@ -51,7 +71,6 @@ export class CourseLessonViewerComponent implements OnInit {
           this.lessonService
             .getLessonMaterial(material.id)
             .subscribe((material) => {
-              console.log(material);
               this.lessonToView.blocks.push(
                 this.getBlockByMaterialResponse(material)
               );
@@ -116,5 +135,9 @@ export class CourseLessonViewerComponent implements OnInit {
     } else {
       return TestType.Checkbox;
     }
+  }
+
+  onGoBackByAnchor() {
+    this.lessonToView = undefined;
   }
 }
