@@ -1,4 +1,4 @@
-<div class="container profile">
+<div class="container profile" *ngIf="profile">
     <div class="row">
         <div class="profile-image-and-buttons col-3">
             <div class="profile-image">
@@ -22,11 +22,11 @@
                     </mat-form-field>
                 </div>
                 <div class="started">
-                    <div class="course-items-header">
+                    <div class="course-items-header" *ngIf="started.length">
                         Started:
                     </div>
                     <div class="courses">
-                        <div class="course-item" *ngFor="let course of started">
+                        <div class="course-item" *ngFor="let course of started" (click)="onCourseItemClick(course.id)">
                             <div class="course-image">
                                 <img [src]="course.imageSrc" height="100" width="100">
                             </div>
@@ -44,12 +44,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="created">
+                <div class="created" *ngIf="created.length">
                     <div class="course-items-header">
                         Created:
                     </div>
                     <div class="courses">
-                        <div class="course-item" *ngFor="let course of created">
+                        <div class="course-item" *ngFor="let course of created" (click)="onCourseItemClick(course.id)">
                             <div class="course-image">
                                 <img [src]="course.imageSrc" height="100" width="100">
                             </div>
@@ -70,12 +70,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="completed">
+                <div class="completed" *ngIf="completed.length">
                     <div class="course-items-header">
                         Completed:
                     </div>
                     <div class="courses">
-                        <div class="course-item" *ngFor="let course of joined">
+                        <div class="course-item" *ngFor="let course of completed"
+                            (click)="onCourseItemClick(course.id)">
                             <div class="course-image">
                                 <img [src]="course.imageSrc" height="100" width="100">
                             </div>

@@ -13,7 +13,7 @@
                 'active': item.isActive,
                 'menu-item-active': item.isActive,
                 'menu-item-in-active': !item.isActive
-            }">
+            }" [hidden]="!isLogin && item.onlyAuth">
                 <a class="nav-link menu-item" routerLink="{{item.path}}" (click)="setItemActive(item)">
                     {{item.name}}
                 </a>
@@ -21,7 +21,7 @@
         </ul>
 
         <div class="ml-auto mr-3">
-            <div class="icon" *ngIf="isLogin">
+            <div class="icon" *ngIf="isLogin" (click)="logout()">
                 <mat-icon [inline]="true">exit_to_app</mat-icon>
             </div>
             <div *ngIf="!isLogin">
@@ -30,7 +30,7 @@
                     'active': item.isActive,
                     'menu-item-active': item.isActive,
                     'menu-item-in-active': !item.isActive
-                }">
+                }" [hidden]="!isLogin && item.onlyAuth">
                         <a class="nav-link menu-item" routerLink="{{item.path}}" (click)="setItemActive(item)">
                             {{item.name}}
                         </a>

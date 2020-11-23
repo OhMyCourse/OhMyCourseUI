@@ -6,21 +6,28 @@
                 <div class="w-100">
                     <mat-form-field appearance="standard">
                         <mat-label class="ml-4">Your name</mat-label>
-                        <input matInput>
+                        <input matInput formControlName="nameControl">
                         <mat-icon matPrefix class="ml-1 pr-2">account_box_outline</mat-icon>
                     </mat-form-field>
                 </div>
                 <div class="w-100">
                     <mat-form-field appearance="standard">
+                        <mat-label class="ml-4">Your surname</mat-label>
+                        <input matInput formControlName="surnameControl">
+                        <mat-icon matPrefix class="ml-1 pr-2">account_circle_outline</mat-icon>
+                    </mat-form-field>
+                </div>
+                <div class="w-100">
+                    <mat-form-field appearance="standard">
                         <mat-label class="ml-4">Your email</mat-label>
-                        <input matInput>
+                        <input matInput formControlName="emailControl">
                         <mat-icon matPrefix class="ml-1">email</mat-icon>
                     </mat-form-field>
                 </div>
                 <div class="w-100">
                     <mat-form-field appearance="standard">
                         <mat-label class="ml-4">Choose a date</mat-label>
-                        <input matInput [matDatepicker]="picker">
+                        <input matInput [matDatepicker]="picker" formControlName="dateControl">
                         <mat-datepicker-toggle matPrefix [for]="picker">
                             <mat-icon matDatepickerToggleIcon class="ml-1">date_range</mat-icon>
                         </mat-datepicker-toggle>
@@ -30,14 +37,14 @@
                 <div class="w-100">
                     <mat-form-field appearance="standard">
                         <mat-label class="ml-4">Password</mat-label>
-                        <input matInput>
+                        <input matInput type="password" formControlName="passwordControl">
                         <mat-icon matPrefix class="ml-1">lock</mat-icon>
                     </mat-form-field>
                 </div>
                 <div class="w-100">
                     <mat-form-field appearance="standard">
                         <mat-label class="ml-4">Repeat password</mat-label>
-                        <input matInput>
+                        <input matInput type="password" formControlName="passwordReapeatControl">
                         <mat-icon matPrefix class="ml-1">lock_outline</mat-icon>
                     </mat-form-field>
                 </div>

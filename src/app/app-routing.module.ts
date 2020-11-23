@@ -11,18 +11,51 @@ import { MainComponent } from './main/main.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { UserProfileCoursesComponent } from './user-profile/user-profile-courses/user-profile-courses.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { AuthorizeGuard } from './shared/guards/AuthorizeGuard';
 
 const routes: Routes = [
-  { path: 'constructor', component: ConstructorComponent, pathMatch: 'full' },
-  { path: 'course/edit/:id', component: CoursePageComponent },
-  { path: 'course/create', component: CourseCreateComponent },
-  { path: 'course/all', component: CourseListComponent },
-  { path: 'course/enrollment/:id', component: CourseEnrollmentComponent },
+  {
+    path: 'constructor',
+    component: ConstructorComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
+    path: 'course/edit/:id',
+    component: CoursePageComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
+    path: 'course/create',
+    component: CourseCreateComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
+    path: 'course/all',
+    component: CourseListComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
+    path: 'course/enrollment/:id',
+    component: CourseEnrollmentComponent,
+    canActivate: [AuthorizeGuard],
+  },
   { path: 'user/register', component: RegistrationComponent },
   { path: 'user/login', component: LoginComponent },
-  { path: 'user/profile', component: UserProfileComponent },
-  { path: 'user/courses', component: UserProfileCoursesComponent },
-  { path: 'course/view/:id', component: CourseLessonViewerComponent },
+  {
+    path: 'user/profile',
+    component: UserProfileComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
+    path: 'user/courses',
+    component: UserProfileCoursesComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
+    path: 'course/view/:id',
+    component: CourseLessonViewerComponent,
+    canActivate: [AuthorizeGuard],
+  },
   { path: '', component: MainComponent },
 ];
 

@@ -1,4 +1,4 @@
-<div class="container profile">
+<div class="container profile" *ngIf="profile">
     <div class="row">
         <div class="profile-image-and-buttons col-3">
             <div class="profile-image" [ngClass]="{
@@ -31,7 +31,7 @@
                     </div>
                     <div class="profile-edit-btn">
                         <mat-icon (click)="onEditIconClick()" *ngIf="!editMode">edit</mat-icon>
-                        <mat-icon (click)="onEditIconClick()" *ngIf="editMode">save</mat-icon>
+                        <mat-icon (click)="onSaveIconClick()" *ngIf="editMode">save</mat-icon>
                     </div>
                 </div>
                 <div class="d-flex flex-column add-info mt-4">
@@ -46,7 +46,7 @@
                     </div>
                     <div class="birth">
                         Date of birth:
-                        <ng-container *ngIf="!editMode">{{profile.dateOfBirth | date: 'dd/MM/yyyy'}}</ng-container>
+                        <ng-container *ngIf="!editMode">{{profile.birthday | date: 'dd/MM/yyyy'}}</ng-container>
                         <ng-container *ngIf="editMode">
                             <mat-form-field appearance="legacy">
                                 <input matInput [matDatepicker]="picker" formControlName="dateBirthControl">

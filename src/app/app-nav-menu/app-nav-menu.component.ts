@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
+import { UserService } from '../services/user.service';
 import { MenuItem } from './MenuItem';
 
 @Component({
@@ -9,19 +10,19 @@ import { MenuItem } from './MenuItem';
 })
 export class AppNavMenuComponent implements OnInit {
   items: MenuItem[] = [
-    new MenuItem('Home', true, ''),
-    new MenuItem('Catalog', false, 'course/all'),
-    new MenuItem('Create', false, 'course/create'),
-    new MenuItem('My courses', false, 'user/courses'),
-    new MenuItem('Profile', false, 'user/profile'),
+    new MenuItem('Home', true, '', false),
+    new MenuItem('Catalog', false, 'course/all', false),
+    new MenuItem('Create', false, 'course/create', true),
+    new MenuItem('My courses', false, 'user/courses', true),
+    new MenuItem('Profile', false, 'user/profile', true),
   ];
 
   loginitems: MenuItem[] = [
-    new MenuItem('Log in', false, 'user/login'),
-    new MenuItem('Register', false, 'user/register'),
+    new MenuItem('Log in', false, 'user/login', false),
+    new MenuItem('Register', false, 'user/register', false),
   ];
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, public userService: UserService) {}
 
   ngOnInit(): void {
     this.router.events.subscribe((value) => {
@@ -29,6 +30,8 @@ export class AppNavMenuComponent implements OnInit {
         this.setItemActiveByName(value.url);
       }
     });
+
+    console.log(this.items);
   }
 
   setItemActive(item: MenuItem) {
@@ -66,5 +69,13 @@ export class AppNavMenuComponent implements OnInit {
     }
   }
 
-  isLogin = false;
+  get isLogin() {
+    return this.userService.isAuthenticated;
+  }
+
+  logout() {
+    this.userService.logout();
+
+    window.location.reload();
+  }
 }

@@ -25,7 +25,7 @@ import { QuestionFormComponent } from './shared/components/test-block/question-f
 import { TestFormComponent } from './shared/components/test-block/test-form/test-form.component';
 import { CoursePageComponent } from './course-page/course-page.component';
 import { LessonFormComponent } from './lesson-form/lesson-form.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MainComponent } from './main/main.component';
 import { LessonService } from './services/lesson.service';
 import { CourseService } from './services/course.service';
@@ -47,6 +47,7 @@ import { UserProfileMenuComponent } from './user-profile/user-profile-menu/user-
 import { UserProfileViewComponent } from './user-profile/user-profile-view/user-profile-view.component';
 import { UserProfileCoursesComponent } from './user-profile/user-profile-courses/user-profile-courses.component';
 import { ImageViewerComponent } from './course-lesson-viewer/image-viewer/image-viewer.component';
+import { AuthInterceptor } from './shared/interceptor/AuthInterceptor';
 
 @NgModule({
   declarations: [
@@ -103,6 +104,11 @@ import { ImageViewerComponent } from './course-lesson-viewer/image-viewer/image-
     LessonService,
     MediaService,
     UserService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })

@@ -17,8 +17,7 @@ export class CourseLesson {
     public id: number,
     public title: string,
     public materials: CourseLessonMaterial[],
-    public description: string,
-    public finished: boolean
+    public description: string
   ) {
     this.materials = [];
   }

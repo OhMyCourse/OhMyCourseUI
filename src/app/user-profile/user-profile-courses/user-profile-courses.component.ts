@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { from } from 'rxjs';
 import { CourseService } from 'src/app/services/course.service';
 import { MediaService } from 'src/app/services/media.service';
+import { UserService } from 'src/app/services/user.service';
 import { Course } from 'src/app/shared/models/Course';
 import { CourseWithImage } from 'src/app/shared/models/CourseWithImage';
 import { ProfileMenuItem } from 'src/app/shared/models/ProfileMenuItem';
@@ -11,6 +13,7 @@ import { UserProfile } from 'src/app/shared/models/UserProfile';
   selector: 'app-user-profile-courses',
   templateUrl: './user-profile-courses.component.html',
   styleUrls: ['./user-profile-courses.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class UserProfileCoursesComponent implements OnInit {
   menuItems: ProfileMenuItem[] = [
@@ -19,42 +22,74 @@ export class UserProfileCoursesComponent implements OnInit {
     new ProfileMenuItem('Certificates', false, '/user/certificates'),
   ];
 
-  profile = new UserProfile(
-    'Vasya Pupkin',
-    'vasya.pupkin@gmail.com',
-    new Date('01/01/2021'),
-    1,
-    2,
-    3,
-    null,
-    281
-  );
+  profile: UserProfile;
 
-  started: CourseWithImage[] = [
-    new CourseWithImage(1, 'Test', 'Test', 281, 5, 'Vasya pup', 2),
-    new CourseWithImage(1, 'Test', 'Test', 281, 5, 'Vasya pup', 3),
-  ];
-  created: CourseWithImage[] = [
-    new CourseWithImage(186, 'Test', 'Test', 281, 5, 'Vasya pup', 2),
-  ];
-  joined: CourseWithImage[] = [
-    new CourseWithImage(1, 'Test', 'Test', 281, 5, 'Vasya pup', 2),
-    new CourseWithImage(1, 'Test', 'Test', 281, 5, 'Vasya pup', 3),
-  ];
+  started: CourseWithImage[] = [];
+  created: CourseWithImage[] = [];
+  completed: CourseWithImage[] = [];
 
-  all = [...this.started, ...this.created, ...this.joined];
+  all = [...this.started, ...this.created, ...this.completed];
 
   constructor(
     private mediaService: MediaService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    public router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.mediaService.getMediaById(this.profile.mediaId).subscribe((image) => {
-      this.profile.loadImage(image);
-    });
+    this.userService.getProfile().subscribe((profile) => {
+      this.profile = profile;
 
-    this.reloadCourses();
+      this.mediaService
+        .getMediaById(this.profile.mediaId)
+        .subscribe((image) => {
+          this.profile.loadImage(image);
+        });
+      this.userService.getCourses(this.profile.id).subscribe((courses) => {
+        this.created = courses
+          .filter((c) => c.status === 'created')
+          .map(
+            (c) =>
+              new CourseWithImage(
+                c.courseId,
+                c.course.name,
+                c.course.description,
+                c.course.mediaId,
+                0
+              )
+          );
+        this.started = courses
+          .filter((c) => c.status === 'started')
+          .map(
+            (c) =>
+              new CourseWithImage(
+                c.courseId,
+                c.course.name,
+                c.course.description,
+                c.course.mediaId,
+                0
+              )
+          );
+        this.completed = courses
+          .filter((c) => c.status === 'completed')
+          .map(
+            (c) =>
+              new CourseWithImage(
+                c.courseId,
+                c.course.name,
+                c.course.description,
+                c.course.mediaId,
+                0
+              )
+          );
+
+        this.profile.courseCreated = this.created.length;
+        this.profile.courseCompleted = this.completed.length;
+        this.profile.courseStarted = this.started.length;
+        this.reloadCourses();
+      });
+    });
   }
 
   onCourseDelete(id: number) {
@@ -64,10 +99,16 @@ export class UserProfileCoursesComponent implements OnInit {
   }
 
   reloadCourses() {
-    from(this.all).subscribe((val) => {
-      this.mediaService
-        .getMediaById(val.mediaId)
-        .subscribe((result) => val.loadImage(result));
-    });
+    from([...this.started, ...this.completed, ...this.created]).subscribe(
+      (val) => {
+        this.mediaService
+          .getMediaById(val.mediaId)
+          .subscribe((result) => val.loadImage(result));
+      }
+    );
+  }
+
+  onCourseItemClick(courseId: number) {
+    this.router.navigateByUrl('course/view/' + courseId);
   }
 }
