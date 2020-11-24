@@ -3,7 +3,11 @@
         <img [src]="imageSrc" class="image">
         <div class="d-flex flex-column ml-5 justify-content-around">
             <div class="header">{{course.name}}</div>
-            <button mat-raised-button color="warn">Leave the course</button>
+            <button mat-raised-button color="warn" (click)="leaveCourse()"
+                *ngIf="!isCourseFinished && !courseAlreadyFinished">Leave the
+                course</button>
+            <button mat-raised-button color="accent" (click)="finishCourse()" *ngIf="isCourseFinished">Finish the
+                course</button>
         </div>
     </div>
     <div class="lessons" *ngIf="!lessonToView">
@@ -17,8 +21,8 @@
                 </div>
             </div>
             <div class="ml-auto mt-auto mb-auto">
-                <img src="../../assets/pictures/Ellipse 2.png" *ngIf="!lesson.finished">
-                <img src="../../assets/pictures/image 4.png" *ngIf="lesson.finished">
+                <img src="../../assets/pictures/Ellipse 2.png" *ngIf="!isLessonFinished(lesson.id)">
+                <img src="../../assets/pictures/image 4.png" *ngIf="isLessonFinished(lesson.id)">
             </div>
         </div>
     </div>
@@ -26,7 +30,7 @@
 
     <div class="lesson-viewer" *ngIf="lessonToView">
         <app-course-lesson-viewer-item [lesson]="lessonToView" [courseId]="course.id" [courseName]="course.name"
-            (onGoBackByAnchor)="onGoBackByAnchor()">
+            (onGoBackByAnchor)="onGoBackByAnchor()" [courseAlreadyFinished]="courseAlreadyFinished">
         </app-course-lesson-viewer-item>
     </div>
 </div>

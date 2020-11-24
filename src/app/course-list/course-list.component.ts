@@ -4,6 +4,7 @@ import { from } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { CourseService } from '../services/course.service';
 import { MediaService } from '../services/media.service';
+import { UserService } from '../services/user.service';
 import { CourseCategory, EnumObj } from '../shared/models/CourseCategory';
 import { CourseWithImage } from '../shared/models/CourseWithImage';
 
@@ -19,7 +20,8 @@ export class CourseListComponent implements OnInit {
 
   constructor(
     private courseService: CourseService,
-    private mediaService: MediaService
+    private mediaService: MediaService,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -42,7 +44,11 @@ export class CourseListComponent implements OnInit {
             )
         ),
         tap((data) => {
-          this.courses.push(data);
+          if (
+            !this.userService.user.value.notShowingCourses.includes(data.id)
+          ) {
+            this.courses.push(data);
+          }
         })
       )
       .subscribe((course) => {

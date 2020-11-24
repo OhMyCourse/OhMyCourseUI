@@ -131,7 +131,7 @@ export class UserProfileComponent implements OnInit {
           (c) => c.status === 'started'
         ).length;
         this.profile.courseCompleted = courses.filter(
-          (c) => c.status === 'completed'
+          (c) => c.status === 'finished'
         ).length;
       });
     });

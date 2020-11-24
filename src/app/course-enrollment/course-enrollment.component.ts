@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { map, tap } from 'rxjs/operators';
 import { CourseService } from '../services/course.service';
 import { MediaService } from '../services/media.service';
+import { UserService } from '../services/user.service';
 import { CourseWithImage } from '../shared/models/CourseWithImage';
 
 @Component({
@@ -19,7 +20,8 @@ export class CourseEnrollmentComponent implements OnInit {
     private courseService: CourseService,
     private mediaService: MediaService,
     private activedRoute: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
@@ -27,8 +29,11 @@ export class CourseEnrollmentComponent implements OnInit {
   }
 
   onCourseEnrollment() {
-    // user enrolls the course
-    this.router.navigateByUrl('/course/view/' + this.course.id);
+    this.userService
+      .enrollCourse(this.course.id, this.userService.user.value.id)
+      .subscribe(() => {
+        this.router.navigateByUrl('/course/view/' + this.course.id);
+      });
   }
 
   private loadCourse(id: number) {

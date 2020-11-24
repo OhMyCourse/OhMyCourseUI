@@ -3,8 +3,8 @@ import { Router } from '@angular/router';
 import { from } from 'rxjs';
 import { CourseService } from 'src/app/services/course.service';
 import { MediaService } from 'src/app/services/media.service';
-import { UserService } from 'src/app/services/user.service';
-import { Course } from 'src/app/shared/models/Course';
+import { UserCourseItem, UserService } from 'src/app/services/user.service';
+import { Course, CourseLesson } from 'src/app/shared/models/Course';
 import { CourseWithImage } from 'src/app/shared/models/CourseWithImage';
 import { ProfileMenuItem } from 'src/app/shared/models/ProfileMenuItem';
 import { UserProfile } from 'src/app/shared/models/UserProfile';
@@ -13,7 +13,6 @@ import { UserProfile } from 'src/app/shared/models/UserProfile';
   selector: 'app-user-profile-courses',
   templateUrl: './user-profile-courses.component.html',
   styleUrls: ['./user-profile-courses.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class UserProfileCoursesComponent implements OnInit {
   menuItems: ProfileMenuItem[] = [
@@ -47,42 +46,9 @@ export class UserProfileCoursesComponent implements OnInit {
           this.profile.loadImage(image);
         });
       this.userService.getCourses(this.profile.id).subscribe((courses) => {
-        this.created = courses
-          .filter((c) => c.status === 'created')
-          .map(
-            (c) =>
-              new CourseWithImage(
-                c.courseId,
-                c.course.name,
-                c.course.description,
-                c.course.mediaId,
-                0
-              )
-          );
-        this.started = courses
-          .filter((c) => c.status === 'started')
-          .map(
-            (c) =>
-              new CourseWithImage(
-                c.courseId,
-                c.course.name,
-                c.course.description,
-                c.course.mediaId,
-                0
-              )
-          );
-        this.completed = courses
-          .filter((c) => c.status === 'completed')
-          .map(
-            (c) =>
-              new CourseWithImage(
-                c.courseId,
-                c.course.name,
-                c.course.description,
-                c.course.mediaId,
-                0
-              )
-          );
+        this.created = this.getCoursesByType(courses, 'created');
+        this.started = this.getCoursesByType(courses, 'started');
+        this.completed = this.getCoursesByType(courses, 'finished');
 
         this.profile.courseCreated = this.created.length;
         this.profile.courseCompleted = this.completed.length;
@@ -90,6 +56,26 @@ export class UserProfileCoursesComponent implements OnInit {
         this.reloadCourses();
       });
     });
+  }
+
+  private getCoursesByType(
+    courses: UserCourseItem[],
+    type: 'started' | 'finished' | 'created'
+  ) {
+    return courses
+      .filter((c) => c.status === type)
+      .map(
+        (c) =>
+          new CourseWithImage(
+            c.courseId,
+            c.course.name,
+            c.course.description,
+            c.course.mediaId,
+            c.course.lessons ? c.course.lessons.length : 0,
+            '',
+            c.course.lessons
+          )
+      );
   }
 
   onCourseDelete(id: number) {
@@ -110,5 +96,15 @@ export class UserProfileCoursesComponent implements OnInit {
 
   onCourseItemClick(courseId: number) {
     this.router.navigateByUrl('course/view/' + courseId);
+  }
+
+  getFinishedLessonsCount(lessons: CourseLesson[]) {
+    if (!lessons) {
+      return;
+    }
+    const ids = lessons.map((l) => l.id);
+    return this.userService.user.value.passedLessons.filter((l) =>
+      ids.includes(l)
+    ).length;
   }
 }

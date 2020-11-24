@@ -11,10 +11,16 @@ import { Course } from '../shared/models/Course';
   providedIn: 'root',
 })
 export class UserService {
+  public user: BehaviorSubject<User | null> = new BehaviorSubject(null);
+
   constructor(
     private http: HttpClient,
     @Inject('BASE_URL') private baseUrl: string
-  ) {}
+  ) {
+    if (this.isAuthenticated) {
+      this.reloadUserValue();
+    }
+  }
 
   get isAuthenticated() {
     return localStorage.getItem('token') !== null;
@@ -67,6 +73,30 @@ export class UserService {
     );
   }
 
+  enrollCourse(courseId: number, userId: number) {
+    const url = `${this.baseUrl}/course/${courseId}/user/${userId}/join`;
+
+    return this.http.post(url, null);
+  }
+
+  leaveCourese(courseId: number, userId: number) {
+    const url = `${this.baseUrl}/course/${courseId}/user/${userId}/quit`;
+
+    return this.http.post(url, null);
+  }
+
+  finishLesson(lessonId: number, userId: number) {
+    const url = `${this.baseUrl}/user/${userId}/lesson/${lessonId}/finish`;
+
+    return this.http.post(url, null);
+  }
+
+  finishCourse(courseId: number, userId: number) {
+    const url = `${this.baseUrl}/course/${courseId}/user/${userId}/complete`;
+
+    return this.http.post(url, null);
+  }
+
   getCourses(id: number): Observable<UserCourseItem[]> {
     const url = `${this.baseUrl}/user/courses?userId=${id}`;
 
@@ -79,6 +109,28 @@ export class UserService {
 
   private saveToken(token: string) {
     localStorage.setItem('token', token);
+  }
+
+  reloadUserValue() {
+    this.getProfile().subscribe((p) => {
+      this.getCourses(p.id).subscribe((c) => {
+        let allLessons: number[] = [];
+        c.map((c) => c.passedLessons.map((r) => r.id)).forEach((l) =>
+          allLessons.push(...l)
+        );
+        let notShowingCourses = c
+          .filter((c) => c.status !== 'created')
+          .map((c) => c.courseId);
+
+        this.user.next({
+          id: p.id,
+          email: p.email,
+          name: p.name,
+          passedLessons: allLessons,
+          notShowingCourses: notShowingCourses,
+        });
+      });
+    });
   }
 }
 
@@ -105,9 +157,17 @@ export interface UpdateProfileRequest {
 }
 
 export interface UserCourseItem {
-  status: 'started' | 'created' | 'completed';
+  status: 'started' | 'created' | 'finished';
   score: number;
   courseId: number;
   passedLessons: CourseLessonResponse[];
   course: Course;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  email: string;
+  notShowingCourses: number[];
+  passedLessons: number[];
 }
