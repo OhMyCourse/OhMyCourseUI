@@ -1,6 +1,14 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { from } from 'rxjs';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewEncapsulation,
+} from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { from, of } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { CourseService } from '../services/course.service';
 import {
   LessonMaterialResponse,
@@ -8,6 +16,7 @@ import {
   LessonService,
 } from '../services/lesson.service';
 import { MediaService } from '../services/media.service';
+import { UserService } from '../services/user.service';
 import { AudioBlock } from '../shared/models/AudioBlock';
 import { Block } from '../shared/models/Block';
 import { Course } from '../shared/models/Course';
@@ -33,19 +42,13 @@ export class CourseLessonViewerComponent implements OnInit {
     private lessonService: LessonService,
     private mediaService: MediaService,
     private coursService: CourseService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
-    this.coursService
-      .getCourseById(Number.parseInt(this.activatedRoute.snapshot.params['id']))
-      .subscribe((course) => {
-        this.course = course;
-        this.course.mediaId = course.media.id;
-        this.mediaService
-          .getMediaById(this.course.mediaId)
-          .subscribe((result) => this.loadImage(result));
-      });
+    this.realoadLessons();
   }
 
   private loadImage(image: Blob) {
@@ -65,6 +68,7 @@ export class CourseLessonViewerComponent implements OnInit {
       this.lessonToView = new Lesson();
       this.lessonToView.name = data.title;
       this.lessonToView.desciption = data.description;
+      this.lessonToView.id = data.id;
 
       if (data.materials) {
         from(data.materials).subscribe((material) => {
@@ -139,5 +143,42 @@ export class CourseLessonViewerComponent implements OnInit {
 
   onGoBackByAnchor() {
     this.lessonToView = undefined;
+  }
+
+  leaveCourse() {
+    this.userService
+      .leaveCourese(this.course.id, this.userService.user.value.id)
+      .subscribe(() => this.router.navigateByUrl('/user/courses'));
+  }
+
+  isLessonFinished(lessonId: number) {
+    return this.userService.user.value.passedLessons.includes(lessonId);
+  }
+
+  get isCourseFinished() {
+    let sorted = this.course.lessons.map((l) => l.id).sort((n1, n2) => n1 - n2);
+    let sorted2 = this.userService.user.value.passedLessons.sort(
+      (n1, n2) => n1 - n2
+    );
+
+    return sorted.every((val, index) => val === sorted2[index]);
+  }
+
+  finishCourse() {
+    this.userService
+      .finishCourse(this.course.id, this.userService.user.value.id)
+      .subscribe(() => this.router.navigateByUrl('/user/courses'));
+  }
+
+  private realoadLessons() {
+    this.coursService
+      .getCourseById(Number.parseInt(this.activatedRoute.snapshot.params['id']))
+      .subscribe((course) => {
+        this.course = course;
+        this.course.mediaId = course.media.id;
+        this.mediaService
+          .getMediaById(this.course.mediaId)
+          .subscribe((result) => this.loadImage(result));
+      });
   }
 }

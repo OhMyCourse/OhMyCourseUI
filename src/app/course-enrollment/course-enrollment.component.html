@@ -10,7 +10,8 @@
         <div class="col-6 d-flex flex-column justify-content-end">
             <p class="name"> {{ course.name }}</p>
             <div class="enroll-btn">
-                <button mat-raised-button class="accent" (click)="onCourseEnrollment()">Enroll the course</button>
+                <button mat-raised-button class="accent" (click)="onCourseEnrollment()"
+                    [disabled]="buttonDisabled">Enroll the course</button>
             </div>
         </div>
         <div class="col-3">

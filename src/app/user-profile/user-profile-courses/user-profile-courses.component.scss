@@ -69,11 +69,45 @@
             }
         }
     }
-}
 
-::ng-deep .mat-form-field-appearance-outline .mat-form-field-infix {
-    padding: 2px;
-    padding-bottom: 2px;
+    ::ng-deep .mat-form-field-flex > .mat-form-field-infix {
+        padding: 0.4em 0px !important;
+    }
+
+    ::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+        box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25), 0px 2px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+    }
+
+    ::ng-deep .mat-form-field-label-wrapper {
+        top: -1.5em;
+    }
+
+    ::ng-deep
+        .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float
+        .mat-form-field-label {
+        transform: translateY(-1.1em) scale(0.75);
+        width: 133.33333%;
+    }
+
+    ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+        box-shadow: 0px -2px 4px rgba(0, 0, 0, 0.25), 0px 2px 4px rgba(0, 0, 0, 0.25);
+        border-radius: 10px;
+        background: #ffffff;
+    }
+
+    ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+        padding: 0.25em 0.75em 0 0.75em !important;
+    }
+
+    ::ng-deep .mat-select {
+        height: auto;
+    }
+
+    .course-items-header {
+        color: #808080;
+        font-size: 24px;
+    }
 }
 
 .course-item {
@@ -82,6 +116,11 @@
     padding: 10px;
     display: flex;
     margin: 20px 0 20px 40px;
+
+    &:hover {
+        cursor: pointer;
+        background-color: #f9faf0;
+    }
 
     .course-image {
         border: 6px solid #feea89;
@@ -104,14 +143,13 @@
         color: #b3b3b3;
         font-size: 20px;
     }
-}
 
-.course-items-header {
-    color: #808080;
-    font-size: 24px;
-}
+    .mat-raised-button {
+        border-radius: 50px;
+        color: #ffffff;
+    }
 
-::ng-deep .mat-raised-button {
-    border-radius: 50px !important;
-    color: #ffffff !important;
+    .courses {
+        margin: 20px 60px 20px 60px;
+    }
 }

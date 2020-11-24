@@ -1,3 +1,4 @@
+import { CourseLesson } from './Course';
 import { WithImage } from './WithImage';
 
 export class CourseWithImage extends WithImage {
@@ -8,7 +9,7 @@ export class CourseWithImage extends WithImage {
     public mediaId: number,
     public lessonCount: number,
     public createdBy?: string,
-    public lessonFinished?: number
+    public lessons?: CourseLesson[]
   ) {
     super();
   }

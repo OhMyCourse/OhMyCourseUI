@@ -54,12 +54,14 @@
     }
 }
 
-.mat-raised-button {
-    background: #ffe464;
-    height: 55px;
-    width: auto;
-    color: #ffffff;
-    padding: 10px 35px 10px 35px !important;
-    font-size: 24px;
-    border-radius: 50px !important;
+.enroll-btn {
+    .mat-raised-button {
+        background: #ffe464;
+        height: 55px;
+        width: auto;
+        color: #ffffff;
+        padding: 10px 35px 10px 35px !important;
+        font-size: 24px;
+        border-radius: 50px !important;
+    }
 }

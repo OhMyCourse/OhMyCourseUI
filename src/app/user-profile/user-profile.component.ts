@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { delay } from 'rxjs/operators';
 import { MediaService } from '../services/media.service';
+import { UpdateProfileRequest, UserService } from '../services/user.service';
 import { ProfileMenuItem } from '../shared/models/ProfileMenuItem';
 import { UserProfile } from '../shared/models/UserProfile';
 @Component({
@@ -24,29 +25,19 @@ export class UserProfileComponent implements OnInit {
 
   editMode = false;
 
-  profile = new UserProfile(
-    'Vasya Pupkin',
-    'vasya.pupkin@gmail.com',
-    new Date('01/01/2021'),
-    1,
-    2,
-    3,
-    null,
-    281
-  );
+  profile: UserProfile;
 
   form: FormGroup = this.fb.group({});
 
   constructor(
     private mediaService: MediaService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.mediaService.getMediaById(this.profile.mediaId).subscribe((image) => {
-      this.profile.loadImage(image);
-    });
+    this.reloadProfile();
   }
 
   onEditIconClick() {
@@ -58,7 +49,29 @@ export class UserProfileComponent implements OnInit {
   onSaveIconClick() {
     this.changeEditIcon();
 
-    this.router.navigateByUrl('/user/profile');
+    const request = <UpdateProfileRequest>{
+      email: this.form.controls['emailControl'].value,
+      birthday: this.form.controls['dateBirthControl'].value,
+      bio: this.form.controls['biographyControl'].value,
+      mediaId: this.profile.mediaId,
+      name: this.form.controls['nameControl'].value,
+    };
+
+    if (this.imageToUpload) {
+      this.mediaService.createMedia(this.imageToUpload).subscribe((result) => {
+        request.mediaId = result.id;
+
+        this.userService.updateProfile(request).subscribe(() => {
+          this.reloadProfile();
+          this.imageToUpload = null;
+        });
+      });
+    } else {
+      this.userService.updateProfile(request).subscribe(() => {
+        this.reloadProfile();
+        this.imageToUpload = null;
+      });
+    }
   }
 
   onImageUpload(): void {
@@ -96,9 +109,33 @@ export class UserProfileComponent implements OnInit {
         this.profile.email,
         [Validators.required, Validators.email],
       ],
-      dateBirthControl: [this.profile.dateOfBirth, [Validators.required]],
-      biographyControl: [this.profile.biography],
+      dateBirthControl: [this.profile.birthday, [Validators.required]],
+      biographyControl: [this.profile.bio],
       avatarControl: [null, [Validators.required]],
+      nameControl: [this.profile.name, [Validators.required]],
+    });
+  }
+
+  private reloadProfile() {
+    this.userService.getProfile().subscribe((profile) => {
+      this.profile = profile;
+
+      this.mediaService
+        .getMediaById(this.profile.mediaId)
+        .subscribe((image) => {
+          this.profile.loadImage(image);
+        });
+      this.userService.getCourses(this.profile.id).subscribe((courses) => {
+        this.userService.getCreatedCourses().subscribe((createdCourses) => {
+          this.profile.courseCreated = createdCourses.length;
+          this.profile.courseStarted = courses.filter(
+            (c) => c.status === 'started'
+          ).length;
+          this.profile.courseCompleted = courses.filter(
+            (c) => c.status === 'finished'
+          ).length;
+        });
+      });
     });
   }
 }

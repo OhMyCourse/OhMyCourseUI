@@ -37,8 +37,20 @@
     .buttons {
         margin-top: 50px;
     }
-}
 
-mat-form-field {
-    width: 100%;
+    mat-form-field {
+        width: 100%;
+    }
+
+    ::ng-deep .mat-form-field-infix {
+        padding: 0.5em 0 0.5em 10px;
+    }
+
+    ::ng-deep .mat-icon.notranslate {
+        margin: 0 !important;
+    }
+
+    ::ng-deep .mat-icon-button {
+        width: 1.5em !important;
+    }
 }

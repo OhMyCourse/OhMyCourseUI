@@ -1,8 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { from } from 'rxjs';
 import { CourseService } from 'src/app/services/course.service';
 import { MediaService } from 'src/app/services/media.service';
-import { Course } from 'src/app/shared/models/Course';
+import { UserCourseItem, UserService } from 'src/app/services/user.service';
+import { Course, CourseLesson } from 'src/app/shared/models/Course';
 import { CourseWithImage } from 'src/app/shared/models/CourseWithImage';
 import { ProfileMenuItem } from 'src/app/shared/models/ProfileMenuItem';
 import { UserProfile } from 'src/app/shared/models/UserProfile';
@@ -19,42 +21,65 @@ export class UserProfileCoursesComponent implements OnInit {
     new ProfileMenuItem('Certificates', false, '/user/certificates'),
   ];
 
-  profile = new UserProfile(
-    'Vasya Pupkin',
-    'vasya.pupkin@gmail.com',
-    new Date('01/01/2021'),
-    1,
-    2,
-    3,
-    null,
-    281
-  );
+  profile: UserProfile;
 
-  started: CourseWithImage[] = [
-    new CourseWithImage(1, 'Test', 'Test', 281, 5, 'Vasya pup', 2),
-    new CourseWithImage(1, 'Test', 'Test', 281, 5, 'Vasya pup', 3),
-  ];
-  created: CourseWithImage[] = [
-    new CourseWithImage(186, 'Test', 'Test', 281, 5, 'Vasya pup', 2),
-  ];
-  joined: CourseWithImage[] = [
-    new CourseWithImage(1, 'Test', 'Test', 281, 5, 'Vasya pup', 2),
-    new CourseWithImage(1, 'Test', 'Test', 281, 5, 'Vasya pup', 3),
-  ];
+  started: CourseWithImage[] = [];
+  created: CourseWithImage[] = [];
+  completed: CourseWithImage[] = [];
 
-  all = [...this.started, ...this.created, ...this.joined];
+  all = [...this.started, ...this.created, ...this.completed];
 
   constructor(
     private mediaService: MediaService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    public router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.mediaService.getMediaById(this.profile.mediaId).subscribe((image) => {
-      this.profile.loadImage(image);
-    });
+    this.userService.getProfile().subscribe((profile) => {
+      this.profile = profile;
 
-    this.reloadCourses();
+      this.mediaService
+        .getMediaById(this.profile.mediaId)
+        .subscribe((image) => {
+          this.profile.loadImage(image);
+        });
+      this.userService.getCourses(this.profile.id).subscribe((courses) => {
+        this.userService.getCreatedCourses().subscribe((createdCourses) => {
+          this.created = createdCourses.map(
+            (x) => new CourseWithImage(x.id, x.name, '', x.mediaId, 0)
+          );
+          this.started = this.getCoursesByType(courses, 'started');
+          this.completed = this.getCoursesByType(courses, 'finished');
+
+          this.profile.courseCreated = this.created.length;
+          this.profile.courseCompleted = this.completed.length;
+          this.profile.courseStarted = this.started.length;
+          this.reloadCourses();
+        });
+      });
+    });
+  }
+
+  private getCoursesByType(
+    courses: UserCourseItem[],
+    type: 'started' | 'finished' | 'created'
+  ) {
+    return courses
+      .filter((c) => c.status === type)
+      .map(
+        (c) =>
+          new CourseWithImage(
+            c.courseId,
+            c.course.name,
+            c.course.description,
+            c.course.mediaId,
+            c.course.lessons ? c.course.lessons.length : 0,
+            '',
+            c.course.lessons
+          )
+      );
   }
 
   onCourseDelete(id: number) {
@@ -64,10 +89,32 @@ export class UserProfileCoursesComponent implements OnInit {
   }
 
   reloadCourses() {
-    from(this.all).subscribe((val) => {
-      this.mediaService
-        .getMediaById(val.mediaId)
-        .subscribe((result) => val.loadImage(result));
-    });
+    from([...this.started, ...this.completed, ...this.created]).subscribe(
+      (val) => {
+        this.mediaService
+          .getMediaById(val.mediaId)
+          .subscribe((result) => val.loadImage(result));
+      }
+    );
+  }
+
+  onCourseItemClick(courseId: number, coursePage: boolean = false) {
+    if (coursePage) {
+      this.router.navigateByUrl('course/enrollment/' + courseId);
+    } else {
+      this.router.navigateByUrl('course/view/' + courseId);
+    }
+  }
+
+  getFinishedLessonsCount(course: Course) {
+    if (!course.lessons) {
+      return;
+    }
+    const ids = course.lessons.map((l) => l.id);
+    const lessonsLength = this.userService.user.value.passedLessons.filter(
+      (l) => ids.includes(l)
+    ).length;
+
+    return lessonsLength;
   }
 }
