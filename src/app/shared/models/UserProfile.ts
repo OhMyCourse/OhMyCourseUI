@@ -9,7 +9,7 @@ export class UserProfile extends WithImage {
     public courseCreated?: number,
     public courseStarted?: number,
     public courseCompleted?: number,
-    public biography?: string,
+    public bio?: string,
     public mediaId?: number
   ) {
     super();

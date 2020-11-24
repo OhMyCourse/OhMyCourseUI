@@ -42,7 +42,7 @@ export class UserService {
               null,
               null,
               null,
-              r.biography,
+              r.bio,
               r.mediaId
             )
         )
@@ -101,6 +101,12 @@ export class UserService {
     const url = `${this.baseUrl}/user/courses?userId=${id}`;
 
     return this.http.get<UserCourseItem[]>(url);
+  }
+
+  getCreatedCourses(): Observable<OwnUserCourse[]> {
+    const url = `${this.baseUrl}/course/self`;
+
+    return this.http.get<OwnUserCourse[]>(url);
   }
 
   logout() {
@@ -164,6 +170,12 @@ export interface UserCourseItem {
   courseId: number;
   passedLessons: CourseLessonResponse[];
   course: Course;
+}
+
+export interface OwnUserCourse {
+  id: number;
+  name: string;
+  mediaId: number;
 }
 
 export interface User {

@@ -110,7 +110,7 @@ export class UserProfileComponent implements OnInit {
         [Validators.required, Validators.email],
       ],
       dateBirthControl: [this.profile.birthday, [Validators.required]],
-      biographyControl: [this.profile.biography],
+      biographyControl: [this.profile.bio],
       avatarControl: [null, [Validators.required]],
       nameControl: [this.profile.name, [Validators.required]],
     });
@@ -126,15 +126,15 @@ export class UserProfileComponent implements OnInit {
           this.profile.loadImage(image);
         });
       this.userService.getCourses(this.profile.id).subscribe((courses) => {
-        this.profile.courseCreated = courses.filter(
-          (c) => c.status === 'created'
-        ).length;
-        this.profile.courseStarted = courses.filter(
-          (c) => c.status === 'started'
-        ).length;
-        this.profile.courseCompleted = courses.filter(
-          (c) => c.status === 'finished'
-        ).length;
+        this.userService.getCreatedCourses().subscribe((createdCourses) => {
+          this.profile.courseCreated = createdCourses.length;
+          this.profile.courseStarted = courses.filter(
+            (c) => c.status === 'started'
+          ).length;
+          this.profile.courseCompleted = courses.filter(
+            (c) => c.status === 'finished'
+          ).length;
+        });
       });
     });
   }

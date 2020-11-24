@@ -26,11 +26,11 @@
         }">
             <form [formGroup]="form">
                 <div class="d-flex">
-                    <div class="name">
+                    <div class="name w-100">
                         <ng-container *ngIf="!editMode">{{profile.name}}</ng-container>
                         <ng-container *ngIf="editMode">
-                            Name
                             <mat-form-field appearance="legacy" style="width: 80%;">
+                                <mat-label>Name</mat-label>
                                 <input matInput formControlName="nameControl">
                             </mat-form-field>
                         </ng-container>
@@ -42,19 +42,20 @@
                 </div>
                 <div class="d-flex flex-column add-info mt-4">
                     <div class="email">
-                        Email:
-                        <ng-container *ngIf="!editMode">{{profile.email}}</ng-container>
+                        <ng-container *ngIf="!editMode">Email: {{profile.email}}</ng-container>
                         <ng-container *ngIf="editMode">
                             <mat-form-field appearance="legacy" style="width: 80%;">
+                                <mat-label>Email</mat-label>
                                 <input matInput formControlName="emailControl">
                             </mat-form-field>
                         </ng-container>
                     </div>
                     <div class="birth">
-                        Date of birth:
-                        <ng-container *ngIf="!editMode">{{profile.birthday | date: 'dd/MM/yyyy'}}</ng-container>
+                        <ng-container *ngIf="!editMode">Date of birth: {{profile.birthday | date: 'dd/MM/yyyy'}}
+                        </ng-container>
                         <ng-container *ngIf="editMode">
                             <mat-form-field appearance="legacy">
+                                <mat-label>Date of birth</mat-label>
                                 <input matInput [matDatepicker]="picker" formControlName="dateBirthControl">
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-datepicker #picker></mat-datepicker>
@@ -62,14 +63,14 @@
                         </ng-container>
                     </div>
                     <div class="biography">
-                        Biography:
                         <ng-container *ngIf="!editMode">
-                            <ng-container *ngIf="profile.biography">{{profile.biography}}</ng-container>
-                            <ng-container *ngIf="!profile.biography">no info</ng-container>
+                            <ng-container *ngIf="profile.bio">Biography: {{profile.bio}}</ng-container>
+                            <ng-container *ngIf="!profile.bio">Biography: no info</ng-container>
                         </ng-container>
                         <ng-container *ngIf="editMode">
                             <mat-form-field appearance="legacy" style="width: 80%;">
-                                <textarea matInput formControlName="biographyControl"></textarea>
+                                <mat-label>Biography</mat-label>
+                                <textarea matInput formControlName="biographyControl" style="height: 50px;"></textarea>
                             </mat-form-field>
                         </ng-container>
                     </div>

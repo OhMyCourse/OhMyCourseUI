@@ -46,14 +46,18 @@ export class UserProfileCoursesComponent implements OnInit {
           this.profile.loadImage(image);
         });
       this.userService.getCourses(this.profile.id).subscribe((courses) => {
-        this.created = this.getCoursesByType(courses, 'created');
-        this.started = this.getCoursesByType(courses, 'started');
-        this.completed = this.getCoursesByType(courses, 'finished');
+        this.userService.getCreatedCourses().subscribe((createdCourses) => {
+          this.created = createdCourses.map(
+            (x) => new CourseWithImage(x.id, x.name, '', x.mediaId, 0)
+          );
+          this.started = this.getCoursesByType(courses, 'started');
+          this.completed = this.getCoursesByType(courses, 'finished');
 
-        this.profile.courseCreated = this.created.length;
-        this.profile.courseCompleted = this.completed.length;
-        this.profile.courseStarted = this.started.length;
-        this.reloadCourses();
+          this.profile.courseCreated = this.created.length;
+          this.profile.courseCompleted = this.completed.length;
+          this.profile.courseStarted = this.started.length;
+          this.reloadCourses();
+        });
       });
     });
   }
