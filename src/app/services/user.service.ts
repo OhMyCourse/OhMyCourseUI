@@ -76,25 +76,25 @@ export class UserService {
   enrollCourse(courseId: number, userId: number) {
     const url = `${this.baseUrl}/course/${courseId}/user/${userId}/join`;
 
-    return this.http.post(url, null);
+    return this.http.post(url, null).pipe(tap(() => this.reloadUserValue()));
   }
 
   leaveCourese(courseId: number, userId: number) {
     const url = `${this.baseUrl}/course/${courseId}/user/${userId}/quit`;
 
-    return this.http.post(url, null);
+    return this.http.post(url, null).pipe(tap(() => this.reloadUserValue()));
   }
 
   finishLesson(lessonId: number, userId: number) {
     const url = `${this.baseUrl}/user/${userId}/lesson/${lessonId}/finish`;
 
-    return this.http.post(url, null);
+    return this.http.post(url, null).pipe(tap(() => this.reloadUserValue()));
   }
 
   finishCourse(courseId: number, userId: number) {
     const url = `${this.baseUrl}/course/${courseId}/user/${userId}/complete`;
 
-    return this.http.post(url, null);
+    return this.http.post(url, null).pipe(tap(() => this.reloadUserValue()));
   }
 
   getCourses(id: number): Observable<UserCourseItem[]> {
@@ -109,6 +109,7 @@ export class UserService {
 
   private saveToken(token: string) {
     localStorage.setItem('token', token);
+    this.reloadUserValue();
   }
 
   reloadUserValue() {
@@ -151,9 +152,10 @@ export interface LoginRequest {
 
 export interface UpdateProfileRequest {
   email: string;
-  dateOfBirth: Date;
-  biography: string;
+  birthday: Date;
+  bio: string;
   mediaId: number;
+  name: string;
 }
 
 export interface UserCourseItem {

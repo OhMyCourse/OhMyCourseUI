@@ -36,6 +36,15 @@ export class CourseEnrollmentComponent implements OnInit {
       });
   }
 
+  get buttonDisabled() {
+    if (!this.course) {
+      return false;
+    }
+    return this.userService.user.value.notShowingCourses.includes(
+      this.course.id
+    );
+  }
+
   private loadCourse(id: number) {
     this.courseService
       .getCourseById(id)

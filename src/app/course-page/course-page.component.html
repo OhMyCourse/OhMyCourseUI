@@ -10,12 +10,12 @@
 
     <img [src]="url" class="image" *ngIf="course.id && !constructorMode">
 
-    <p *ngIf="constructorMode">{{ lessonEdit.name }}</p>
+    <p *ngIf="constructorMode" class="p">{{ lessonEdit.name }}</p>
 </div>
 
 <div class="d-flex avatar-input" *ngIf="!constructorMode && !course.id">
     <div class="avatar">
-        <p>Set the avatar of the course ></p>
+        <p class="p">Set the avatar of the course ></p>
     </div>
     <div class="avatar">
         <img src="../../assets/pictures/image 10.png" class="image" *ngIf="!imageLoaded" (click)="onImageUpload()">
@@ -25,7 +25,7 @@
     </div>
 </div>
 
-<textarea type="text" placeholder="Enter detailed description about a course" class="form-control"
+<textarea type="text" placeholder="Enter detailed description about a course" class="form-control textarea"
     *ngIf="!constructorMode" [(ngModel)]="course.description"></textarea>
 
 <ng-container *ngIf="!constructorMode">
@@ -35,7 +35,7 @@
     </div>
 
     <div class="d-flex justify-content-center align-items-center flex-column buttons">
-        <p *ngIf="!lessons.length && course.id" class="text-muted">There are no lessons in the course yet.</p>
+        <p *ngIf="!lessons.length && course.id" class="text-muted p">There are no lessons in the course yet.</p>
 
         <div class="row mt-3">
             <div class="mr-2">

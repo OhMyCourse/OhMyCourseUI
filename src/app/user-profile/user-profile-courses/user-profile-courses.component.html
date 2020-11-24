@@ -39,7 +39,7 @@
                                 </div>
                             </div>
                             <div class="ml-auto course-progress">
-                                Progress: {{getFinishedLessonsCount(course.lessons)}}/{{course.lessonCount}}
+                                Progress: {{getFinishedLessonsCount(course)}}/{{course.lessonCount}}
                             </div>
                         </div>
                     </div>
@@ -76,7 +76,7 @@
                     </div>
                     <div class="courses">
                         <div class="course-item" *ngFor="let course of completed"
-                            (click)="onCourseItemClick(course.id)">
+                            (click)="onCourseItemClick(course.id, true)">
                             <div class="course-image">
                                 <img [src]="course.imageSrc" height="100" width="100">
                             </div>

@@ -1,8 +1,8 @@
-section {
+.blocks-menu {
     div {
         &:hover {
             cursor: pointer;
-            background-color: #C4C4C4;
+            background-color: #c4c4c4;
 
             p {
                 color: #ffffff;
@@ -16,7 +16,7 @@ section {
         p {
             font-size: 22px;
             line-height: 22px;
-            color: #FFD300;
+            color: #ffd300;
         }
 
         mat-icon {

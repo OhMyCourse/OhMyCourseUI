@@ -22,9 +22,11 @@
     color: #6f6f6f;
 }
 
-.mat-raised-button {
-    border-radius: 50px;
-    color: #ffffff;
-    width: 200px;
-    margin-bottom: 100px;
+.finish-btn {
+    .mat-raised-button {
+        border-radius: 50px;
+        color: #ffffff;
+        width: 200px;
+        margin-bottom: 100px;
+    }
 }

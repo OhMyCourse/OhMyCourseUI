@@ -94,17 +94,23 @@ export class UserProfileCoursesComponent implements OnInit {
     );
   }
 
-  onCourseItemClick(courseId: number) {
-    this.router.navigateByUrl('course/view/' + courseId);
+  onCourseItemClick(courseId: number, coursePage: boolean = false) {
+    if (coursePage) {
+      this.router.navigateByUrl('course/enrollment/' + courseId);
+    } else {
+      this.router.navigateByUrl('course/view/' + courseId);
+    }
   }
 
-  getFinishedLessonsCount(lessons: CourseLesson[]) {
-    if (!lessons) {
+  getFinishedLessonsCount(course: Course) {
+    if (!course.lessons) {
       return;
     }
-    const ids = lessons.map((l) => l.id);
-    return this.userService.user.value.passedLessons.filter((l) =>
-      ids.includes(l)
+    const ids = course.lessons.map((l) => l.id);
+    const lessonsLength = this.userService.user.value.passedLessons.filter(
+      (l) => ids.includes(l)
     ).length;
+
+    return lessonsLength;
   }
 }

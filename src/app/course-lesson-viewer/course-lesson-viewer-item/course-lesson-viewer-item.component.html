@@ -1,5 +1,5 @@
 <span class="course-name" (click)="onGoBackByAnchor.emit()">
-    {{courseName}} >
+    {{course.name}} >
 </span>
 <span class="lesson-name">{{lesson.name}}</span>
 
@@ -20,6 +20,6 @@
     </div>
 </div>
 
-<div class="d-flex justify-content-center w-100" *ngIf="!courseAlreadyFinished">
+<div class="d-flex justify-content-center w-100 finish-btn">
     <button mat-raised-button color="accent" (click)="onFinishLesson()">Finish</button>
 </div>

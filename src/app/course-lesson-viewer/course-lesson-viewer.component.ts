@@ -36,7 +36,6 @@ import { VideoBlock } from '../shared/models/VideoBlock';
 export class CourseLessonViewerComponent implements OnInit {
   lessonToView: Lesson;
   course: Course;
-  courseAlreadyFinished = false;
   public imageSrc?: string;
 
   constructor(
@@ -144,8 +143,6 @@ export class CourseLessonViewerComponent implements OnInit {
 
   onGoBackByAnchor() {
     this.lessonToView = undefined;
-
-    this.userService.reloadUserValue();
   }
 
   leaveCourse() {
@@ -179,9 +176,6 @@ export class CourseLessonViewerComponent implements OnInit {
       .subscribe((course) => {
         this.course = course;
         this.course.mediaId = course.media.id;
-        this.courseAlreadyFinished = this.userService.user.value.notShowingCourses.includes(
-          this.course.id
-        );
         this.mediaService
           .getMediaById(this.course.mediaId)
           .subscribe((result) => this.loadImage(result));

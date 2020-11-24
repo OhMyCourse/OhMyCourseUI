@@ -27,7 +27,13 @@
             <form [formGroup]="form">
                 <div class="d-flex">
                     <div class="name">
-                        {{profile.name}}
+                        <ng-container *ngIf="!editMode">{{profile.name}}</ng-container>
+                        <ng-container *ngIf="editMode">
+                            Name
+                            <mat-form-field appearance="legacy" style="width: 80%;">
+                                <input matInput formControlName="nameControl">
+                            </mat-form-field>
+                        </ng-container>
                     </div>
                     <div class="profile-edit-btn">
                         <mat-icon (click)="onEditIconClick()" *ngIf="!editMode">edit</mat-icon>

@@ -51,9 +51,10 @@ export class UserProfileComponent implements OnInit {
 
     const request = <UpdateProfileRequest>{
       email: this.form.controls['emailControl'].value,
-      dateOfBirth: this.form.controls['dateBirthControl'].value,
-      biography: this.form.controls['biographyControl'].value,
+      birthday: this.form.controls['dateBirthControl'].value,
+      bio: this.form.controls['biographyControl'].value,
       mediaId: this.profile.mediaId,
+      name: this.form.controls['nameControl'].value,
     };
 
     if (this.imageToUpload) {
@@ -111,6 +112,7 @@ export class UserProfileComponent implements OnInit {
       dateBirthControl: [this.profile.birthday, [Validators.required]],
       biographyControl: [this.profile.biography],
       avatarControl: [null, [Validators.required]],
+      nameControl: [this.profile.name, [Validators.required]],
     });
   }
 
