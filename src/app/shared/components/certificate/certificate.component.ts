@@ -4,7 +4,8 @@ import { Observable, of } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { User, UserService } from 'src/app/services/user.service';
 import { Certificate } from '../../models/Certificate';
-import jspdf from 'jspdf';
+
+declare var jsPDF: any;
 
 @Component({
   selector: 'app-certificate',
@@ -13,9 +14,10 @@ import jspdf from 'jspdf';
 })
 export class CertificateComponent implements OnInit {
   certificate: Certificate;
-  userName: Observable<string>;
+  userName: string;
 
-  @ViewChild('certificate') certificateRef: ElementRef;
+  @ViewChild('certificateRef') certificateRef: ElementRef;
+  @ViewChild('image') imageRef: ElementRef;
 
   constructor(route: ActivatedRoute, private userService: UserService) {
     this.certificate = new Certificate(
@@ -23,28 +25,23 @@ export class CertificateComponent implements OnInit {
       route.snapshot.paramMap.get('certName'),
       <Date>(<unknown>route.snapshot.paramMap.get('certDate'))
     );
+    console.log(this.certificate);
   }
 
   ngOnInit(): void {
-    this.userName = this.userService.user.pipe(
-      filter((x) => !!x),
-      map((x) => x.name)
-    );
+    this.userService.user
+      .pipe(
+        filter((x) => !!x),
+        map((x) => x.name)
+      )
+      .subscribe((name) => (this.userName = name));
   }
 
   onDownoload() {
-    let content = this.certificateRef.nativeElement;
-    let doc = new jspdf();
-    let _elementHandlers = {
-      '#editor': function (element, renderer) {
-        return true;
-      },
-    };
-    doc.fromHTML(content.innerHTML, 15, 15, {
-      width: 190,
-      elementHandlers: _elementHandlers,
-    });
-
-    doc.save('test.pdf');
+    let content = this.certificateRef.nativeElement as HTMLDivElement;
+    let image = this.imageRef.nativeElement as HTMLImageElement;
+    let fileName = `${this.certificate.name}-${this.userName}.pdf`;
+    let doc = new jsPDF('l', 'mm', [250, 192]);
+    doc.addHTML(content, () => doc.save(fileName));
   }
 }
