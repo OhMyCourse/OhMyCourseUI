@@ -48,6 +48,8 @@ import { UserProfileViewComponent } from './user-profile/user-profile-view/user-
 import { UserProfileCoursesComponent } from './user-profile/user-profile-courses/user-profile-courses.component';
 import { ImageViewerComponent } from './course-lesson-viewer/image-viewer/image-viewer.component';
 import { AuthInterceptor } from './shared/interceptor/AuthInterceptor';
+import { CertificateComponent } from './shared/components/certificate/certificate.component';
+import { UserProfileCertificatesComponent } from './user-profile/user-profile-certificates/user-profile-certificates.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +88,8 @@ import { AuthInterceptor } from './shared/interceptor/AuthInterceptor';
     UserProfileViewComponent,
     UserProfileCoursesComponent,
     ImageViewerComponent,
+    CertificateComponent,
+    UserProfileCertificatesComponent,
   ],
   imports: [
     BrowserModule,
