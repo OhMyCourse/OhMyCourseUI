@@ -1,0 +1,18 @@
+<div class="containter mt-4 mb-4 d-flex justify-content-center" id="certificate" #certificate>
+    <div class="position-relative">
+        <img src="../../../../assets/pictures/Certificate.png" />
+        <div class="cert-name">
+            {{certificate.name}}
+        </div>
+
+        <div class="cert-date">
+            {{certificate.date | date:'longDate'}}
+        </div>
+
+        <div class="user-name">
+            {{userName | async}}
+        </div>
+    </div>
+</div>
+
+<button mat-raised-button (click)="onDownoload()">Downoload pdf</button>

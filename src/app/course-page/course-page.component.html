@@ -20,8 +20,9 @@
             <p class="p">Set the avatar of the course ></p>
         </div>
         <div class="avatar">
-            <img src="../../assets/pictures/image 10.png" class="image" *ngIf="!imageLoaded" (click)="onImageUpload()">
-            <img [src]="url" class="image" *ngIf="imageLoaded" (click)="onImageUpload()">
+            <img src="../../assets/pictures/image 10.png" class="image" *ngIf="!imageLoaded" (click)="onImageUpload()"
+                width="100" height="100">
+            <img [src]="url" class="image" *ngIf="imageLoaded" (click)="onImageUpload()" width="100" height="100">
             <input type="file" id="file" #file class="upload" (change)="onFileAdded($event.target.files)"
                 accept="image/*" [hidden]="true">
         </div>

@@ -12,6 +12,8 @@ import { RegistrationComponent } from './registration/registration.component';
 import { UserProfileCoursesComponent } from './user-profile/user-profile-courses/user-profile-courses.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { AuthorizeGuard } from './shared/guards/AuthorizeGuard';
+import { UserProfileCertificatesComponent } from './user-profile/user-profile-certificates/user-profile-certificates.component';
+import { CertificateComponent } from './shared/components/certificate/certificate.component';
 
 const routes: Routes = [
   {
@@ -54,6 +56,16 @@ const routes: Routes = [
   {
     path: 'course/view/:id',
     component: CourseLessonViewerComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
+    path: 'user/certificates',
+    component: UserProfileCertificatesComponent,
+    canActivate: [AuthorizeGuard],
+  },
+  {
+    path: 'cert/:certId',
+    component: CertificateComponent,
     canActivate: [AuthorizeGuard],
   },
   { path: '', component: MainComponent },
