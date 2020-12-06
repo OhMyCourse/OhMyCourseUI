@@ -10,6 +10,7 @@ export class Test {
 
 export class TestOption {
   constructor(
+    public id?: number,
     public isRight?: boolean,
     public title?: string,
     public value?: number

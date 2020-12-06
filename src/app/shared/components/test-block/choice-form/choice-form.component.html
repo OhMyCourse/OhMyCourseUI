@@ -10,9 +10,15 @@
         'col-10': type === 2,
         'col-9': type !== 2
     }">
-        <mat-form-field class="w-100">
+        <mat-form-field class="w-100" *ngIf="!answer">
             <mat-label *ngIf="type !== 2">Enter an option</mat-label>
             <mat-label *ngIf="type === 2">Enter an answer</mat-label>
+            <input matInput type="text" [(ngModel)]="option.title">
+        </mat-form-field>
+        <div *ngIf="answer && type !== 2" class="mt-4">
+            {{option.title}}
+        </div>
+        <mat-form-field *ngIf="answer && type === 2" class="w-100">
             <input matInput type="text" [(ngModel)]="option.title">
         </mat-form-field>
     </div>

@@ -7,7 +7,8 @@ import { Test } from 'src/app/shared/models/Test';
 })
 export class TestMultipleComponent implements OnInit {
   @Input() test: Test;
-
+  @Input() answer: boolean;
+  @Input() courseId: number;
   constructor() {}
 
   ngOnInit(): void {}
