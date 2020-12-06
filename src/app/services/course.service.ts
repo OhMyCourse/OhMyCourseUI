@@ -21,7 +21,7 @@ export class CourseService {
   }
 
   updateCourse(course: UpdateCourseRequest): Observable<CourseResponse> {
-    return this.http.put<CourseResponse>(
+    return this.http.patch<CourseResponse>(
       `${this.baseUrl}/course/${course.id}`,
       course
     );
@@ -33,6 +33,31 @@ export class CourseService {
 
   getCourseById(courseId: number): Observable<CourseResponse> {
     return this.http.get<CourseResponse>(`${this.baseUrl}/course/${courseId}`);
+  }
+
+  savePoints(request: SavePointsRequest): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/incrementScore`, request);
+  }
+
+  createCertificate(
+    request: SaveCertificateRequest
+  ): Observable<SaveCertificateResponse> {
+    return this.http.post<SaveCertificateResponse>(
+      `${this.baseUrl}/certificate`,
+      request
+    );
+  }
+
+  deleteCertificate(certificateId: number): Observable<any> {
+    return this.http.delete<any>(
+      `${this.baseUrl}/certificate/${certificateId}`
+    );
+  }
+
+  getCertificate(certificateId: number): Observable<CertificateResponse> {
+    return this.http.get<CertificateResponse>(
+      `${this.baseUrl}/certificate/${certificateId}`
+    );
   }
 }
 
@@ -72,4 +97,33 @@ export interface CourseLessonMaterialResponse {
   id: number;
   type: LessonMaterialType;
   order: number;
+}
+
+export interface SavePointsRequest {
+  userId: number;
+  courseId;
+  score: number;
+}
+
+export interface SaveCertificateRequest {
+  userId: number;
+  courseId: number;
+}
+
+export interface SaveCertificateResponse {
+  id: number;
+  date: Date;
+}
+
+export interface CertificateResponse {
+  id: number;
+  date: Date;
+  userCourseId: number;
+  userCourse: {
+    id: number;
+    status: string;
+    score: number;
+    courseId: number;
+    userId: number;
+  };
 }

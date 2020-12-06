@@ -11,7 +11,11 @@ import { Lesson } from '../shared/models/Lesson';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Guid } from '../guid';
 import { Course } from '../shared/models/Course';
-import { CourseService, CreateCourseRequest } from '../services/course.service';
+import {
+  CourseService,
+  CreateCourseRequest,
+  UpdateCourseRequest,
+} from '../services/course.service';
 import { MediaService } from '../services/media.service';
 import {
   LessonMaterialResponse,
@@ -117,6 +121,15 @@ export class CoursePageComponent implements OnInit {
         this.courseService.createCourse(request).subscribe((data) => {
           this.course.id = data.id;
         });
+      });
+    } else {
+      let request: UpdateCourseRequest = {
+        id: this.course.id,
+        description: this.course.description,
+        mediaId: this.course.mediaId,
+      };
+      this.courseService.updateCourse(request).subscribe((data) => {
+        this.course.description = data.description;
       });
     }
   }

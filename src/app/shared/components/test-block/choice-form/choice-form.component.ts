@@ -13,6 +13,7 @@ import { TestAnswerType } from '../../../models/TestAnswerType';
 export class ChoiceFormComponent implements OnInit {
   @Input() type: TestAnswerType;
   @Input() option: TestOption;
+  @Input() answer: boolean;
   @Output() onRadioChange = new EventEmitter<number>();
 
   radioChecked = false;
@@ -29,6 +30,10 @@ export class ChoiceFormComponent implements OnInit {
   }
 
   changeRadio() {
-    this.onRadioChange.emit(this.option.value);
+    if (!this.answer) {
+      this.onRadioChange.emit(this.option.value);
+    } else {
+      this.onRadioChange.emit(this.option.id);
+    }
   }
 }

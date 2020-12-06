@@ -16,6 +16,16 @@
             <div *ngSwitchCase="'image'">
                 <app-image-viewer [imageBlock]="b" *ngIf="b.value"></app-image-viewer>
             </div>
+            <div *ngSwitchCase="'test'">
+                <div [ngSwitch]="b.value.type">
+                    <app-test-one *ngSwitchCase="1" [test]="b.value" [answer]="true" [courseId]="course.id">
+                    </app-test-one>
+                    <app-test-short *ngSwitchCase="2" [test]="b.value" [answer]="true" [courseId]="course.id">
+                    </app-test-short>
+                    <app-test-multiple *ngSwitchCase="0" [test]="b.value" [answer]="true" [courseId]="course.id">
+                    </app-test-multiple>
+                </div>
+            </div>
         </ng-container>
     </div>
 </div>
