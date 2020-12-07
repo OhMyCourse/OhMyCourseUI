@@ -6,7 +6,10 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { CourseCategory, EnumObj } from '../shared/models/CourseCategory';
+import {
+  CourseCategories,
+  CourseCategory,
+} from '../shared/models/CourseCategory';
 import { Lesson } from '../shared/models/Lesson';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Guid } from '../guid';
@@ -40,9 +43,9 @@ import { delay } from 'rxjs/operators';
   encapsulation: ViewEncapsulation.None,
 })
 export class CoursePageComponent implements OnInit {
-  categories: EnumObj[] = EnumObj.ParseEnum(CourseCategory);
+  categories: string[] = CourseCategories;
   categorySelect: FormControl = new FormControl('', [Validators.required]);
-  category: EnumObj;
+  category: CourseCategory;
   lessons: Lesson[] = [];
   constructorMode = false;
   lessonEdit: Lesson;
@@ -117,7 +120,9 @@ export class CoursePageComponent implements OnInit {
           name: this.course.name,
           description: this.course.description,
           mediaId: data.id,
+          category: this.category,
         };
+
         this.courseService.createCourse(request).subscribe((data) => {
           this.course.id = data.id;
         });

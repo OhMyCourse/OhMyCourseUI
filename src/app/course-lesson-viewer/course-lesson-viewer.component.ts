@@ -7,9 +7,12 @@ import {
   ViewEncapsulation,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { from, of } from 'rxjs';
-import { delay } from 'rxjs/operators';
-import { CourseService } from '../services/course.service';
+import { forkJoin, from, of } from 'rxjs';
+import { delay, switchMap } from 'rxjs/operators';
+import {
+  CourseService,
+  SaveCertificateRequest,
+} from '../services/course.service';
 import {
   LessonMaterialResponse,
   LessonMaterialType,
@@ -162,12 +165,6 @@ export class CourseLessonViewerComponent implements OnInit {
     );
 
     return sorted.every((val, index) => val === sorted2[index]);
-  }
-
-  finishCourse() {
-    this.userService
-      .finishCourse(this.course.id, this.userService.user.value.id)
-      .subscribe(() => this.router.navigateByUrl('/user/courses'));
   }
 
   private realoadLessons() {

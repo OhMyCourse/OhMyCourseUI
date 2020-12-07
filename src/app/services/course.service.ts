@@ -1,6 +1,8 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Course } from '../shared/models/Course';
+import { CourseCategory } from '../shared/models/CourseCategory';
 import { LessonMaterialType } from './lesson.service';
 
 @Injectable({
@@ -14,6 +16,24 @@ export class CourseService {
 
   getCourses(): Observable<CourseResponse[]> {
     return this.http.get<CourseResponse[]>(`${this.baseUrl}/course`);
+  }
+
+  getCoursesWithFilter(
+    category?: CourseCategory,
+    name?: string
+  ): Observable<CourseResponse[]> {
+    let params = new HttpParams();
+    if (category) {
+      params = params.append('category', category);
+    }
+
+    if (name) {
+      params = params.append('name', name);
+    }
+
+    return this.http.get<CourseResponse[]>(`${this.baseUrl}/course/filter`, {
+      params,
+    });
   }
 
   createCourse(course: CreateCourseRequest): Observable<CourseResponse> {
@@ -59,12 +79,28 @@ export class CourseService {
       `${this.baseUrl}/certificate/${certificateId}`
     );
   }
+  getCertificates(userId: number): Observable<CertificateResponse[]> {
+    return this.http.get<CertificateResponse[]>(
+      `${this.baseUrl}/certificate/userCertificates?userId=${userId}`
+    );
+  }
+
+  getMaxScore(courseId: number): Observable<MaxScoreResponse> {
+    return this.http.get<MaxScoreResponse>(
+      `${this.baseUrl}/course/maxScore?courseId=${courseId}`
+    );
+  }
+}
+
+export interface MaxScoreResponse {
+  maxScore: number;
 }
 
 export interface CreateCourseRequest {
   name: string;
   description: string;
   mediaId: number;
+  category: CourseCategory;
 }
 
 export interface CourseResponse {
@@ -123,7 +159,11 @@ export interface CertificateResponse {
     id: number;
     status: string;
     score: number;
-    courseId: number;
-    userId: number;
+    course: {
+      course: {
+        id: number;
+      };
+      maxScore: number;
+    };
   };
 }

@@ -1,10 +1,16 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { of } from 'rxjs';
+import { forkJoin } from 'rxjs/internal/observable/forkJoin';
 import { delay } from 'rxjs/operators';
+import {
+  CourseService,
+  SaveCertificateRequest,
+} from 'src/app/services/course.service';
 import { UserService } from 'src/app/services/user.service';
 import { Course } from 'src/app/shared/models/Course';
 import { Lesson } from 'src/app/shared/models/Lesson';
+import { Test } from 'src/app/shared/models/Test';
 
 @Component({
   selector: 'app-course-lesson-viewer-item',
@@ -16,7 +22,11 @@ export class CourseLessonViewerItemComponent implements OnInit {
   @Input() course: Course;
   @Output() onGoBackByAnchor: EventEmitter<any> = new EventEmitter<any>();
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private courseService: CourseService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -27,6 +37,15 @@ export class CourseLessonViewerItemComponent implements OnInit {
       .subscribe(() => {
         this.onGoBackByAnchor.emit();
 
+        this.lesson.blocks
+          .filter((b) => b.value as Test)
+          .forEach((b) => {
+            const test = b.value as Test;
+            if (test && test.answerCallback) {
+              test.answerCallback.subscribe();
+            }
+          });
+
         of(this.course.lessons.length)
           .pipe(delay(1000))
           .subscribe((data) => {
@@ -36,9 +55,22 @@ export class CourseLessonViewerItemComponent implements OnInit {
             ).length;
 
             if (lessonsLength === data) {
-              this.userService
-                .finishCourse(this.course.id, this.userService.user.value.id)
-                .subscribe();
+              const request = <SaveCertificateRequest>{
+                userId: this.userService.user.value.id,
+                courseId: this.course.id,
+              };
+              const observables = {
+                finishCourse: this.userService.finishCourse(
+                  this.course.id,
+                  this.userService.user.value.id
+                ),
+                createCertificate: this.courseService.createCertificate(
+                  request
+                ),
+              };
+              forkJoin(
+                observables
+              ).subscribe(({ finishCourse, createCertificate }) => {});
             }
           });
       });

@@ -6,7 +6,7 @@
         <ng-container *ngIf="answer">: {{test.score}}</ng-container>
     </p>
     <div *ngIf="!answer">
-        <input type="number" [(ngModel)]="test.score">
+        <input type="number" [(ngModel)]="test.score" max="10">
     </div>
 </div>
 <div class="question-field">
@@ -14,7 +14,7 @@
         <mat-label>Ask a question</mat-label>
         <input matInput type="text" [(ngModel)]="test.task">
     </mat-form-field>
-    <div *ngIf="answer">
+    <div *ngIf="answer" class="ml-4">
         {{test.task}}
     </div>
 </div>
@@ -33,6 +33,6 @@
     </div>
 
     <div *ngIf="answer" class="d-flex m-2 justify-content-center">
-        <button mat-raised-button (click)="savePoints()" color="accent" [hidden]="answered">Answer</button>
+        <button mat-raised-button (click)="savePoints()" color="accent" [hidden]="test.answered">Answer</button>
     </div>
 </div>

@@ -1,11 +1,22 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { from } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import {
+  debounceTime,
+  delay,
+  filter,
+  finalize,
+  map,
+  switchMap,
+  tap,
+} from 'rxjs/operators';
 import { CourseService } from '../services/course.service';
 import { MediaService } from '../services/media.service';
 import { UserService } from '../services/user.service';
-import { CourseCategory, EnumObj } from '../shared/models/CourseCategory';
+import {
+  CourseCategories,
+  CourseCategory,
+} from '../shared/models/CourseCategory';
 import { CourseWithImage } from '../shared/models/CourseWithImage';
 
 @Component({
@@ -15,8 +26,10 @@ import { CourseWithImage } from '../shared/models/CourseWithImage';
 })
 export class CourseListComponent implements OnInit {
   courses: CourseWithImage[] = [];
-  categories: EnumObj[] = EnumObj.ParseEnum(CourseCategory);
+  categories: string[] = CourseCategories;
   categorySelect: FormControl = new FormControl('');
+  nameControl: FormControl = new FormControl('');
+  loading = true;
 
   constructor(
     private courseService: CourseService,
@@ -26,11 +39,23 @@ export class CourseListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCourses();
+
+    this.categorySelect.valueChanges
+      .pipe(debounceTime(300))
+      .subscribe((value) => {
+        this.loadCourses(value, this.nameControl.value);
+      });
+
+    this.nameControl.valueChanges.pipe(debounceTime(300)).subscribe((value) => {
+      this.loadCourses(this.categorySelect.value, value);
+    });
   }
 
-  private loadCourses() {
+  private loadCourses(category?: CourseCategory, name?: string) {
+    this.courses = [];
+    this.loading = true;
     this.courseService
-      .getCourses()
+      .getCoursesWithFilter(category, name)
       .pipe(
         switchMap((data) => from(data)),
         map(
@@ -43,17 +68,17 @@ export class CourseListComponent implements OnInit {
               data.lessons ? data.lessons.length : 0
             )
         ),
-        tap((data) => {
-          if (
-            !this.userService.user.value.notShowingCourses.includes(data.id)
-          ) {
-            this.courses.push(data);
-          }
-        })
+        delay(500),
+        finalize(() => (this.loading = false))
       )
       .subscribe((course) => {
-        this.mediaService.getMediaById(course.mediaId).subscribe((src) => {
-          course.loadImage(src);
+        this.userService.user.pipe(filter((val) => !!val)).subscribe((val) => {
+          if (!val.notShowingCourses.includes(course.id)) {
+            this.courses.push(course);
+            this.mediaService.getMediaById(course.mediaId).subscribe((src) => {
+              course.loadImage(src);
+            });
+          }
         });
       });
   }

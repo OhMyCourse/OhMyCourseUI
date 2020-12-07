@@ -5,8 +5,6 @@
             <div class="header">{{course.name}}</div>
             <button mat-raised-button color="warn" (click)="leaveCourse()" *ngIf="!isCourseFinished">Leave the
                 course</button>
-            <!-- <button mat-raised-button color="accent" (click)="finishCourse()" *ngIf="isCourseFinished">Finish the
-                course</button> -->
         </div>
     </div>
     <div class="lessons" *ngIf="!lessonToView">

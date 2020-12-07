@@ -1,15 +1,15 @@
 export enum CourseCategory {
-  Programming,
-  Math,
-  Relathionships,
+  Programming = 'programming',
+  Science = 'science',
+  Talking = 'talking',
+  Language = 'language',
+  Engineering = 'engineering',
 }
 
-export class EnumObj {
-  constructor(public id: number, public value: string) {}
-
-  public static ParseEnum(Enum: object): EnumObj[] {
-    return Object.keys(Enum)
-      .filter((key) => typeof Enum[key as any] === 'number')
-      .map((val, index) => new EnumObj(index, val));
-  }
-}
+export const CourseCategories = [
+  'programming',
+  'science',
+  'talking',
+  'language',
+  'engineering',
+];

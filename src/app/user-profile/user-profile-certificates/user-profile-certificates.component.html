@@ -24,10 +24,15 @@
                 <div class="certificates mt-4">
                     <div class="certificate card m-2 p-4" *ngFor="let c of certificates"
                         (click)="onCertificateClick(c)">
-                        <div class="d-flex">
+                        <div class="d-flex justify-content-between">
                             <mat-icon>video_label</mat-icon>
                             <div class="name ml-2">
                                 {{c.name}}
+                            </div>
+                            <div class="name">
+                                Completeness:
+                                <ng-container *ngIf="c.completeness">{{c.completeness}}%</ng-container>
+                                <ng-container *ngIf="!c.completeness">0%</ng-container>
                             </div>
                         </div>
                     </div>
