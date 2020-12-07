@@ -5,7 +5,10 @@ import { map, switchMap, tap } from 'rxjs/operators';
 import { CourseService } from '../services/course.service';
 import { MediaService } from '../services/media.service';
 import { UserService } from '../services/user.service';
-import { CourseCategory, EnumObj } from '../shared/models/CourseCategory';
+import {
+  CourseCategories,
+  CourseCategory,
+} from '../shared/models/CourseCategory';
 import { CourseWithImage } from '../shared/models/CourseWithImage';
 
 @Component({
@@ -15,8 +18,9 @@ import { CourseWithImage } from '../shared/models/CourseWithImage';
 })
 export class CourseListComponent implements OnInit {
   courses: CourseWithImage[] = [];
-  categories: EnumObj[] = EnumObj.ParseEnum(CourseCategory);
+  categories: string[] = CourseCategories;
   categorySelect: FormControl = new FormControl('');
+  nameControl: FormControl = new FormControl('');
 
   constructor(
     private courseService: CourseService,
@@ -26,10 +30,19 @@ export class CourseListComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadCourses();
+
+    this.categorySelect.valueChanges.subscribe((value) => {
+      this.loadCourses(value, this.nameControl.value);
+    });
+
+    this.nameControl.valueChanges.subscribe((value) => {
+      this.loadCourses(this.categorySelect.value, value);
+    });
   }
 
-  private loadCourses() {
+  private loadCourses(category?: CourseCategory, name?: string) {
     this.courseService
+      // .getCoursesWithFilter(category, name)
       .getCourses()
       .pipe(
         switchMap((data) => from(data)),

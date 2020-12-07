@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { from } from 'rxjs/internal/observable/from';
+import { map, switchMap } from 'rxjs/operators';
+import { CourseService } from 'src/app/services/course.service';
 import { MediaService } from 'src/app/services/media.service';
 import { UserCourseItem, UserService } from 'src/app/services/user.service';
 import { Certificate } from 'src/app/shared/models/Certificate';
@@ -13,10 +16,7 @@ import { UserProfile } from 'src/app/shared/models/UserProfile';
   styleUrls: ['./user-profile-certificates.component.scss'],
 })
 export class UserProfileCertificatesComponent implements OnInit {
-  certificates: Certificate[] = [
-    new Certificate(1, 'DSladlsaldasldalsdlsadlas', new Date()),
-    new Certificate(2, '21321321321', new Date()),
-  ];
+  certificates: Certificate[] = [];
 
   menuItems: ProfileMenuItem[] = [
     new ProfileMenuItem('My profile', false, '/user/profile'),
@@ -29,7 +29,8 @@ export class UserProfileCertificatesComponent implements OnInit {
   constructor(
     private userService: UserService,
     private mediaService: MediaService,
-    private router: Router
+    private router: Router,
+    private courseService: CourseService
   ) {}
 
   ngOnInit(): void {
@@ -57,6 +58,24 @@ export class UserProfileCertificatesComponent implements OnInit {
         });
       });
     });
+    this.courseService
+      .getCertificates(this.userService.user.value.id)
+      .pipe(
+        switchMap((c) => from(c)),
+        map((cert) => {
+          let c = new Certificate(
+            cert.id,
+            '',
+            cert.date,
+            cert.userCourse.score
+          );
+          this.courseService
+            .getCourseById(cert.userCourse.courseId)
+            .subscribe((data) => (c.name = data.name));
+          return c;
+        })
+      )
+      .subscribe((data) => this.certificates.push(data));
   }
 
   private getCoursesByType(
@@ -64,7 +83,7 @@ export class UserProfileCertificatesComponent implements OnInit {
     type: 'started' | 'finished' | 'created'
   ) {
     return courses
-      .filter((c) => c.status === type)
+      .filter((c) => c.status === type && c.course)
       .map(
         (c) =>
           new CourseWithImage(

@@ -8,7 +8,8 @@ export class Course {
     public id?: number,
     public name?: string,
     public description?: string,
-    public mediaId?: number
+    public mediaId?: number,
+    public category?: string
   ) {}
 }
 

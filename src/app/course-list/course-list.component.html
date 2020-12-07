@@ -2,7 +2,7 @@
     <div class="course-list-filters d-flex justify-content-between">
         <div class="search-filter">
             <mat-form-field appearance="outline" style="width: 550px; height: 35px;">
-                <input matInput>
+                <input matInput [formControl]="nameControl">
                 <mat-icon matSuffix>search</mat-icon>
             </mat-form-field>
         </div>
@@ -13,7 +13,7 @@
                 <mat-select [formControl]="categorySelect" color="accent">
                     <mat-option>--</mat-option>
                     <mat-option *ngFor="let category of categories" [value]="category">
-                        {{category.value}}
+                        {{category}}
                     </mat-option>
                 </mat-select>
             </mat-form-field>

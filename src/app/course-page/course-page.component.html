@@ -4,9 +4,9 @@
         <div class="header">Course &lt;&lt; {{ course.name }} &gt;&gt; </div>
 
         <div class="select" *ngIf="!constructorMode">
-            <select class="custom-select">
+            <select class="custom-select" [(ngModel)]="category">
                 <option value="-1">---</option>
-                <option *ngFor="let cat of categories" [value]="cat.id">{{cat.value}}</option>
+                <option *ngFor="let cat of categories" [value]="cat">{{cat}}</option>
             </select>
         </div>
 
