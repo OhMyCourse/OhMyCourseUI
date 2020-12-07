@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { from } from 'rxjs';
 import { map } from 'rxjs/internal/operators/map';
@@ -29,7 +30,13 @@ export class UserProfileCoursesComponent implements OnInit {
   created: CourseWithImage[] = [];
   completed: CourseWithImage[] = [];
 
+  startedFiltered: CourseWithImage[] = [];
+  createdFiltered: CourseWithImage[] = [];
+  completedFiltered: CourseWithImage[] = [];
+
   all = [...this.started, ...this.created, ...this.completed];
+
+  searchCtrl: FormControl = new FormControl('');
 
   constructor(
     private mediaService: MediaService,
@@ -49,6 +56,20 @@ export class UserProfileCoursesComponent implements OnInit {
         });
       this.reloadCoursesByProfile();
     });
+
+    this.searchCtrl.valueChanges.subscribe((value) => {
+      if (!value) {
+        this.startedFiltered = this.started;
+        this.createdFiltered = this.created;
+        this.completedFiltered = this.completed;
+      }
+
+      this.startedFiltered = this.started.filter((c) => c.name.includes(value));
+      this.completedFiltered = this.completed.filter((c) =>
+        c.name.includes(value)
+      );
+      this.createdFiltered = this.created.filter((c) => c.name.includes(value));
+    });
   }
 
   private getCoursesByType(
@@ -60,7 +81,7 @@ export class UserProfileCoursesComponent implements OnInit {
       .map(
         (c) =>
           new CourseWithImage(
-            c.courseId,
+            c.course.id,
             c.course.name,
             c.course.description,
             c.course.mediaId,
@@ -89,6 +110,10 @@ export class UserProfileCoursesComponent implements OnInit {
         this.profile.courseCreated = this.created.length;
         this.profile.courseCompleted = this.completed.length;
         this.profile.courseStarted = this.started.length;
+
+        this.startedFiltered = this.started;
+        this.completedFiltered = this.completed;
+        this.createdFiltered = this.created;
         this.reloadCourses();
       });
     });

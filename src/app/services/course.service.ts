@@ -22,13 +22,13 @@ export class CourseService {
     category?: CourseCategory,
     name?: string
   ): Observable<CourseResponse[]> {
-    const params = new HttpParams();
+    let params = new HttpParams();
     if (category) {
-      params.append('category', category);
+      params = params.append('category', category);
     }
 
     if (name) {
-      params.append('name', name);
+      params = params.append('name', name);
     }
 
     return this.http.get<CourseResponse[]>(`${this.baseUrl}/course/filter`, {
@@ -149,7 +149,11 @@ export interface CertificateResponse {
     id: number;
     status: string;
     score: number;
-    courseId: number;
-    userId: number;
+    course: {
+      course: {
+        id: number;
+      };
+      maxScore: number;
+    };
   };
 }

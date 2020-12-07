@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { from } from 'rxjs/internal/observable/from';
-import { map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap } from 'rxjs/operators';
 import { CourseService } from 'src/app/services/course.service';
 import { MediaService } from 'src/app/services/media.service';
 import { UserCourseItem, UserService } from 'src/app/services/user.service';
@@ -58,24 +58,29 @@ export class UserProfileCertificatesComponent implements OnInit {
         });
       });
     });
-    this.courseService
-      .getCertificates(this.userService.user.value.id)
-      .pipe(
-        switchMap((c) => from(c)),
-        map((cert) => {
-          let c = new Certificate(
-            cert.id,
-            '',
-            cert.date,
-            cert.userCourse.score
-          );
-          this.courseService
-            .getCourseById(cert.userCourse.courseId)
-            .subscribe((data) => (c.name = data.name));
-          return c;
-        })
-      )
-      .subscribe((data) => this.certificates.push(data));
+    this.userService.user.pipe(filter((u) => !!u)).subscribe((data) => {
+      this.courseService
+        .getCertificates(data.id)
+        .pipe(
+          switchMap((c) => from(c)),
+          map((cert) => {
+            let c = new Certificate(
+              cert.id,
+              '',
+              cert.date,
+              cert.userCourse.score,
+              Math.floor(
+                cert.userCourse.course.maxScore / cert.userCourse.score
+              ) * 100
+            );
+            this.courseService
+              .getCourseById(cert.userCourse.course.course.id)
+              .subscribe((data) => (c.name = data.name));
+            return c;
+          })
+        )
+        .subscribe((data) => this.certificates.push(data));
+    });
   }
 
   private getCoursesByType(
@@ -87,7 +92,7 @@ export class UserProfileCertificatesComponent implements OnInit {
       .map(
         (c) =>
           new CourseWithImage(
-            c.courseId,
+            c.course.id,
             c.course.name,
             c.course.description,
             c.course.mediaId,

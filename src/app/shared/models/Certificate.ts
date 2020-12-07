@@ -3,6 +3,7 @@ export class Certificate {
     public id?: number,
     public name?: string,
     public date?: Date,
-    public score?: number
+    public score?: number,
+    public completeness?: number
   ) {}
 }

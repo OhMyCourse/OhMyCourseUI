@@ -20,9 +20,12 @@
         </div>
     </div>
 
-    <div class="course-list row">
+    <div class="course-list row" *ngIf="courses">
         <div class="col-4" *ngFor="let course of courses">
             <app-course-item [course]="course"></app-course-item>
         </div>
+    </div>
+    <div class="d-flex justify-content-center h-100 align-items-center" *ngIf="loading">
+        <mat-spinner color="accent"></mat-spinner>
     </div>
 </div>

@@ -1,5 +1,9 @@
+import { Observable } from 'rxjs';
+
 export class Test {
   public testOptions: TestOption[] = [];
+  public answered = false;
+  public answerCallback: Observable<any>;
 
   constructor(
     public task?: string,

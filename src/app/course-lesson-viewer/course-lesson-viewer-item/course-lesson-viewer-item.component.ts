@@ -10,6 +10,7 @@ import {
 import { UserService } from 'src/app/services/user.service';
 import { Course } from 'src/app/shared/models/Course';
 import { Lesson } from 'src/app/shared/models/Lesson';
+import { Test } from 'src/app/shared/models/Test';
 
 @Component({
   selector: 'app-course-lesson-viewer-item',
@@ -35,6 +36,15 @@ export class CourseLessonViewerItemComponent implements OnInit {
       .pipe(delay(1000))
       .subscribe(() => {
         this.onGoBackByAnchor.emit();
+
+        this.lesson.blocks
+          .filter((b) => b.value as Test)
+          .forEach((b) => {
+            const test = b.value as Test;
+            if (test && test.answerCallback) {
+              test.answerCallback.subscribe();
+            }
+          });
 
         of(this.course.lessons.length)
           .pipe(delay(1000))

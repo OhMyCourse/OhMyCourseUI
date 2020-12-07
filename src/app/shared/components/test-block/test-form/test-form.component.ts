@@ -24,31 +24,33 @@ export class TestFormComponent implements OnInit {
   rightOptions: Option[];
 
   answerError = false;
-  answered = false;
+
   constructor(
     private courseService: CourseService,
     private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    switch (this.type) {
-      case TestAnswerType.Single:
-        const optionSingle = new Option(
-          this.test.testOptions.find((f) => f.isRight).id,
-          true
-        );
-        this.rightOptions = [optionSingle];
-        break;
-      case TestAnswerType.Multiple:
-        const options = this.test.testOptions
-          .filter((o) => o.isRight)
-          .map((o) => new Option(o.id, true));
-        this.rightOptions = options;
-        break;
-      case TestAnswerType.Short:
-        const optionShort = new Option(0, this.test.testOptions[0].title);
-        this.rightOptions = [optionShort];
-        break;
+    if (this.answer) {
+      switch (this.type) {
+        case TestAnswerType.Single:
+          const optionSingle = new Option(
+            this.test.testOptions.find((f) => f.isRight).id,
+            true
+          );
+          this.rightOptions = [optionSingle];
+          break;
+        case TestAnswerType.Multiple:
+          const options = this.test.testOptions
+            .filter((o) => o.isRight)
+            .map((o) => new Option(o.id, true));
+          this.rightOptions = options;
+          break;
+        case TestAnswerType.Short:
+          const optionShort = new Option(0, this.test.testOptions[0].title);
+          this.rightOptions = [optionShort];
+          break;
+      }
     }
 
     if (!this.answer) {
@@ -95,20 +97,21 @@ export class TestFormComponent implements OnInit {
       return;
     } else {
       this.answerError = false;
-      this.answered = true;
+      this.test.answered = true;
     }
     const request = <SavePointsRequest>{
       score: this.test.score,
       userId: this.userService.user.value.id,
       courseId: this.courseId,
     };
-    this.courseService.savePoints(request).subscribe(() => {});
+    this.test.answerCallback = this.courseService.savePoints(request);
   }
 
   checkAnswer(): boolean {
     switch (this.type) {
       case TestAnswerType.Single:
         const t = this.test.testOptions.find((f) => f.isRight);
+        if (!t) return false;
         return this.rightOptions[0].index === t.id;
       case TestAnswerType.Multiple:
         const options = this.test.testOptions
