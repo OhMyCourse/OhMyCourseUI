@@ -87,7 +87,8 @@ export class UserProfileCoursesComponent implements OnInit {
             c.course.mediaId,
             c.course.lessons ? c.course.lessons.length : 0,
             '',
-            c.course.lessons
+            c.course.lessons,
+            c.score
           )
       );
   }
@@ -106,6 +107,17 @@ export class UserProfileCoursesComponent implements OnInit {
         );
         this.started = this.getCoursesByType(courses, 'started');
         this.completed = this.getCoursesByType(courses, 'finished');
+
+        this.started.forEach((c) =>
+          this.courseService
+            .getMaxScore(c.id)
+            .subscribe((max) => (c.maxScore = max.maxScore))
+        );
+        this.completed.forEach((c) =>
+          this.courseService
+            .getMaxScore(c.id)
+            .subscribe((max) => (c.maxScore = max.maxScore))
+        );
 
         this.profile.courseCreated = this.created.length;
         this.profile.courseCompleted = this.completed.length;

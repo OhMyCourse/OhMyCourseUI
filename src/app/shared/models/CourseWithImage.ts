@@ -9,7 +9,9 @@ export class CourseWithImage extends WithImage {
     public mediaId: number,
     public lessonCount: number,
     public createdBy?: string,
-    public lessons?: CourseLesson[]
+    public lessons?: CourseLesson[],
+    public score?: number,
+    public maxScore?: number
   ) {
     super();
   }

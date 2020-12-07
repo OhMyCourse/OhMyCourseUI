@@ -39,8 +39,13 @@
                                     {{course.createdBy}}
                                 </div>
                             </div>
-                            <div class="ml-auto course-progress">
-                                Progress: {{getFinishedLessonsCount(course)}}/{{course.lessonCount}}
+                            <div class="d-flex flex-column ml-auto">
+                                <div class="course-progress">
+                                    Progress: {{getFinishedLessonsCount(course)}}/{{course.lessonCount}}
+                                </div>
+                                <div class="course-progress">
+                                    Score: {{course.score}}/{{course.maxScore}}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -91,8 +96,11 @@
                                     {{course.createdBy}}
                                 </div>
                             </div>
-                            <div class="ml-auto">
+                            <div class="ml-auto d-flex flex-column">
                                 <img src="../../../assets/pictures/image 4.png" alt="">
+                                <div class="mt-2 ml-1">
+                                    {{course.score}}/{{course.maxScore}}
+                                </div>
                             </div>
                         </div>
                     </div>

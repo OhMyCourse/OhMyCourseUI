@@ -69,9 +69,9 @@ export class UserProfileCertificatesComponent implements OnInit {
               '',
               cert.date,
               cert.userCourse.score,
-              Math.floor(
-                cert.userCourse.course.maxScore / cert.userCourse.score
-              ) * 100
+              Math.round(
+                (cert.userCourse.score / cert.userCourse.course.maxScore) * 1000
+              ) / 10
             );
             this.courseService
               .getCourseById(cert.userCourse.course.course.id)

@@ -84,6 +84,16 @@ export class CourseService {
       `${this.baseUrl}/certificate/userCertificates?userId=${userId}`
     );
   }
+
+  getMaxScore(courseId: number): Observable<MaxScoreResponse> {
+    return this.http.get<MaxScoreResponse>(
+      `${this.baseUrl}/course/maxScore?courseId=${courseId}`
+    );
+  }
+}
+
+export interface MaxScoreResponse {
+  maxScore: number;
 }
 
 export interface CreateCourseRequest {
